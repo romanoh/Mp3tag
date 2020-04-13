@@ -260,6 +260,6 @@ sayoutput "album"
 outputto "albumartist"
 sayoutput "Artist"
 
-# Set Discnumber
+# Set Disknumber
 outputto "DISCNUMBER"
 sayoutput "series-part"
