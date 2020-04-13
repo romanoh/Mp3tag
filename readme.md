@@ -1,7 +1,9 @@
 # Audiobook Tag Scraper
 
-This is my modified custom web source for [mp3tag](https://www.mp3tag.de/en/).  
-The original authors are qudo, dano, and seanap https://community.mp3tag.de/t/ws-audible-albums-and-series/41227. 
+This is my modified custom web source for [mp3tag](https://www.mp3tag.de/en/).
+The original authors of Web source are qudo, dano, and seanap https://community.mp3tag.de/t/ws-audible-albums-and-series/41227. 
+
+I have add it an Action and an Export file, to use together.
 
 This helps me make sure all audiobooks are tagged properly, have the correct filenames, and have the proper folder structure.  This ensures consistency across Plex.
 
@@ -20,7 +22,6 @@ This script will set the following tags:
 | SERIES-PART** | Series Book #    |
 | ALBUMSORT     | %Year% %series% %series-part% - %album%|
 | COVER         | Cover Art        |
-| DISCNUMBER    | Series Book #    |
 | PUBLISHER     | Publisher name   |
 | COPYRIGHT     | Copyright name   |
 | RATING WMP    | Rating Label     |
@@ -28,7 +29,7 @@ This script will set the following tags:
 
 
    >&ast;*Audible is really bad at providing this data*  
-   >&ast;&ast;*Create this tag Tools>Options>Tag Panel>New*  
+   
 
 ## To Use:
 1. Drop the `Audible.com#Search by Album.src` file in your `%appdata%\mp3tag\data\sources` folder.
