@@ -227,6 +227,12 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 												</TR>
 												<TR>
 													<TD noWrap align="right" width="30%%">
+														<B>Rating: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%Rating wmp%</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
 														<B>&nbsp; Resume: </B>
 													</TD>
 													<TD class="valshade">&nbsp;%comment%</TD>
