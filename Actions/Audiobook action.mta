@@ -1,0 +1,20 @@
+﻿[#0]
+T=5
+F=_DIRECTORY
+1=X:\\%albumartist%\\[%series%]\\[Part %series-part%.]%album%  (%year%) (%_bitrate%kb)
+
+[#1]
+T=5
+1=$num(%track%,2). %album% (%year%) [%series% - Book %series-part%]
+F=_FILENAME
+
+[#2]
+T=5
+1=$num(%track%,2). %album% (%year%) [Book %series-part%]
+F=TITLE
+
+[#3]
+T=5
+1=$num(%_counter%,2)/$num(%_total_files%,2)
+F=TRACK
+
