@@ -1,7 +1,7 @@
 ﻿[#0]
 T=5
 F=_DIRECTORY
-1=X:\\%albumartist%\\[%series%]\\[Part %series-part%.]%album%  (%year%) (%_bitrate%kb)
+1=X:\\%albumartist%\\[%series%]\\[Part %series-part%.] %year%. %album% (%_bitrate%kb)
 
 [#1]
 T=5
