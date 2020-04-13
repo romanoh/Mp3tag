@@ -25,7 +25,7 @@ This script will set the following tags:
 | PUBLISHER     | Publisher name   |
 | COPYRIGHT     | Copyright name   |
 | RATING WMP    | Rating Label     |
-
+| DISCNUMBER    | Series Book #    |
 
 
    >&ast;*Audible is really bad at providing this data*  
