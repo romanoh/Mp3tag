@@ -267,6 +267,8 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 													</TD>
 													<TD class="valshade">&nbsp;%_samplerate% kHz %_mode%</TD>
 												</TR>												
+												
+												<!--
 												$loop(%track%)
 												<TR>
 													<TD noWrap align="right" width="30%%">
@@ -281,7 +283,7 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 													
 												</TR>
 												$loopend()
-												
+												-->
 												
 											</TBODY>
 										</TABLE>
