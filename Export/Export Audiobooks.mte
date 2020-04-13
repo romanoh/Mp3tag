@@ -245,6 +245,12 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 												</TR>
 												<TR>
 													<TD noWrap align="right" width="30%%">
+														<B>&nbsp; Asin: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%asin%</TD>
+												</TR>	
+												<TR>
+													<TD noWrap align="right" width="30%%">
 														<B>Bitrate: </B>
 													</TD>
 													<TD class="valshade">&nbsp;$loop(%_filename_ext%)$puts(Vbitrate,$add($get(Vbitrate),%_bitrate%))$puts(cnt1,$add($get(cnt1),1))$loopend()$div($get(Vbitrate),$get(cnt1)) kbps</TD>
