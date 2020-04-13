@@ -28,7 +28,7 @@ This script will set the following tags:
 
 
    >&ast;*Audible is really bad at providing this data*  
-   >&ast;&ast;*Create this tag Tools>Options>Tag Panel>New*  
+   
 
 ## To Use:
 1. Drop the `Audible.com#Search by Album.src` file in your `%appdata%\mp3tag\data\sources` folder.
