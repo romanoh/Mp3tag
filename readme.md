@@ -19,6 +19,9 @@ This script will set the following tags:
 | DISCNUMBER    | Series Book #    |
 | PUBLISHER     | Publisher name   |
 | COPYRIGHT     | Copyright name   |
+| RATING WMP    | Rating Label     |
+
+
 
    >&ast;*Audible is really bad at providing this data*  
    >&ast;&ast;*Create this tag Tools>Options>Tag Panel>New*  
