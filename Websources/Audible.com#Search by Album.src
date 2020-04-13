@@ -202,6 +202,15 @@ sayuntil "<"
 #findinline ">"
 #sayuntil "<"
 
+# Rating
+outputto "RATING WMP"
+findline "<span class=\"bc-text\" "
+joinuntil "</span>"
+findinline ">"
+sayuntil "<"
+outputto "RATING WINAMP"
+sayoutput "RATING WMP"
+
 # Description
 findline "Publisher's Summary</h2>"
 outputto "Comment"
