@@ -22,7 +22,6 @@ This script will set the following tags:
 | SERIES-PART** | Series Book #    |
 | ALBUMSORT     | %Year% %series% %series-part% - %album%|
 | COVER         | Cover Art        |
-| DISCNUMBER    | Series Book #    |
 | PUBLISHER     | Publisher name   |
 | COPYRIGHT     | Copyright name   |
 | RATING WMP    | Rating Label     |
