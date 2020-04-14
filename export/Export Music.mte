@@ -1,0 +1,321 @@
+$filename(%_folderpath%%_directory%.html,utf-8)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+
+<HEAD>
+	<META NAME="Author" CONTENT="Romano">
+	<META NAME="Date" CONTENT="%_date%">
+	<title>.~ %_workingdir% ~. Overview</title>
+	<STYLE type=text/css>
+	<!-- BODY {
+		FONT-FAMILY: VERDANA, TAHOMA, ARIAL, HELVETICA;
+		FONT-SIZE: 9PX;
+		COLOR: #707070;
+		BACKGROUND-COLOR: #222E44;
+	}
+	
+	A {
+		FONT-FAMILY: VERDANA, TAHOMA, ARIAL, HELVETICA;
+		FONT-SIZE: 10PX;
+		COLOR: #989068;
+		TEXT-DECORATION: none;
+	}
+	
+	A:active {
+		COLOR: #BFBFBF
+	}
+	
+	A:visited {
+		COLOR: #787058
+	}
+	
+	A:hover {
+		COLOR: #A8A080;
+		TEXT-DECORATION: none;
+	}
+	
+	.TITLE {
+		FONT-FAMILY: VERDANA, TAHOMA, ARIAL, HELVETICA;
+		FONT-SIZE: 14PX;
+		COLOR: #787058;
+		LETTER-SPACING: 2px;
+	}
+	
+	.TITLE_2 {
+		FONT-FAMILY: VERDANA, TAHOMA, ARIAL, HELVETICA;
+		FONT-SIZE: 12PX;
+		COLOR: #787058;
+		VERTICAL-ALIGN: middle;
+		LETTER-SPACING: 3px;
+	}
+	
+	IMG.cover {
+		BORDER-RIGHT: #787058 1px solid;
+		BORDER-TOP: #787058 1px solid;
+		BORDER-LEFT: #787058 1px solid;
+		BORDER-BOTTOM: #787058 1px solid;
+	}
+	
+	TD {
+		FONT-FAMILY: VERDANA, TAHOMA, ARIAL, HELVETICA;
+		FONT-SIZE: 10PX;
+	}
+	
+	TD.valshade {
+		BACKGROUND-COLOR: #1E1C2C;
+		WIDTH: 70%%;
+		BORDER-RIGHT: #787058 1px solid;
+		BORDER-TOP: #787058 1px solid;
+		BORDER-LEFT: #787058 1px solid;
+		BORDER-BOTTOM: #787058 1px solid;
+	}
+	
+	//-->
+	</STYLE>
+	<SCRIPT LANGUAGE="JAVASCRIPT" TYPE="TEXT/JAVASCRIPT">
+	<!--
+	// All functions are created by milka.                   //
+	// Functions can be used when credit is given. It        //
+	// should look like this:                                //
+	/* +++ script name by milka +++ */ //
+	// When you classify it in such a way, you are free to   //
+	// use the script.                                       //
+	// this export script was last modified: 14.12.2006      //
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
+	// ++++++++++++++++++ DEFINE THE NAME +++++++++++++++++++ //
+	// Here you can define the name of the cover.             //
+	// You can even define the whole name of the file!!!      //
+	// Defines name for cover:
+	var cover = "folder.jpg";
+	/* +++ Auto-Sizing Image Popup Window +++ */
+	/* +++ script by SquallLeonhart38 +++ */
+	/* +++ Edited by milka +++ */
+	// Set the horizontal and vertical position for the popup
+	var Start_X = 100;
+	var Start_Y = 100;
+	// Set these value approximately 20 pixels greater than the
+	// size of the largest image to be used (needed for Netscape)
+	var img_Width = 500;
+	var img_Height = 500;
+	// Do not edit below this line...
+	// ================================
+	if(navigator.userAgent.indexOf("Opera") != -1) {
+		defaultWidth = screen.availWidth;
+		defaultHeight = screen.availHeight;
+	}
+	var img_option = "scrollbars=no, status=no, toolbar=no, menubar=no, dependent=yes, location=no, resizable=no, width=" + img_Width + ", height=" + img_Height + ", left=" + Start_X + ", top=" + Start_Y;
+
+	function popImage(id) {
+		var imageURL = cover;
+		var imageTitle = "%_directory%";
+		var image_window = window.open("about:blank", "Albumcover", img_option);
+		with(image_window.document) {
+			writeln("<html><head><title>" + imageTitle + "<\/title><script><!--");
+			writeln("var isNN,isIE,isOO;");
+			writeln("isNN = (navigator.appName == \"Netscape\" && navigator.userAgent.indexOf(\"Opera\") == -1)?1:0;");
+			writeln("isOO = (navigator.userAgent.indexOf(\"Opera\") != -1)?1:0;");
+			writeln("isIE = (navigator.appName.indexOf(\"Microsoft\") != -1 && navigator.userAgent.indexOf(\"Opera\") == -1)?1:0;");
+			writeln("function resizepopup() {");
+			writeln("if(isIE) {");
+			writeln("window.resizeTo(100,100);");
+			writeln("width = 100-(document.body.clientWidth-document.images'['0']'.width);");
+			writeln("height = 100-(document.body.clientHeight-document.images'['0']'.height);");
+			writeln("window.resizeTo(width,height);}");
+			writeln("if(isNN) {");
+			writeln("window.innerWidth=document.images'['0']'.width;");
+			writeln("window.innerHeight=document.images'['0']'.height;}");
+			writeln("if(isOO) {");
+			writeln("window.resizeTo(100,100);");
+			writeln("width = 100-(document.body.clientWidth-document.images'['0']'.width)+12;");
+			writeln("height = 100-(document.body.clientHeight-document.images'['0']'.height)-16;");
+			writeln("window.resizeTo(width,height);}}");
+			writeln("//--><\/script><\/head>");
+			writeln("<body style=\"margin: 0px; padding: 0px\" onload=\"resizepopup();self.focus()\">");
+			writeln("<img name=\"cover\" src=\"" + imageURL + "\"><\/body><\/html>");
+			close();
+		}
+	}
+	//-->
+	</SCRIPT>
+</HEAD>
+
+<BODY name="top">
+	<DIV align=center>
+		<TABLE height="100%%" width="80%%">
+			<TBODY>
+				<TR>
+					<TD vAlign="top" align="left">
+						<BR>
+						<TABLE cellPadding=2 width="100%%" border=0>
+							<TBODY>
+								<TR>
+									<TD align="center" width="100%%">
+										<DIV align="center" class="title">%album% [(%series% - Book %series-part%)]</DIV>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD vAlign="top">
+						<TABLE cellSpacing=0 cellPadding=3 width="100%%" border=0>
+							<TBODY>
+								<TR>
+									<TD vAlign="top" align="left" width="300" height="300">
+										<UL>
+											<A href="javascript:popImage(''$sub(%_counter%,1)'')">
+												<script>
+												document.write("<IMG class=\"cover\" src=\"" + cover + "\" width=\"300\">");
+												</script>
+											</A>
+										</UL>
+									</TD>
+									<TD vAlign="top" align="left" width="100%%">
+										<TABLE cellPadding=2 width="100%%" border=0>
+											<TBODY>
+												<TR>
+													<TD noWrap align="right" width="30%%"></TD>
+													<TD class="valshade">
+														<DIV align="center">
+															<A href="$replace($num(0,$sub($folderdepth(%_folderpath%),$folderdepth(%_workingpath%))),0,../)$replace(%_workingdir%.html,#,%%23)"><B>%Album% [(%series% %Series-part%)]</B></A> &nbsp; </DIV>
+													</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%"></TD>
+													<TD class="valshade">
+														<DIV align="center">Total Length:
+															<B>$replace($replace($replace($replace($replace(-%_total_time2%,-00:00,0),-00:0,),-00:,),-0,),-,)</B> |
+															<B>%_total_files%</B> Track(s) |
+															<B>%_total_size%</B>
+														</DIV>
+													</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%"></TD>
+													<TD noWrap align="right" width="70%%"></TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>Album: </B>
+													</TD>
+													<TD class="valshade">$loop(%album%,1)$puts(album,$add($get(album),1))$loopend()$ifgreater($get(album),1,$loop(%album%,1)&nbsp;%album%&nbsp;|&nbsp;$loopend(),$loop(%album%,1)&nbsp;%album%&nbsp;$loopend())</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>Series: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%series% [-Book %series-part%]</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>Artist: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%albumartist%</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>Narrated by: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%Composer%</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>Genre: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%genre%</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>Audible Rating: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%Rating wmp%</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>&nbsp; Resume: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%comment%</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>&nbsp; Copyright: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%copyright%</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>&nbsp; Publisher: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%Publisher%</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>&nbsp; Asin: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%asin%</TD>
+												</TR>	
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>Bitrate: </B>
+													</TD>
+													<TD class="valshade">&nbsp;$loop(%_filename_ext%)$puts(Vbitrate,$add($get(Vbitrate),%_bitrate%))$puts(cnt1,$add($get(cnt1),1))$loopend()$div($get(Vbitrate),$get(cnt1)) kbps</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>&nbsp; Codec: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%_codec%</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>&nbsp; File Type: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%_extension%</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>&nbsp; Channels: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%_samplerate% kHz %_mode%</TD>
+												</TR>												
+												
+												
+												$loop(%track%)
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>&nbsp; Tracks: </B>
+													</TD>
+													
+													<TD class="valshade">
+													&nbsp;
+													%title%
+													
+													</TD>
+													
+												</TR>
+												$loopend()
+												
+												
+											</TBODY>
+										</TABLE>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+				</TR>
+				
+				<TR>
+					<TD vAlign="bottom">
+						<DIV align="center">
+							<B>upload by Romano</B> -
+							<B>abtorrents.me</B></A>
+						</DIV>
+					</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
+</BODY>
+
+</HTML>
