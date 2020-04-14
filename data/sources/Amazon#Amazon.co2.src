@@ -1,0 +1,76 @@
+# Mp3tag (v2.36 and higher) Cover art from Amazon Web Service 
+#
+# 2005-11-27 initial release by Florian
+# Last modified 2011-11-14 by dano
+#
+# Save it in your Mp3tag data directory, i.e.
+# C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+#
+#
+[Name]=Cover - Amazon.co.uk
+[BasedOn]=www.amazon.co.uk
+[IndexUrl]=https://www.amazon.co.uk/s?k=
+
+#https://www.amazon.co.uk/Possession-Original-Motion-Picture-Soundtrack/dp/B07GZWT2GW/
+[AlbumUrl]=https://www.amazon.co.uk
+[WordSeperator]=-
+[IndexFormat]=%_url%|%Album%
+[SearchBy]=%album%
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+
+#join everything until end 
+joinuntil "</html>"
+
+#remove spaces after lines
+regexpreplace "[\r\n]+" ""
+
+#.+ Matches any character except linebreaks and replace them whith "results"
+regexpreplace ".+RESULT_INFO_BAR-RESULT_INFO_BAR" "RESULT_INFO_BAR-RESULT_INFO_BAR"
+
+
+findinline "s-include-content-margin s-border-bottom s-latency-cf-section"
+
+	#  Url	
+	findline "link"
+	findinline "href=\""
+	sayuntil "\""
+	say "|"
+
+
+	# Album
+	findinline "a-size-medium a-color-base a-text-normal\">"
+	sayuntil "<"
+	say "|"
+	
+	
+	
+	
+	
+	
+	
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#debug "on" "c:\debug_Cover___Amazon.de_B.html" "5"
+
+
+
+# Album
+outputto "Album"
+findline "<title>"
+joinuntil "</title>"
+findinline ">"
+sayuntil "by"
+
+
+
+
+
