@@ -6,6 +6,7 @@
 # 2020-03-24: Updated (dano)
 # 2020-04-06: Updated to Audible.com (seanap)
 # 2020-04-11: Several changes, see the commits (romano)
+# 2020-04-14: Several changes, see the commits (romano)
 #
 # This file should be in your sources dir. 
 # On Windows XP it's C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
@@ -205,7 +206,9 @@ sayuntil "<"
 # Rating
 outputto "RATING WMP"
 findline "<span class=\"bc-text\" "
-joinuntil "</span>"
+joinuntil "</div>"
+findinline ">"
+sayuntil "<"
 findinline ">"
 sayuntil "<"
 outputto "RATING WINAMP"
