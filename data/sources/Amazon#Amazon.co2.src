@@ -25,7 +25,7 @@ DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
 Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
 
 do
-
+	#line 1418
 	#  Url	
 	findline "a-size-mini a-spacing-none a-color-base s-line-clamp-2"
 	findline "a-link-normal a-text-normal"
