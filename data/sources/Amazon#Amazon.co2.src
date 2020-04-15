@@ -10,7 +10,6 @@
 #
 #
 #
-#
 [Name]=Cover - Amazon.co.uk
 [BasedOn]=www.amazon.co.uk
 [IndexUrl]=https://www.amazon.co.uk/s?k=
@@ -19,7 +18,8 @@
 [AlbumUrl]=https://www.amazon.co.uk
 [WordSeperator]=-
 [IndexFormat]=%_url%|%Album%|%Author%
-[SearchBy]=%album%
+[SearchBy]=%Artist% %Album%
+[Encoding]=url-utf-8
 
 [ParserScriptIndex]=...
 # ###################################################################
@@ -58,7 +58,7 @@ saynewline
 	 
    	
 #put this just the end of the last place the ^ is.    
-while "</a>" 10	
+while "</a>" 16
 	
 	
 	
