@@ -6,6 +6,10 @@
 # Save it in your Mp3tag data directory, i.e.
 # C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
 #
+#Todo: made search by album and author
+#
+#
+#
 #
 [Name]=Cover - Amazon.co.uk
 [BasedOn]=www.amazon.co.uk
