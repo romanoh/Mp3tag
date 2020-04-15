@@ -1,7 +1,7 @@
-# Mp3tag (v2.36 and higher) Cover art from Amazon Web Service 
+# Mp3tag from Amazon uk
 #
-# 2005-11-27 initial release by Florian
-# Last modified 2011-11-14 by dano
+# 2020-04-15 initial release by romano
+# 
 #
 # Save it in your Mp3tag data directory, i.e.
 # C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
@@ -14,7 +14,7 @@
 #https://www.amazon.co.uk/Possession-Original-Motion-Picture-Soundtrack/dp/B07GZWT2GW/
 [AlbumUrl]=https://www.amazon.co.uk
 [WordSeperator]=-
-[IndexFormat]=%_url%|%Album%
+[IndexFormat]=%_url%|%Album%|%Author%
 [SearchBy]=%album%
 
 [ParserScriptIndex]=...
@@ -23,17 +23,6 @@
 # ###################################################################
 DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
 Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
-
-#join everything until end 
-#joinuntil "</html>"
-
-
-
-#.+ Matches any character except linebreaks and replace them whith "results"
-#regexpreplace ".+a-size-medium a-color-base a-text-normal" "a-size-medium a-color-base a-text-normal"
-
-
-
 
 do
 
@@ -44,12 +33,19 @@ do
 	sayuntil "\""
 	say "|"
 	
-	
 	# Album
 	findline "a-size-medium a-color-base a-text-normal"	
 	findinline ">"
 	sayuntil "<"
+	#never forget to put this: say "|" for index menu
+	say "|"
 	
+	# Author
+	findline "by"
+	joinuntil "stars"
+	findinline "by"
+	findinline "\">"
+	sayuntil "<"
 	
 	
 	
@@ -58,7 +54,7 @@ saynewline
 	 
    	
 #put this just the end of the last place the ^ is.    
-while "</span>" 10	
+while "</a>" 10	
 	
 	
 	
@@ -68,7 +64,7 @@ while "</span>" 10
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-#debug "on" "c:\debug_Cover___Amazon.de_B.html" "5"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug2.txt"
 
 
 
