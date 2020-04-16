@@ -1,20 +1,18 @@
-# Mp3tag from Amazon uk
+# Mp3tag from gooreads.com
 #
-# 2020-04-15 (Wip)initial release by romano
+# 2020-04-16 (Wip)initial release by romano
 # 
 #
 # Save it in your Mp3tag data directory, i.e.
 # C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
 #
-#Todo: made search by album and author(in testing)
+#
 #
 #
 #
 [Name]=goodreads.com
 [BasedOn]=www.goodreads.com
 [IndexUrl]=https://www.goodreads.com/search?utf8=&query=
-
-
 [AlbumUrl]=https://www.goodreads.com
 [WordSeperator]=+
 [IndexFormat]=%Title%|%_url%|%Author%
@@ -56,7 +54,7 @@ do
 	saynewline
 findline "(Goodreads Author)" 
 	 
-   	
+#reminder:this is wrong find a way to get all the books  	
 #put this just the end of the last place the ^ is.    
 while "</tr>" 20
 	
