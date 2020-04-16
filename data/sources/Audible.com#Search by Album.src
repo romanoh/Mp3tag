@@ -250,14 +250,23 @@ findinline "\"image\": \""
 sayuntil "\""
 
 # Set "Albumsort"
-outputto "Albumsort"
-sayoutput "Year"
-say " "
-sayoutput "series"
-say " "
-sayoutput "series-part"
-say " - "
-sayoutput "album"
+IfOutput "series"
+	outputto "Albumsort"
+	sayoutput "series"
+	say " "
+	sayoutput "series-part"
+	say " "
+	say "- "
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+else
+	outputto "Albumsort"
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+endif
+
 
 # Set Artist = Albumartist
 outputto "albumartist"
