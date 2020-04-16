@@ -1,0 +1,97 @@
+# Mp3tag from Amazon uk
+#
+# 2020-04-15 (Wip)initial release by romano
+# 
+#
+# Save it in your Mp3tag data directory, i.e.
+# C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+#
+#Todo: made search by album and author(in testing)
+#
+#
+#
+[Name]=goodreads.com
+[BasedOn]=www.goodreads.com
+[IndexUrl]=https://www.goodreads.com/search?utf8=&query=
+
+
+[AlbumUrl]=https://www.goodreads.com
+[WordSeperator]=+
+[IndexFormat]=%Title%|%_url%|%Author%
+
+#here i must find way to search with this and also more chars regex
+[SearchBy]=%Artist% $regexp(%album%,'[- ]+cd ?\d+$',,1)
+[Encoding]=url-utf-8
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+
+do
+	
+	#  Title	
+	findline "u-anchorTarget"
+	findline "title=\""
+	findinline "title=\""
+	sayuntil "\""
+	say "|"
+	
+	# Url
+	findinline "href=\""	
+	sayuntil "\">"
+	#never forget to put this: say "|" for index menu
+	say "|"
+	
+	# Author
+	findline "class="authorName""
+	joinuntil "</a>"
+	findinline "\"name\">"
+	sayuntil "<"
+	
+	
+	
+	saynewline
+findline "(Goodreads Author)" 
+	 
+   	
+#put this just the end of the last place the ^ is.    
+while "</tr>" 20
+	
+	
+	
+	
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug2.txt"
+
+# Cover	
+outputto "coverurl"
+findline "editionCover"
+findline "src=\""
+findinline "src=\""
+sayuntil "\" "
+
+# Album
+outputto "album"
+findline "bookTitle"
+joinuntil "</h1>"
+findinline "\">"
+sayuntil "<"
+
+# Series
+outputto "series"
+findline "bookSeries"
+joinuntil "</h2>"
+findinline "(" 
+sayuntil "#"
+outputto "series-part"
+findinline "#"
+saynextnumber
+
+
