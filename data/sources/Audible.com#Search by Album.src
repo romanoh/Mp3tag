@@ -277,5 +277,5 @@ outputto "DISCNUMBER"
 sayoutput "series-part"
 
 # Set Audible Album URL
-outputto "WWWAUDIOSOURCE"
+outputto "WWWAUDIOFILE"
 sayoutput "CurrentUrl"
