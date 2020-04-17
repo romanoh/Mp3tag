@@ -1,7 +1,7 @@
-# Mp3tag from gooreads.com
+# Mp3tag from goodreads.com
 #
 # 2020-04-16 (Wip)initial release by romano
-# 
+# 2020-04-19 Updated
 #
 # Save it in your Mp3tag data directory, i.e.
 # C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
@@ -18,7 +18,7 @@
 [IndexFormat]=%Title%|%_url%|%Author%
 
 #here i must find way to search with this and also more chars regex
-[SearchBy]=%Artist% $regexp(%album%,'[- ]+cd ?\d+$',,1)
+[SearchBy]=%Album%
 [Encoding]=url-utf-8
 
 [ParserScriptIndex]=...
@@ -49,14 +49,12 @@ do
 	findinline "\"name\">"
 	sayuntil "<"
 	
-	
-	
 	saynewline
-findline "(Goodreads Author)" 
-	 
-#reminder:this is wrong find a way to get all the books  	
-#put this just the end of the last place the ^ is.    
-while "</tr>" 20
+	
+ 	
+#put this just the end of the last place the ^ is.  
+#put only the numbers of search if the site searchs 20 put 19  
+while "</span></a>" 10
 	
 	
 	
@@ -83,14 +81,14 @@ findinline "\">"
 sayuntil "<"
 
 # Series - find a way for book with no series
-outputto "series"
-findline "bookSeries"
-joinuntil "</h2>"
-findinline "(" 
-sayuntil "#"
-outputto "series-part"
-findinline "#"
-saynextnumber
+#outputto "series"
+#findline "bookSeries"
+#joinuntil "</h2>"
+#findinline "(" 
+#sayuntil "#"
+#outputto "series-part"
+#findinline "#"
+#saynextnumber
 
 # Artist - find a way to put 2 artists
 outputto "artist"
@@ -114,11 +112,12 @@ findinline "display:none\">"
 sayuntil "<"
 replace "<br />" ""
 
-# Year
-outputto "year"
-findline "(first published"
-findinline "(first published"
-sayuntil ")"
+#Year
+#outputto "year"
+#findline "published"
+#joinuntil "<"
+#findinline "published"
+#sayuntil "by"
 
 # Asin
 outputto "asin"
