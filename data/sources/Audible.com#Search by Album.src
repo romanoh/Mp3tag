@@ -275,3 +275,7 @@ sayoutput "Artist"
 # Set Disknumber
 outputto "DISCNUMBER"
 sayoutput "series-part"
+
+# Set Audible Album URL
+outputto "WWWAUDIOSOURCE"
+sayoutput "CurrentUrl"
