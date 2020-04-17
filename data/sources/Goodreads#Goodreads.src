@@ -92,4 +92,19 @@ outputto "series-part"
 findinline "#"
 saynextnumber
 
+# Artist - find a wat to put 2 artists
+outputto "artist"
+findline "bookAuthors"
+findline ""name\">"
+findinline ""name\">"
+sayuntil "<"
+
+
+
+
+
+
+
+
+
 
