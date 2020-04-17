@@ -82,7 +82,7 @@ joinuntil "</h1>"
 findinline "\">"
 sayuntil "<"
 
-# Series
+# Series - find a way for book with no series
 outputto "series"
 findline "bookSeries"
 joinuntil "</h2>"
@@ -92,16 +92,41 @@ outputto "series-part"
 findinline "#"
 saynextnumber
 
-# Artist - find a wat to put 2 artists
+# Artist - find a way to put 2 artists
 outputto "artist"
 findline "bookAuthors"
 findline ""name\">"
 findinline ""name\">"
 sayuntil "<"
 
+# Rating
+outputto "RATING WMP"
+findline "ratingValue"
+joinuntil "</span>"
+findinline "\">"
+sayuntil "<"
 
+# Description
+outputto "Comment"
+findline "descriptionContainer"
+joinuntil "<br /></span>"
+findinline "display:none\">"
+sayuntil "<"
+replace "<br />" ""
 
+# Year
+outputto "year"
+findline "(first published"
+findinline "(first published"
+sayuntil ")"
 
+# Asin
+outputto "asin"
+findline "isbn"
+findinline ">"
+sayuntil "<"
+outputto "isbn"
+sayoutput "asin"
 
 
 
