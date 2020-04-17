@@ -278,8 +278,15 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 														<B>&nbsp; Channels: </B>
 													</TD>
 													<TD class="valshade">&nbsp;%_samplerate% kHz %_mode%</TD>
-												</TR>												
-												
+												</TR>
+												<!--
+												<TR>
+													<TD noWrap align="right" width="30%%">
+														<B>&nbsp; Link: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%WWWAUDIOFILE% kHz %_mode%</TD>
+												</TR>	
+												-->
 												<!--
 												$loop(%track%)
 												<TR>
