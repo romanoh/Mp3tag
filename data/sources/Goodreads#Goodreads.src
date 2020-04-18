@@ -114,20 +114,19 @@ sayuntil "<"
 # Description
 outputto "Comment"
 findline "descriptionContainer"
-joinuntil "<br /></span>"
-findinline "display:none\">"
-replace "<br />" ""
-replace "<br/>" ""
-replace "<b>" ""
-sayuntil "<"
+findline "<span"
+
+findinline "\">"
+
+sayuntil "</span>"
 
 
 #Year
-#outputto "year"
-#findline "published"
-#joinuntil "<"
-#findinline "published"
-#sayuntil "by"
+outputto "year"
+findline "bookFormat"
+joinuntil "bookDataBoxShow"
+findinline "class=\"row\">"
+sayuntil "</div>"
 
 # Asin
 outputto "asin"
