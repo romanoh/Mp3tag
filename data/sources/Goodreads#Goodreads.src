@@ -116,8 +116,11 @@ outputto "Comment"
 findline "descriptionContainer"
 joinuntil "<br /></span>"
 findinline "display:none\">"
-sayuntil "<"
 replace "<br />" ""
+replace "<br/>" ""
+replace "<b>" ""
+sayuntil "<"
+
 
 #Year
 #outputto "year"
@@ -128,8 +131,9 @@ replace "<br />" ""
 
 # Asin
 outputto "asin"
-findline "isbn"
-findinline ">"
+findline "ASIN"
+findline "infoBoxRowItem"
+findinline "itemprop='isbn'>"
 sayuntil "<"
 outputto "isbn"
 sayoutput "asin"
