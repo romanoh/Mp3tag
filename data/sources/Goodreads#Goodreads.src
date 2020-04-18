@@ -18,7 +18,7 @@
 [IndexFormat]=%Title%|%_url%|%Author%
 
 #here i must find way to search with this and also more chars regex
-[SearchBy]=%Album%
+[SearchBy]=%artist% %Album%
 [Encoding]=url-utf-8
 
 [ParserScriptIndex]=...
@@ -28,11 +28,17 @@
 DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
 Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
 
+
+#join everything until end 
+joinuntil "</html>"
+
+#.+ Matches any character except linebreaks and replace them whith "results"
+regexpreplace ".+http://schema.org/Book" "results"
+
+findinline "results"
 do
 	
 	#  Title	
-	findline "u-anchorTarget"
-	findline "title=\""
 	findinline "title=\""
 	sayuntil "\""
 	say "|"
@@ -44,17 +50,18 @@ do
 	say "|"
 	
 	# Author
-	findline "class="authorName""
+	findinline "class="authorName""
 	joinuntil "</a>"
 	findinline "\"name\">"
 	sayuntil "<"
 	
 	saynewline
 	
+	findinline "130px" 
  	
 #put this just the end of the last place the ^ is.  
 #put only the numbers of search if the site searchs 20 put 19  
-while "</span></a>" 10
+while "</tr>" 18
 	
 	
 	
