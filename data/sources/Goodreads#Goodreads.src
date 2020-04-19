@@ -18,7 +18,7 @@
 [IndexFormat]=%Title%|%_url%|%Author%
 
 #here i must find way to search with this and also more chars regex
-[SearchBy]=%artist% %Album%
+[SearchBy]=$regexp(%album%,'[- ]+cd ?\d+$',,1)
 [Encoding]=url-utf-8
 
 [ParserScriptIndex]=...
@@ -61,7 +61,7 @@ do
  	
 #put this just the end of the last place the ^ is.  
 #put only the numbers of search if the site searchs 20 put 19  
-while "</tr>" 18
+while "</tr>" 10
 	
 	
 	
@@ -115,9 +115,12 @@ sayuntil "<"
 outputto "Comment"
 findline "descriptionContainer"
 findline "<span"
-
 findinline "\">"
-
+#remove the </b> and all variations
+regexpreplace "<?[^><]+>" ""
+#join more than one space
+regexpreplace "  +" " "
+unspace
 sayuntil "</span>"
 
 
@@ -125,7 +128,9 @@ sayuntil "</span>"
 outputto "year"
 findline "bookFormat"
 joinuntil "bookDataBoxShow"
-findinline "class=\"row\">"
+
+findinline "class=\"row\">" 2
+
 sayuntil "</div>"
 
 # Asin

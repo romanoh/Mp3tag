@@ -166,8 +166,10 @@ outputto "Composer"
 findline "narratorLabel"
 moveline 1 1
 joinuntil "</span>"
+#remove the </b> and all variations
 regexpreplace "</?[^><]+>" ""
 unspace
+#join more than one space
 regexpreplace "  +" " "
 regexpreplace ".+Narrated by:" ""
 sayrest
