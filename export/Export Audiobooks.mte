@@ -169,6 +169,7 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 												document.write("<IMG class=\"cover\" src=\"" + cover + "\" width=\"300\">");
 												</script>
 											</A>
+
 										</UL>
 									</TD>
 									<TD vAlign="top" align="left" width="100%%">
