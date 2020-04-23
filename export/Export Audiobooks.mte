@@ -251,6 +251,12 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 												</TR>
 												<TR>
 													<TD noWrap align="right" width="30%%">
+														<B>&nbsp; Release: </B>
+													</TD>
+													<TD class="valshade">&nbsp;%releasetime%</TD>
+												</TR>
+												<TR>
+													<TD noWrap align="right" width="30%%">
 														<B>&nbsp; Asin: </B>
 													</TD>
 													<TD class="valshade">&nbsp;%asin%</TD>
