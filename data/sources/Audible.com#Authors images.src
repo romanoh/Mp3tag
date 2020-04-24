@@ -1,0 +1,91 @@
+# ###################################################################
+#
+# Mp3tag parsing for Audible.com, created by romano
+# This is only to get artist Cover
+#
+# 2020-04-24: wip first(romano)
+#
+# This file should be in your sources dir. 
+# On Windows XP it's C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+#
+#
+
+
+[Name]=Audible.com
+[BasedOn]=www.audible.com
+[IndexUrl]=https://www.audible.com/search?keywords=
+[AlbumUrl]=https://www.audible.com
+[WordSeperator]=+
+[IndexFormat]=%_url%|%Author%
+[SearchBy]=%artist% %album%
+[Encoding]=url-utf-8
+
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
+
+
+#join everything until end 
+joinuntil "</html>"
+
+#remove spaces after lines
+regexpreplace "[\r\n]+" ""
+
+#.+ Matches any character except linebreaks and replace them whit "results"
+regexpreplace ".+results" "results"
+
+regexpreplace "<script asyn.+" ""
+
+#Matches any whitespace character (spaces, tabs, line breaks).
+regexpreplace "\s\s+" " "
+
+#Matches a TAB character
+regexpreplace "\t+" " "
+replace "\" >" "\">"
+replace "> <" "><"
+replace "Running Time:" ""
+
+
+findinline "results"
+findinline "<h3 class=\"bc-heading"
+
+
+#this \" is iqual to "
+do	
+	#  Url		
+	findinline "href=\"" 2
+	sayuntil "\""
+	say "|"
+	
+	# Author
+	findinline ">"
+	sayuntil "<"
+	
+	  
+	saynewline
+	 
+   	findinline "<h3 class=\"bc-heading " 1 1
+    
+while "bc-color-link" 99
+
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+
+
+
+# Cover
+outputto "Coverurl"
+findline "image-mask app-image-position author-image-outline"
+#findline "data-bc-hiRes=\"" 3
+findinline "data-bc-hiRes=\""
+sayuntil "\""
+
