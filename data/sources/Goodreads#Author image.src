@@ -1,0 +1,88 @@
+# Mp3tag from goodreads.com only for author image
+#
+# 2020-04-25 (Wip)initial release by romano
+# 
+#
+# Save it in your Mp3tag data directory, i.e.
+# C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+#
+#
+#
+#
+#
+[Name]=goodreads.com
+[BasedOn]=www.goodreads.com
+[IndexUrl]=https://www.goodreads.com/search?utf8=&query=
+[AlbumUrl]=https://www.goodreads.com
+[WordSeperator]=+
+[IndexFormat]=%Title%|%_url%|%Author%
+[SearchBy]=$regexp(%album%,'[- ]+cd ?\d+$',,1) %artist%
+[Encoding]=url-utf-8
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+
+
+#join everything until end 
+joinuntil "</html>"
+
+#.+ Matches any character except linebreaks and replace them whith "results"
+regexpreplace ".+http://schema.org/Book" "results"
+
+findinline "results"
+do
+	
+	#  Title	
+	findinline "title=\""
+	sayuntil "\""
+	say "|"
+	
+	# Url
+	findinline "class=\"authorName\" itemprop=\"url\" href=\""	
+	sayuntil "\"><span"
+	#never forget to put this: say "|" for index menu
+	say "|"
+	
+	# Author
+	findinline "\"name\">"
+	sayuntil "</span></a>"
+	
+	saynewline
+	
+	findinline "130px" 
+ 	
+#put this just the end of the last place the ^ is.  
+#put only the numbers of search if the site searchs 20 put 19  
+while "</tr>" 10
+	
+	
+	
+	
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug2.txt"
+
+# Cover	
+outputto "coverurl"
+findline "https://images.gr-assets.com/authors/" 3
+findinline "src=\""
+sayuntil "\" "
+
+# Author comment
+outputto "WRITER"
+findline "freeTextauthor2998"
+joinuntil "</span>"
+findinline "\">"
+regexpreplace "</?[^><]+>" ""
+sayuntil "</span>"
+
+
+
+
