@@ -18,7 +18,7 @@
 [IndexFormat]=%Title%|%_url%|%Author%
 
 #here i must find way to search with this and also more chars regex
-[SearchBy]=$regexp(%album%,'[- ]+cd ?\d+$',,1)
+[SearchBy]=$regexp(%album%,'[- ]+cd ?\d+$',,1) %artist%
 [Encoding]=url-utf-8
 
 [ParserScriptIndex]=...
@@ -50,7 +50,7 @@ do
 	say "|"
 	
 	# Author
-	findinline "class="authorName""
+	findinline "class=\"authorName\""
 	joinuntil "</a>"
 	findinline "\"name\">"
 	sayuntil "<"

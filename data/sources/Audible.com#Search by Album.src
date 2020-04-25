@@ -206,7 +206,7 @@ if "seriesLabel"
 	sayuntil "<"
 	outputto "series-part"
 	findinline "a>, Book " 1 1
-	SayRegexp "^\d+"
+	SayRegexp "^[.?\d]+$"
 else
 	gotoline 1
 endif
@@ -265,7 +265,8 @@ replace "bc-color-secondary\" >" ""
 sayrest
 
 # © Year, ©, Release Year, Publisher, the closest we can get to Original Pub year, Audible is not consistent with dates
-findline "(P)"
+findline "</div>"
+joinuntil "</span>"
 findinline "(P)" 1 1
 movechar -17
 if "Public Domain"
