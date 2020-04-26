@@ -162,14 +162,21 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 						<TABLE cellSpacing=0 cellPadding=3 width="100%%" border=0>
 							<TBODY>
 								<TR>
-									<TD vAlign="top" align="left" width="300" height="300">
+									<TD vAlign="top" align="middle" width="300" height="300">
 										<UL>
 											<A href="javascript:popImage(''$sub(%_counter%,1)'')">
 												<script>
 												document.write("<IMG class=\"cover\" src=\"" + cover + "\" width=\"300\">");
 												</script>
 											</A>
-
+											
+											
+										</UL>
+										<UL><br>
+											<DIV align="center" class="title">%artist%</DIV><br>
+											<img src="..\artist-poster.jpg" alt="Author" width="85%" height="85%" align="middle" >
+											
+											
 										</UL>
 									</TD>
 									<TD vAlign="top" align="left" width="100%%">
