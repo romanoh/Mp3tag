@@ -150,7 +150,7 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 							<TBODY>
 								<TR>
 									<TD align="center" width="100%%">
-										<DIV align="center" class="title">%album% [(%series% - Book %series-part%)]</DIV>
+										<DIV align="center" class="title">%album%[-%subtitle%] [(%series% - Book %series-part%)]</DIV>
 									</TD>
 								</TR>
 							</TBODY>
@@ -174,7 +174,7 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 										</UL>
 										<UL><br>
 											<DIV align="center" class="title">%artist%</DIV><br>
-											<img src="..\artist-poster.jpg" alt="Author" width="85%" height="85%" align="middle" >
+											<img src="..\..\artist-poster.jpg" alt="Author" width="85%" height="85%" align="middle" >
 											
 											
 										</UL>
@@ -186,7 +186,7 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 													<TD noWrap align="right" width="30%%"></TD>
 													<TD class="valshade">
 														<DIV align="center">
-															<A href="$replace($num(0,$sub($folderdepth(%_folderpath%),$folderdepth(%_workingpath%))),0,../)$replace(%_workingdir%.html,#,%%23)"><B>%Album% [(%series% %Series-part%)]</B></A> &nbsp; </DIV>
+															<A href="$replace($num(0,$sub($folderdepth(%_folderpath%),$folderdepth(%_workingpath%))),0,../)$replace(%_workingdir%.html,#,%%23)"><B>%Album% [- %subtitle%][(%series% %Series-part%)]</B></A> &nbsp; </DIV>
 													</TD>
 												</TR>
 												<TR>
@@ -207,7 +207,7 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 													<TD noWrap align="right" width="30%%">
 														<B>Album: </B>
 													</TD>
-													<TD class="valshade">$loop(%album%,1)$puts(album,$add($get(album),1))$loopend()$ifgreater($get(album),1,$loop(%album%,1)&nbsp;%album%&nbsp;|&nbsp;$loopend(),$loop(%album%,1)&nbsp;%album%&nbsp;$loopend())</TD>
+													<TD class="valshade">$loop(%album%,1)$puts(album,$add($get(album),1))$loopend()$ifgreater($get(album),1,$loop(%album%,1)&nbsp;%album%&nbsp;|&nbsp;$loopend(),$loop(%album%,1)&nbsp;%album%&nbsp;$loopend()) [- %subtitle%]</TD>
 												</TR>
 												<TR>
 													<TD noWrap align="right" width="30%%">
