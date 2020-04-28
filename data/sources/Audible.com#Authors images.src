@@ -89,3 +89,14 @@ findline "image-mask app-image-position author-image-outline"
 findinline "data-bc-hiRes=\""
 sayuntil "\""
 
+# Artist Bio
+Outputto "INVOLVEDPEOPLE"
+findline "AUTHOR</span>"
+findline "bc-expander-inner"
+findline "bc-color-secondary\">"
+joinuntil "</p>"
+findinline "\">"
+sayuntil "</p>"
+
+
+
