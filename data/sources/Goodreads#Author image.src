@@ -16,7 +16,8 @@
 [AlbumUrl]=https://www.goodreads.com
 [WordSeperator]=+
 [IndexFormat]=%Title%|%_url%|%Author%
-[SearchBy]=$regexp(%album%,'[- ]+cd ?\d+$',,1) %artist%
+#serch only for the full album name(per example moon and not moonpie)
+[SearchBy]=$regexp(%album%,\b(\w*%album%)\b,,1) %artist%
 [Encoding]=url-utf-8
 
 [ParserScriptIndex]=...
@@ -24,7 +25,7 @@
 #					I  N  D  E  X
 # ###################################################################
 #DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+Debug "ON" "C:\Users\egual\Desktop\goodreads.txt"
 
 
 #join everything until end 
@@ -67,7 +68,7 @@ while "</tr>" 10
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug2.txt"
+Debug "ON" "C:\Users\egual\Desktop\goodreads album.txt"
 
 # Cover	
 outputto "coverurl"
@@ -76,11 +77,13 @@ findinline "src=\""
 sayuntil "\" "
 
 # Author comment
-outputto "WRITER"
-findline "freeTextauthor2998"
+outputto "INVOLVEDPEOPLE"
+findline "freeTextauthor"
 joinuntil "</span>"
 findinline "\">"
 regexpreplace "</?[^><]+>" ""
+regexpreplace ";" ""
+regexpreplace ":" ""
 sayuntil "</span>"
 
 
