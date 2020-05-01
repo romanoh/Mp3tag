@@ -17,7 +17,7 @@
 [WordSeperator]=+
 [IndexFormat]=%Title%|%_url%|%Author%
 #serch only for the full album name(per example moon and not moonpie)
-[SearchBy]=$regexp(%album%,\b(\w*%album%)\b,,1) %artist%
+[SearchBy]=%album% %artist%
 [Encoding]=url-utf-8
 
 [ParserScriptIndex]=...
@@ -78,14 +78,27 @@ sayuntil "\" "
 
 # Author comment
 outputto "INVOLVEDPEOPLE"
-findline "freeTextauthor"
-joinuntil "</span>"
-findinline "\">"
-regexpreplace "</?[^><]+>" ""
-regexpreplace ";" ""
-regexpreplace ":" ""
-sayuntil "</span>"
+findline "aboutAuthorInfo"
 
+if "freeTextauthor"
+	joinuntil "</span>"
+	findinline "\">"
+	regexpreplace "</?[^><]+>" ""
+	regexpreplace ";" ""
+	regexpreplace ":" ""
+	sayuntil "</span>"
+
+else
+
+	findline "freeTextContainerauthor"
+	joinuntil "</span>"
+	findinline "\">"
+	regexpreplace "</?[^><]+>" ""
+	regexpreplace ";" ""
+	regexpreplace ":" ""
+	sayuntil "</span>"
+
+endif
 
 
 
