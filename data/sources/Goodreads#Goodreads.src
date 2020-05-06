@@ -16,7 +16,6 @@
 [AlbumUrl]=https://www.goodreads.com
 [WordSeperator]=+
 [IndexFormat]=%Title%|%_url%|%Author%
-
 #here i must find way to search with this and also more chars regex
 [SearchBy]=$regexp(%album%,'[- ]+cd ?\d+$',,1) %artist%
 [Encoding]=url-utf-8
@@ -71,7 +70,7 @@ while "</tr>" 10
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug2.txt"
+Debug "ON" "C:\Users\egual\Desktop\goodreads.txt"
 
 # Cover	
 outputto "coverurl"
@@ -131,7 +130,7 @@ joinuntil "bookDataBoxShow"
 
 findinline "class=\"row\">" 2
 
-sayuntil "</div>"
+sayuntil ")"
 
 # Asin
 outputto "asin"
