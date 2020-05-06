@@ -168,13 +168,11 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 										</UL>
 										<UL><br>
 											<DIV align="center" class="title">%artist%</DIV><br>
-											<img src="..\artist-poster.jpg" alt="Author" width="85%" height="85%" align="middle" >
+											<img src="..\..\artist-poster.jpg" alt="Author" width="85%" height="85%" align="middle" >
 											
 											
 										</UL>
-										
 									</TD>
-									
 									<TD vAlign="top" align="left" width="100%%">
 										<TABLE cellPadding=2 width="100%%" border=0>
 											<TBODY>
@@ -316,7 +314,6 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 												
 											</TBODY>
 										</TABLE>
-										
 									</TD>
 								</TR>
 							</TBODY>
@@ -325,7 +322,6 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 				</TR>
 				
 				<TR>
-				
 					<TD vAlign="bottom">
 					<DIV align="left" >%INVOLVEDPEOPLE%</DIV><br>
 						<DIV align="center">

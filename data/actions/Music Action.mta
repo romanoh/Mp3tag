@@ -1,10 +1,10 @@
 ﻿[#0]
 T=5
 F=_DIRECTORY
-1=W:\\%albumartist%\\%year%. %album%  (%_bitrate%kb)
+1=W:\\%albumartist%\\%year%. %album% [(%comment%)](%_bitrate%kb)
 
 [#1]
 T=5
-1=$num(%track%,2). %title%
+1=$num(%track%,2).%title%
 F=_FILENAME
 
