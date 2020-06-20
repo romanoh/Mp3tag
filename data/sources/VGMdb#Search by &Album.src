@@ -153,17 +153,10 @@ sayuntil "</td>"
 
 
 # Publisher
-findline "<b>Published by</b>"	
+findline "id=\"publisher_less\""	
 outputto "Publisher"
-moveline 1
-regexpreplace "<span style=\"display:none\"><em> */ *</em></span>" ""
-regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"display:inline\">([^<]+)</span>" "$1"
-regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">.+?</span>" ""
-regexpreplace "<span class=\"productname\" lang=\"en\" style=\"display:inline\">([^<]+)</span>" "$1"
-regexpreplace "<span class=\"productname\" lang=\"[-\w]+\" style=\"display:none\">([^<]+)</span>" ""
-regexpreplace "<a[^>]+>" ""
-replace "</a>" ""
-sayregexp "(?<=<td>)[^<]+(?=</td>)" ""
+findinline "display:inline\">"
+sayuntil "</span>"
 
 # Composer
 findline "<b>Composed by</b>"
@@ -191,19 +184,13 @@ sayregexp "(?<=<td>)[^<]+(?=</td>)" ""
 
 # Performed
 findline "<b>Performed by</b>" 1 1
-unspace
-if "<tr><td"
 outputto "Artist"
 moveline 1
-regexpreplace "<span style=\"display:none\"><em> */ *</em></span>" ""
-regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"display:inline\">([^<]+)</span>" "$1"
-regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">.+?</span>" ""
-regexpreplace "<a[^>]+>" ""
-replace "</a>" ""
-sayregexp "(?<=<td>)[^<]+(?=</td>)" ""
-else
-	findline "nff44455553333332_____-------" -1 1
-endif
+findline "\">"
+findinline "\">"
+sayuntil "</a>"
+
+
 
 # Tracks
 # findline "<b>Disc 2</b></span>"
@@ -227,12 +214,11 @@ while "<td "
 gotoline 1
 outputto "Notes"
 findline "<h3>Notes</h3>"
-findline "class=\"smallfont\">"
-regexpreplace "\s*<br ?\/?>\s*" "\r\n"
-findinline "class=\"smallfont\">"
-ifnot "<i class='label'>"
-	sayuntil "</div>"
-endif
+findline "id=\"notes\">"
+regexpreplace "<br />" " "
+findinline "id=\"notes\">"
+sayuntil "</div>"
+
 
 # VGMdb Album URL
 outputto "VGMdb Album Url"
