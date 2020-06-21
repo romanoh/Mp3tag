@@ -7,6 +7,7 @@
 # %APPDATA%\Mp3tag\data\sources
 #
 # Changelog:
+# [2020-06-21] change stuff (by romano)
 # [2020-04-27] change somethings (by romano)
 # [2019-03-16] FIX: Replaced HTTP by HTTPS (by axxeldna)
 # [2015-09-01] FIX: Coverurl fixed (by PBX_g33k)
@@ -153,10 +154,18 @@ sayuntil "</td>"
 
 
 # Publisher
-findline "id=\"publisher_less\""	
-outputto "Publisher"
-findinline "display:inline\">"
-sayuntil "</span>"
+if "id=\"publisher_less\""
+	findline "id=\"publisher_less\""	
+	outputto "Publisher"
+	findinline "display:inline\">"
+	sayuntil "</span>"
+endif
+if "maincred"
+	findline "maincred" 1 1
+	joinuntil "</td></tr>"
+	findinline "<td>"
+	sayuntil "</td>"
+endif
 
 # Composer
 findline "<b>Composed by</b>"
@@ -183,13 +192,16 @@ sayregexp "(?<=<td>)[^<]+(?=</td>)" ""
 
 
 # Performed
-findline "<b>Performed by</b>" 1 1
-outputto "Artist"
-moveline 1
-findline "\">"
-findinline "\">"
-sayuntil "</a>"
-
+if "<b>Performed by</b>"
+	findline "<b>Performed by</b>" 1 1
+	outputto "Artist"
+	moveline 1
+	findinline "\">"
+	sayuntil "</a>"
+else 
+	outputto "Artist"
+	sayoutput "Composer"
+endif
 
 
 # Tracks
@@ -214,10 +226,15 @@ while "<td "
 gotoline 1
 outputto "Notes"
 findline "<h3>Notes</h3>"
-findline "id=\"notes\">"
-regexpreplace "<br />" " "
-findinline "id=\"notes\">"
-sayuntil "</div>"
+
+	findline "id=\"notes\">"
+	regexpreplace "<br />" " "
+	replace "<i class='label'>" ""
+	replace "</i>" ""
+	findinline "id=\"notes\">"
+	sayuntil "</div>"
+
+
 
 
 # VGMdb Album URL
