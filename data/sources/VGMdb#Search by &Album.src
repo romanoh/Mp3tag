@@ -114,6 +114,7 @@ ifnot "N/A"
 	else
 		regexpreplace "<a[^>]+>" ""
 		replace "</a>" ""
+		replace "[Extra Credits]<script type=\"text/javascript\">$(document).ready(function() {  $(\"#extralink\").click(function(e) {    $(\"tr.maincred\").toggle();    $(\"tr.extracred\").toggle();    $(this).text($(\"tr.maincred\").is(\":visible\") ? \"[Extra Credits]\" : \"[Main Credits]\");    e.preventDefault();  });});</script>" ""
 		findinline "<td width=\"100%\">"
 		sayuntil "</td>"
 	endif
