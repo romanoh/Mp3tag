@@ -1,16 +1,12 @@
-﻿# ###################################################################
-# Mp3tag (v2.36 or higher) parsing for VGMdb.net, created by dano on 2010-01-17
-# Last updated by dano on 2013-01-02, modified by mprimegmr on 2015-07-28
-# 
+# ###################################################################
+# Mp3tag parsing for VGMdb.net, created by dano on 2010-01-17
 #
-# This file should be in your sources directory
-# On Windows XP it's 
-# C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
-# 
 # Uses the release url to find an album
 #
 # Changelog:
 # [2020-06-25] Updated (by romano)
+# [2015-07-28] Updated (by mprimegmr)
+# [2010-01-17] Created (by dano)
 # 
 # ###################################################################
 
@@ -21,10 +17,7 @@
 [ParserScriptAlbum]=...
 # ###################################################################
 #					A  L  B  U  M
-# ###################################################################
-#debug "on" "C:\yDebug\debug_VGMdb_B.htm" "10"
-#debugwriteinput "C:\yDebug\VGMdb_B.htm"
-
+#####################################################################
 
 # Album
 outputto "Album"
@@ -49,7 +42,6 @@ else
 	findinline "../"
 	sayuntil "\""
 endif
-
 
 # Catalog
 outputto "Catalog"
@@ -81,7 +73,6 @@ if "<td><a "
 	sayregexp "\d{4}(?=\" href)" "" "</a>"
 endif
 
-
 # Publish Format
 outputto "Format"
 findline "<b>Publish Format</b>"
@@ -102,7 +93,6 @@ findline "<b>Classification</b>"
 joinuntil "</tr>"
 findinline "<td>"
 sayuntil "</td>"
-
 
 # Publisher
 if "id=\"publisher_less\""
@@ -154,7 +144,6 @@ else
 	sayoutput "Composer"
 endif
 
-
 # Tracks
 # findline "<b>Disc 2</b></span>"
 findline "class=\"smallfont\"><span class=\"label\">"
@@ -186,13 +175,10 @@ findline "<h3>Notes</h3>"
 	sayuntil "</div>"
 
 
-
-
 # VGMdb Album URL
 outputto "VGMdb Album Url"
 sayoutput "CurrentUrl"
 
-# this site dont have artist weird
 # Set artistname
 #outputto "artist"
 #sayoutput "composer"
