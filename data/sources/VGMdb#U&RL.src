@@ -1,0 +1,205 @@
+﻿# ###################################################################
+# Mp3tag (v2.36 or higher) parsing for VGMdb.net, created by dano on 2010-01-17
+# Last updated by dano on 2013-01-02, modified by mprimegmr on 2015-07-28
+# 
+#
+# This file should be in your sources directory
+# On Windows XP it's 
+# C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+# 
+# Uses the release url to find an album
+#
+# Changelog:
+# [2020-06-25] Updated (by romano)
+# 
+# ###################################################################
+
+[Name]=VGMdb
+[BasedOn]=VGMdb.net
+[SearchBy]=%VGMdb Album Url%
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#debug "on" "C:\yDebug\debug_VGMdb_B.htm" "10"
+#debugwriteinput "C:\yDebug\VGMdb_B.htm"
+
+
+# Album
+outputto "Album"
+findline "class=\"albumtitle\""
+replace "|" "$verticalBar()"
+findinline "class=\"albumtitle\""
+findinline ">"
+sayuntil "</span"
+
+# Coverurl
+outputto "coverurl"
+findline "id=\"coverart\""
+findinline "style=\"background-image: url("
+#get full image
+#replace "medium-" ""
+#findinline "style=\"background-image: url("
+if "'"
+	movechar 1
+	sayuntil "'"
+	
+else
+	findinline "../"
+	sayuntil "\""
+endif
+
+
+# Catalog
+outputto "Catalog"
+findline "<b>Catalog Number</b>"
+joinuntil "</tr>"
+findinline "<td width=\"100%\">"
+ifnot "N/A"
+	if "<span id="
+		findinline "#\">"
+		sayuntil "</a>"
+	else
+		regexpreplace "<a[^>]+>" ""
+		replace "</a>" ""
+		replace "[Extra Credits]<script type=\"text/javascript\">$(document).ready(function() {  $(\"#extralink\").click(function(e) {    $(\"tr.maincred\").toggle();    $(\"tr.extracred\").toggle();    $(this).text($(\"tr.maincred\").is(\":visible\") ? \"[Extra Credits]\" : \"[Main Credits]\");    e.preventDefault();  });});</script>" ""
+		findinline "<td width=\"100%\">"
+		
+		sayuntil "</td>"
+	endif
+endif
+
+# Release Date
+outputto "Year"
+findline "<b>Release Date</b>"
+moveline 1
+sayregexp "(?<=<td>)\d{4} *(?=</td>)" "" 
+
+if "<td><a "
+	findinline "title=\"View albums released on"
+	sayregexp "\d{4}(?=\" href)" "" "</a>"
+endif
+
+
+# Publish Format
+outputto "Format"
+findline "<b>Publish Format</b>"
+joinuntil "</tr>"
+findinline "<td>"
+sayuntil "</td>"
+
+# Media Format
+outputto "Mediatype"
+findline "<b>Media Format</b>"
+joinuntil "</tr>"
+findinline "<td>"
+sayuntil "</td>"
+
+# Classification (Genre)
+outputto "Genre"
+findline "<b>Classification</b>"
+joinuntil "</tr>"
+findinline "<td>"
+sayuntil "</td>"
+
+
+# Publisher
+if "id=\"publisher_less\""
+	findline "id=\"publisher_less\""	
+	outputto "Publisher"
+	findinline "display:inline\">"
+	sayuntil "</span>"
+endif
+if "maincred"
+	findline "maincred" 1 1
+	joinuntil "</td></tr>"
+	findinline "<td>"
+	sayuntil "</td>"
+endif
+
+# Composer
+findline "<b>Composed by</b>"
+outputto "Composer"
+moveline 1
+regexpreplace "<span style=\"display:none\"><em> */ *</em></span>" ""
+regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"display:inline\">([^<]+)</span>" "$1"
+regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">.+?</span>" ""
+regexpreplace "<a[^>]+>" ""
+replace "</a>" ""
+sayregexp "(?<=<td>)[^<]+(?=</td>)" ""
+
+
+# Arranged
+findline "<b>Arranged by</b>"
+outputto "Writer"
+moveline 1
+regexpreplace "<span style=\"display:none\"><em> */ *</em></span>" ""
+regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"display:inline\">([^<]+)</span>" "$1"
+regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">.+?</span>" ""
+regexpreplace "<a[^>]+>" ""
+replace "</a>" ""
+sayregexp "(?<=<td>)[^<]+(?=</td>)" ""
+
+
+# Performed
+if "<b>Performed by</b>"
+	findline "<b>Performed by</b>" 1 1
+	outputto "Artist"
+	moveline 1
+	findinline "\">"
+	sayuntil "</a>"
+else 
+	outputto "Artist"
+	sayoutput "Composer"
+endif
+
+
+# Tracks
+# findline "<b>Disc 2</b></span>"
+findline "class=\"smallfont\"><span class=\"label\">"
+do
+	outputto "Tracks"
+	moveline 1
+	findinline "width=\"100%\">"
+	sayuntil "</td>"
+	say "|"
+	
+	outputto "_Length"
+	moveline 1
+	sayregexp "(?<=<span class=\"time\">)[\d:]+(?=</span>)" ""
+	say "|"
+
+	findline "class=\"smallfont\"><span class=\"label\">" 1 1	
+while "<td "
+
+# Notes
+gotoline 1
+outputto "Notes"
+findline "<h3>Notes</h3>"
+
+	findline "id=\"notes\">"
+	regexpreplace "<br />" " "
+	replace "<i class='label'>" ""
+	replace "</i>" ""
+	findinline "id=\"notes\">"
+	sayuntil "</div>"
+
+
+
+
+# VGMdb Album URL
+outputto "VGMdb Album Url"
+sayoutput "CurrentUrl"
+
+# this site dont have artist weird
+# Set artistname
+#outputto "artist"
+#sayoutput "composer"
+
+# ... Customization ...
+
+#set "genre" "Game"
+
+# Fields that you want to remove
+#	(to remove a field write: set "field")
