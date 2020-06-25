@@ -1,6 +1,6 @@
 # Audiobook Tag Scraper
 
-This is my modified custom web sources for [mp3tag](https://www.mp3tag.de/en/).
+This is my modified custom web sources/actions for [mp3tag](https://www.mp3tag.de/en/).
 
 
 I have add it an Action and an Export file, to use together.
