@@ -150,12 +150,13 @@ findline "class=\"smallfont\"><span class=\"label\">"
 do
 	outputto "Tracks"
 	moveline 1
-	findinline "width=\"100%\">"
+	findinline "width=\"100%\" colspan=\"2\">"
+	joinuntil "</td>"
 	sayuntil "</td>"
 	say "|"
 	
 	outputto "_Length"
-	moveline 1
+	moveline 2
 	sayregexp "(?<=<span class=\"time\">)[\d:]+(?=</span>)" ""
 	say "|"
 
