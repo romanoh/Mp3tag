@@ -1,4 +1,4 @@
-# Audiobook Tag Scraper
+# Audiobook/Music Tag Scraper
 
 This is my modified custom web sources/actions/export for [mp3tag](https://www.mp3tag.de/en/).
 
