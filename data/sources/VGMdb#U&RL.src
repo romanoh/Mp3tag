@@ -2,8 +2,10 @@
 # Mp3tag parsing for VGMdb.net, created by dano on 2010-01-17
 #
 # Uses the release url to find an album
-#
+# Version 2.3
 # Changelog:
+# [2020-06-27] Publisher fix (by romano)	
+# [2020-06-26] Song list fix (by romano)
 # [2020-06-25] Updated (by romano)
 # [2015-07-28] Updated (by mprimegmr)
 # [2010-01-17] Created (by dano)
@@ -18,7 +20,7 @@
 # ###################################################################
 #					A  L  B  U  M
 #####################################################################
-
+Debug "ON" "C:\Users\egual\Desktop\vgdb.txt"
 # Album
 outputto "Album"
 findline "class=\"albumtitle\""
@@ -88,25 +90,31 @@ findinline "<td>"
 sayuntil "</td>"
 
 # Classification (Genre)
-outputto "Genre"
 findline "<b>Classification</b>"
-joinuntil "</tr>"
+outputto "Genre"
+joinuntil "</td></tr>"
 findinline "<td>"
 sayuntil "</td>"
 
 # Publisher
-if "id=\"publisher_less\""
+findline "<b>Organizations</b>"
+moveline 3
+if "<script type=\"text/javascript\">"
 	findline "id=\"publisher_less\""	
 	outputto "Publisher"
 	findinline "display:inline\">"
 	sayuntil "</span>"
+else
+if "<a href=\"/org/"
+	outputto "Publisher"
+	findinline "style=\"display:inline\">"
+	sayuntil "</span>"
+	else 
+	outputto "Publisher"
+	sayuntil "</td></tr>"
 endif
-if "maincred"
-	findline "maincred" 1 1
-	joinuntil "</td></tr>"
-	findinline "<td>"
-	sayuntil "</td>"
 endif
+
 
 # Composer
 findline "<b>Composed by</b>"

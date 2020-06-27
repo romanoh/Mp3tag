@@ -7,7 +7,8 @@
 # %APPDATA%\Mp3tag\data\sources
 #
 # Changelog:
-# [2020-06-21] change stuff (by romano)
+# [2020-06-27] Publisher fix (by romano)	
+# [2020-06-26] Song list fix (by romano)
 # [2020-04-27] change somethings (by romano)
 # [2019-03-16] FIX: Replaced HTTP by HTTPS (by axxeldna)
 # [2015-09-01] FIX: Coverurl fixed (by PBX_g33k)
@@ -155,17 +156,22 @@ sayuntil "</td>"
 
 
 # Publisher
-if "id=\"publisher_less\""
+findline "<b>Organizations</b>"
+moveline 3
+if "<script type=\"text/javascript\">"
 	findline "id=\"publisher_less\""	
 	outputto "Publisher"
 	findinline "display:inline\">"
 	sayuntil "</span>"
+else
+if "<a href=\"/org/"
+	outputto "Publisher"
+	findinline "style=\"display:inline\">"
+	sayuntil "</span>"
+	else 
+	outputto "Publisher"
+	sayuntil "</td></tr>"
 endif
-if "maincred"
-	findline "maincred" 1 1
-	joinuntil "</td></tr>"
-	findinline "<td>"
-	sayuntil "</td>"
 endif
 
 # Composer
