@@ -59,7 +59,6 @@ ifnot "N/A"
 		replace "</a>" ""
 		replace "[Extra Credits]<script type=\"text/javascript\">$(document).ready(function() {  $(\"#extralink\").click(function(e) {    $(\"tr.maincred\").toggle();    $(\"tr.extracred\").toggle();    $(this).text($(\"tr.maincred\").is(\":visible\") ? \"[Extra Credits]\" : \"[Main Credits]\");    e.preventDefault();  });});</script>" ""
 		findinline "<td width=\"100%\">"
-		
 		sayuntil "</td>"
 	endif
 endif
@@ -175,13 +174,40 @@ while "<td "
 gotoline 1
 outputto "Notes"
 findline "<h3>Notes</h3>"
+findline "id=\"notes\">"
+regexpreplace "<br />" " "
+replace "<i class='label'>" ""
+replace "</i>" ""
+replace "<b>" ""
+replace "</b>" ""
+findinline "id=\"notes\">"
+sayuntil "</div>"
 
-	findline "id=\"notes\">"
-	regexpreplace "<br />" " "
-	replace "<i class='label'>" ""
-	replace "</i>" ""
-	findinline "id=\"notes\">"
+
+# rating
+findline "<span rel=\"rating\""
+outputto "rating"
+findinline "class="time\">"
+sayuntil "</span>"
+
+# comments
+findline "Category"
+outputto "comment"
+moveline 1
+sayuntil "</div>"
+say " - "
+findline "Products represented</b><br />"
+moveline 1
+if "<a href=\"/product/"
+	findinline "style=\"display:inline\">"	
+	sayuntil "</span>"
+else
 	sayuntil "</div>"
+endif
+say " - "
+findline "Platforms represented"
+moveline 1
+sayuntil "</div>"
 
 
 # VGMdb Album URL

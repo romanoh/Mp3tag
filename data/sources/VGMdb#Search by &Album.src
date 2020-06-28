@@ -19,7 +19,7 @@
 [BasedOn]=vgmdb.net
 [IndexUrl]=https://vgmdb.net/search?q=
 [AlbumUrl]=https://vgmdb.net/album/
-[WordSeperator]=+
+[WordSeparator]=+
 [IndexFormat]=%Catalog%|%_url%|%Album%|%Year%
 #remove everything inside ()
 [SearchBy]=$regexp(%album%,'\([^)]*\)',,1)
@@ -242,7 +242,30 @@ findline "<h3>Notes</h3>"
 	findinline "id=\"notes\">"
 	sayuntil "</div>"
 
+# rating
+findline "<span rel=\"rating\""
+outputto "rating"
+findinline "class="time\">"
+sayuntil "</span>"
 
+# comments
+findline "Category"
+outputto "comment"
+moveline 1
+sayuntil "</div>"
+say " - "
+findline "Products represented</b><br />"
+moveline 1
+if "<a href=\"/product/"
+	findinline "style=\"display:inline\">"	
+	sayuntil "</span>"
+else
+	sayuntil "</div>"
+endif
+say " - "
+findline "Platforms represented"
+moveline 1
+sayuntil "</div>"
 
 
 # VGMdb Album URL
