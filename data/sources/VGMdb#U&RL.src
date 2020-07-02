@@ -198,19 +198,16 @@ findline "Category"
 outputto "comment"
 moveline 1
 sayuntil "</div>"
+joinuntil "<div id=\"preview\"></div>"
+
+if "<div style=\"margin-bottom:"
 say " - "
-findline "Products represented</b><br />"
 moveline 1
-if "<a href=\"/product/"
-	findinline "style=\"display:inline\">"	
-	sayuntil "</span>"
+findinline "\"display:inline\">"
+sayuntil "</span><span"
 else
-	sayuntil "</div>"
+say ""
 endif
-say " - "
-findline "Platforms represented"
-moveline 1
-sayuntil "</div>"
 
 
 # VGMdb Album URL
