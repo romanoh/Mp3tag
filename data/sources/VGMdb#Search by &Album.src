@@ -213,12 +213,12 @@ endif
 
 # Tracks
 # findline "<b>Disc 2</b></span>"
-findline "class=\"smallfont\"><span class=\"label\">"
+findline "class="smallfont"><span class="label">"
 do
 	outputto "Tracks"
 	moveline 1
 	findinline "width=\"100%\" colspan=\"2\">"
-	joinuntil "</td>"
+	moveline 2
 	sayuntil "</td>"
 	say "|"
 	
