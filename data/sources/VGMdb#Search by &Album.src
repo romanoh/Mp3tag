@@ -77,7 +77,8 @@ while "<tr rel='rel_" 99
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug2.txt"
+Debug "ON" "C:\Users\egual\Desktop\vgmdbalbum.txt"
+
 # Album
 outputto "Album"
 findline "class=\"albumtitle\""
@@ -200,17 +201,21 @@ replace "</a>" ""
 sayregexp "(?<=<td>)[^<]+(?=</td>)" ""
 
 
-# Performed
-if "<b>Performed by</b>"
-	findline "<b>Performed by</b>" 1 1
+# Artist
+
+outputto "Artist"
+sayoutput "Composer"
+IfNotOutput "Composer"
 	outputto "Artist"
-	moveline 1
-	findinline "\">"
-	sayuntil "</a>"
-else 
-	outputto "Artist"
-	sayoutput "Composer"
+    sayoutput "Writer"
+    
 endif
+	
+
+
+	
+
+
 
 
 # Tracks
