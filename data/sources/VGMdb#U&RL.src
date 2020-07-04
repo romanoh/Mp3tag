@@ -100,7 +100,9 @@ sayuntil "</td>"
 
 # Publisher
 findline "<b>Organizations</b>"
-moveline 3
+moveline 3 1
+outputto "Publisher"
+say ""
 if "<script type=\"text/javascript\">"
 	findline "id=\"publisher_less\""	
 	outputto "Publisher"
