@@ -144,16 +144,14 @@ replace "</a>" ""
 sayregexp "(?<=<td>)[^<]+(?=</td>)" ""
 
 
-# Performed
-if "<b>Performed by</b>"
-	findline "<b>Performed by</b>" 1 1
+# Artist
+
+outputto "Artist"
+sayoutput "Composer"
+IfNotOutput "Composer"
 	outputto "Artist"
-	moveline 1
-	findinline "\">"
-	sayuntil "</a>"
-else 
-	outputto "Artist"
-	sayoutput "Composer"
+    sayoutput "Writer"
+    
 endif
 
 # Tracks
