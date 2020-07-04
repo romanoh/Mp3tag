@@ -1,18 +1,19 @@
 ﻿# ###################################################################
-# Mp3tag (v2.39+) parsing for VGMdb.net, created by dano on 2010-01-20
+# Mp3tag parsing for VGMdb.net, created by dano on 2010-01-20
 #
-# v5 from 2019-05-28
 #
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
-#
-# Changelog:
-# [2020-06-27] Publisher fix (by romano)	
-# [2020-06-26] Song list fix (by romano)
-# [2020-04-27] change somethings (by romano)
-# [2019-03-16] FIX: Replaced HTTP by HTTPS (by axxeldna)
-# [2015-09-01] FIX: Coverurl fixed (by PBX_g33k)
+# Version 2.5
 # 
+# Changelog:
+# 2.5
+# [2020-07-04] Artist fix and add full date
+# 2.4
+# [2020-07-02] Tracks fix 	
+# 2.3
+# [2020-06-27] Publisher fix 	
+# [2020-06-26] Song list fix
 # ###################################################################
 
 [Name]=VGMdb - Search by Album
@@ -129,8 +130,13 @@ moveline 1
 sayregexp "(?<=<td>)\d{4} *(?=</td>)" "" 
 
 if "<td><a "
-	findinline "title=\"View albums released on"
-	sayregexp "\d{4}(?=\" href)" "" "</a>"
+	findinline "#"
+	SayNChars 4
+	say "."
+	SayNChars 2
+	say "."
+	SayNChars 2
+	
 endif
 
 

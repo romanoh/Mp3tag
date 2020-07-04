@@ -9,9 +9,6 @@
 # 2.3
 # [2020-06-27] Publisher fix (by romano)	
 # [2020-06-26] Song list fix (by romano)
-# [2020-06-25] Updated (by romano)
-# [2015-07-28] Updated (by mprimegmr)
-# [2010-01-17] Created (by dano)
 # 
 # ###################################################################
 
@@ -73,8 +70,13 @@ moveline 1
 sayregexp "(?<=<td>)\d{4} *(?=</td>)" "" 
 
 if "<td><a "
-	findinline "title=\"View albums released on"
-	sayregexp "\d{4}(?=\" href)" "" "</a>"
+	findinline "#"
+	SayNChars 4
+	say "."
+	SayNChars 2
+	say "."
+	SayNChars 2
+	
 endif
 
 # Publish Format
