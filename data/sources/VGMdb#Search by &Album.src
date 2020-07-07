@@ -43,7 +43,8 @@ ifnot "<tr rel"
 	exit
 endif
 
-do        
+do  
+	# Catalog	
     replace "|" "/"
     findinline "span class="
     findinline ">"
@@ -62,11 +63,19 @@ do
     say "|"
     
     # Year
-    findinline "</tr>"
-    movechar -1
-    findinline "\"" -1
-    findinline ">"
-    sayuntil "</"
+    findinline "&month="
+    findinline "#"
+    SayNChars 4
+    say "."
+    SayNChars 2
+    say "."
+    SayNChars 2
+    say " - "
+	
+    # Media
+    findinline "nowrap=\"nowrap\">"
+    sayuntil "</td>"
+	
     saynewline
     
     moveline 1 1
