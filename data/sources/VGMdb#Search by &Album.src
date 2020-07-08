@@ -224,21 +224,12 @@ sayregexp "(?<=<td>)[^<]+(?=</td>)" ""
 
 
 # Artist
-
 outputto "Artist"
 sayoutput "Composer"
 IfNotOutput "Composer"
 	outputto "Artist"
     sayoutput "Writer"
-    
 endif
-	
-
-
-	
-
-
-
 
 # Tracks
 # findline "<b>Disc 2</b></span>"
@@ -273,6 +264,7 @@ findline "<h3>Notes</h3>"
 
 # rating
 findline "<span rel=\"rating\""
+replace "Rated " ""
 outputto "rating"
 findinline "class="time\">"
 sayuntil "</span>"
