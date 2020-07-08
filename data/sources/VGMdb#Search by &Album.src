@@ -4,9 +4,11 @@
 #
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
-# Version 2.5
+# Version 2.6
 # 
 # Changelog:
+# 2.6
+# [2020-07-08] Improve index search
 # 2.5
 # [2020-07-04] Artist fix and add full date
 # 2.4
@@ -32,7 +34,6 @@
 #					I  N  D  E  X
 # ###################################################################
 
-
 findline "<tr rel='rel_" 1 1
 
 ifnot "<tr rel"
@@ -40,20 +41,25 @@ ifnot "<tr rel"
 	sayoutput "CurrentURL"
 	say "|"
 	say "|"
+	say "|"
+	#put exit for direct album tags
 	exit
 endif
 
-do        
+do   
+    # Catalog	
     replace "|" "/"
     findinline "span class="
     findinline ">"
     sayuntil "</span"
     say "|"
     
-	# URL
+	   
+    # URL
     findinline "https://vgmdb.net/album/"
     sayuntil "\""
     say "|"
+	
     
     # Album
     findinline "class=\"albumtitle\""
@@ -61,11 +67,21 @@ do
     sayuntil "</span>"
     say "|"
     
+    # Year
+    findinline "&month=" 1 1
+    findinline "#" 1 1
+    SayNChars 4
+    say "."
+    SayNChars 2
+    say "."
+    SayNChars 2
+    say "|"
+	
     # Media
-    findinline "</tr>"
+    findinline "</tr>" 1 1
     movechar -1
     findinline "\"" -1
-    findinline ">"
+    findinline ">" 1 1
     sayuntil "</"
     saynewline
     
