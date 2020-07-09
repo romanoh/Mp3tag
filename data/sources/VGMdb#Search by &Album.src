@@ -23,7 +23,7 @@
 [IndexUrl]=https://vgmdb.net/search?q=
 [AlbumUrl]=https://vgmdb.net/album/
 [WordSeparator]=+
-[IndexFormat]=%Catalog%|%_url%|%Album%|%Year%
+[IndexFormat]=%Catalog%|%_url%|%Album%|%Year%|%Media%
 #remove everything inside ()
 [SearchBy]=$regexp(%album%,'\([^)]*\)',,1)
 [Encoding]=url-utf-8
