@@ -25,7 +25,7 @@
 #					I  N  D  E  X
 # ###################################################################
 #DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
-Debug "ON" "C:\Users\egual\Desktop\goodreads.txt"
+#Debug "ON" "C:\Users\egual\Desktop\goodreads.txt"
 
 
 #join everything until end 
@@ -72,9 +72,17 @@ Debug "ON" "C:\Users\egual\Desktop\goodreads album.txt"
 
 # Cover	
 outputto "coverurl"
-findline "https://images.gr-assets.com/authors/" 3
-findinline "src=\""
-sayuntil "\" "
+findline "<div class=\"leftContainer authorLeftContainer\">"
+moveline 1
+if "<a title=\""
+	findinline "src=\""
+	sayuntil "\" "
+	say ""
+else
+	findinline "src=\""
+	sayuntil "\" "
+	say ""
+endif
 
 # Author comment
 outputto "INVOLVEDPEOPLE"
