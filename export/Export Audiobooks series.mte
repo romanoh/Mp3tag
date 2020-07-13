@@ -59,6 +59,7 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 	TD {
 		FONT-FAMILY: VERDANA, TAHOMA, ARIAL, HELVETICA;
 		FONT-SIZE: 10PX;
+		COLOR: #FFFFFF;
 	}
 	
 	TD.valshade {
@@ -169,6 +170,20 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 										<UL><br>
 											<DIV align="center" class="title">%artist%</DIV><br>
 											<img src="..\..\artist-poster.jpg" alt="Author" width="85%" height="85%" align="middle" >
+											
+											
+										</UL>
+										<UL><br>
+										<TABLE cellPadding=2 width="100%%" border=0>
+											<TBODY>
+												<TR>
+													
+													<TD class="valshade">&nbsp;%INVOLVEDPEOPLE%</TD>
+												</TR>
+												
+												
+											</TBODY>
+										</TABLE>
 											
 											
 										</UL>
@@ -323,7 +338,7 @@ $filename(%_folderpath%%_directory%.html,utf-8)
 				
 				<TR>
 					<TD vAlign="bottom">
-					<DIV align="left" >%INVOLVEDPEOPLE%</DIV><br>
+					
 						<DIV align="center">
 							<B>upload by Romano</B> -
 							<B>abtorrents.me</B>
