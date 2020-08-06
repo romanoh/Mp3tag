@@ -125,8 +125,8 @@ while "bc-color-link" 99
 
 
 # Asin
-findline "\"productAsin\" value=\""
-findinline "\"productAsin\" value=\""
+findline "<input type=\"hidden\" name=\"asin\" value=\""
+findinline "<input type=\"hidden\" name=\"asin\" value=\""
 outputto "Asin"
 sayuntil "\""
 gotoline 1
