@@ -215,6 +215,9 @@ else
 say ""
 endif
 
+# Set Artist = Albumartist
+outputto "albumartist"
+sayoutput "Artist"
 
 # VGMdb Album URL
 outputto "VGMdb Album Url"
