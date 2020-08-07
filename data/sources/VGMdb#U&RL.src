@@ -181,7 +181,7 @@ while "<td "
 # Notes
 gotoline 1
 outputto "Notes"
-findline "<h3>Notes</h3>"
+findline "<h3>Notes"
 findline "id=\"notes\">"
 regexpreplace "<br />" " "
 replace "<i class='label'>" ""
