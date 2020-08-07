@@ -78,10 +78,7 @@ do
     say "|"
 	
     # Media
-    findinline "</tr>" 1 1
-    movechar -1
-    findinline "\"" -1
-    findinline ">" 1 1
+    findinline "nowrap='nowrap'>" 
     sayuntil "</"
     saynewline
     
