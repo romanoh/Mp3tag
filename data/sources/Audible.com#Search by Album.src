@@ -340,3 +340,7 @@ sayoutput "CurrentUrl"
 # Set Comment to DESCRIPTION for better MP4 support
 outputto "DESCRIPTION"
 sayoutput "Comment"
+
+# Set Title
+outputto "title"
+sayoutput "album"
