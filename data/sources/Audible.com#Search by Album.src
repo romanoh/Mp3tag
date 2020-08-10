@@ -330,6 +330,4 @@ sayoutput "CurrentUrl"
 outputto "DESCRIPTION"
 sayoutput "Comment"
 
-# Set Title
-outputto "title"
-sayoutput "album"
+
