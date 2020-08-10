@@ -2,11 +2,7 @@
 #
 # Mp3tag parsing for Audible.com, created by dano on 2013-03-11
 #
-# 2013-09-20: Updated (dano)
-# 2020-03-24: Updated (dano)
-# 2020-04-06: Updated to Audible.com (seanap)
-# 2020-04-11: Several changes, see the commits (romano)
-# 2020-04-14: Several changes, see the commits (romano)
+# After 11.04.2020, join Github, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
 #
 # This file should be in your sources dir. 
 # On Windows XP it's C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
@@ -32,16 +28,9 @@
 #Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
 
 
-#join everything until end 
-joinuntil "</html>"
-
-#remove spaces after lines
-regexpreplace "[\r\n]+" ""
-
-#.+ Matches any character except linebreaks and replace them whit "results"
-regexpreplace ".+results" "results"
-
-regexpreplace "<script asyn.+" ""
+#Only select the area we need instead of everyting.
+findline "<ul  class=\"bc-list"
+joinuntil "center-4"
 
 #Matches any whitespace character (spaces, tabs, line breaks).
 regexpreplace "\s\s+" " "
