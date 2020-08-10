@@ -1,21 +1,12 @@
-﻿# ###################################################################
+# ###################################################################
 # Mp3tag parsing for VGMdb.net, created by dano on 2010-01-20
 #
 #
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
-# Version 2.6
+#
+# After 26.06.2020, join Github, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
 # 
-# Changelog:
-# 2.6
-# [2020-07-08] Improve index search an remove the word "rated"
-# 2.5
-# [2020-07-04] Artist fix and add full date
-# 2.4
-# [2020-07-02] Tracks fix 	
-# 2.3
-# [2020-06-27] Publisher fix 	
-# [2020-06-26] Song list fix
 # ###################################################################
 
 [Name]=VGMdb - Search by Album
@@ -78,13 +69,13 @@ do
     say "|"
 	
     # Media
-    findinline "nowrap='nowrap'>" 
+    findinline "nowrap='nowrap'>" 1 1
     sayuntil "</"
     saynewline
     
     moveline 1 1
     unspace
-while "<tr rel='rel_" 99
+while "<tr rel='rel_" 55
 
 
 [ParserScriptAlbum]=...
