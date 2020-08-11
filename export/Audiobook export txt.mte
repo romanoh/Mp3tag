@@ -1,0 +1,41 @@
+$filename(%_folderpath%%album%.txt,ansi)
+Album Information
+=================
+ALBUM........: %album% - %SUBTITLE%
+ARTIST.......: %artist%
+READ BY......: %composer%
+SERIES.......: %SERIES% - Book %SERIES-PART%
+
+General Information
+===================
+GENRE........: %genre%
+YEAR.........: %year%
+ASIN:........: %Asin%
+PUBLISHER....: %PUBLISHER%
+COPYRIGHT....: %COPYRIGHT%
+RATING AUDIB.: %RATING WINAMP%
+RELEASE......: %RELEASETIME%
+
+Book Description
+================
+INFO.........: %comment%
+
+Technical Information
+=====================
+CODEC........: %_codec%
+QUALITY......:%_vbr% %_bitrate% kBit/s
+CHANNELS.....: %_samplerate% kHz %_mode%
+TAGS.........: %_tag%
+SIZE.........: %_total_size%
+
+
+LINK.........: %WWWAUDIOFILE%
+TRACKS.......: %_total_files%
+PLAYTIME.....: %_total_time%
+
+Nº  TITLE                                                                              TIME
+--  ---------------------------------------------------------------------------------  -----
+$loop($num(%discnumber%,3)$num(%track%,4)%_filename_ext%)$num(%track%,2)  %title% $repeat(.,$sub(80,$len(%title%)))  [$replace(%_length%,_,:)]
+$loopend()--  ---------------------------------------------------------------------------------  -----
+
+%_datetime%
