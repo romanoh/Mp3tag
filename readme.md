@@ -5,19 +5,19 @@ This is my modified custom web sources/actions/export for [mp3tag](https://www.m
 Updated tags using sources-->use actions to order folders.
 
 ## Sources:
-### VGMdb:
+### VGMdb.net
 Search by Album: [VGMdb#Search by &Album.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/Audible.com%23Search%20by%20Album.src)
 
 Search by URL: [VGMdb#U&RL.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/VGMdb%23U%26RL.src)
 
 
-### Audible: 
+### Audible.com
 Search by Album:[Audible.com#Search by Album.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/Audible.com%23Search%20by%20Album.src)
 
 This will get artist image and bio: [Audible.com#Authors images.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/Audible.com%23Authors%20images.src)
 
 
-### Goodreads:(WIP)
+### Goodreads.com (WIP)
 Search by book+writer: [Goodreads#Goodreads.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/Audible.com%23Search%20by%20Album.src)
 
 This will get artist image and bio(good to work with audible): [Goodreads#Author image.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/Goodreads%23Author%20image.src)
