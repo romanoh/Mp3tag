@@ -1,15 +1,17 @@
+####################################
 # Mp3tag from goodreads.com
 #
 # 2020-04-16 (Wip)initial release by romano
 # 2020-04-19 Updated
+# After 26.06.2020, join Github, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
 #
 # Save it in your Mp3tag data directory, i.e.
 # C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
 #
-#
-#
-#
-#
+###################################
+
+
+
 [Name]=goodreads.com
 [BasedOn]=www.goodreads.com
 [IndexUrl]=https://www.goodreads.com/search?utf8=&query=
@@ -24,8 +26,8 @@
 # ###################################################################
 #					I  N  D  E  X
 # ###################################################################
-DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3taggood.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebuggood.txt"
 
 
 #join everything until end 
@@ -74,17 +76,15 @@ Debug "ON" "C:\Users\egual\Desktop\goodreads.txt"
 
 # Cover	
 outputto "coverurl"
-findline "editionCover"
-findline "src=\""
+findline "<img title"
 findinline "src=\""
-sayuntil "\" "
+sayuntil "\""
 
 # Album
 outputto "album"
-findline "bookTitle"
-joinuntil "</h1>"
-findinline "\">"
-sayuntil "<"
+findline "id=\"bookTitle\""
+moveline 1
+sayuntil "</h1>"
 
 # Series - find a way for book with no series
 #outputto "series"
