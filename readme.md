@@ -27,10 +27,10 @@ This will get artist image and bio(good to work with audible): [Goodreads#Author
 Search by artist: [Amazon#Amazon.co2.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/Amazon%23Amazon.co2.src)
 
 
-
-
-
 This helps me make sure all audiobooks are tagged properly, have the correct filenames, and have the proper folder structure.  
 This ensures consistency across Plex.
+
+![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=romanoh&show_icons=true)
+
 
 
