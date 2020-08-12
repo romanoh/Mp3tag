@@ -30,7 +30,7 @@ Search by artist: [Amazon#Amazon.co2.src](https://github.com/romanoh/Mp3tag-Repo
 This helps me make sure all audiobooks are tagged properly, have the correct filenames, and have the proper folder structure.  
 This ensures consistency across Plex.
 
-![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=romanoh&show_icons=true)
+![romanoh's github stats](https://github-readme-stats.vercel.app/api?username=romanoh&show_icons=true)
 
 
 
