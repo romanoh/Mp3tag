@@ -1,0 +1,127 @@
+# ###################################################################
+# Mp3tag parsing for VGMdb.net, created by romano on 2010-08-13
+#
+#
+# Copy this file to your sources directory at
+# %APPDATA%\Mp3tag\data\sources
+#
+# Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
+# 
+# ###################################################################
+
+[Name]=VGMdb - Search by Album
+[BasedOn]=vgmdb.net
+[IndexUrl]=http://vgmdb.info/search?q=
+[AlbumUrl]=http://vgmdb.info/
+[WordSeparator]=+
+[IndexFormat]=%Catalog%|%_url%|%Year%|%Album%
+#remove everything inside ()
+[SearchBy]=$regexp(%album%,'\([^)]*\)',,1)
+[Encoding]=url-utf-8
+
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+Debug "ON" "C:\Users\egual\Desktop\mp3tag-json-index-debug.txt"
+
+
+
+json "ON" 
+
+json_select "results"
+	json_foreach "albums"
+
+		# URL
+		json_select "catalog"
+		SayRest
+		Say "|"
+
+		# URL
+		json_select "link"
+		SayRest
+		Say "|"
+		
+		# Year
+		json_select "release_date"
+		SayRest
+		Say "|"
+		
+		# Album
+		json_select "titles"
+		json_select "en"
+		SayRest
+		
+		SayNewline
+
+	json_foreach_end
+	
+
+################################################################################
+#                        ADJUST TAG INFORMATION DIALOG                         #
+################################################################################
+[ParserScriptAlbum]=...
+
+## Comment/uncomment for debugging purposes:
+DebugWriteInput "C:\Users\egual\Desktop\mp3tag-deezer-ws-album-debug.out.html"
+Debug "ON" "C:\Users\egual\Desktop\album.txt"
+
+json "ON"
+
+# Album
+OutputTo "ALBUM"
+json_select "name"
+SayRest
+
+# Catalog
+OutputTo "Catalog"
+json_select "catalog"
+SayRest
+
+# Categories
+OutputTo "comment"
+json_select "category"
+SayRest
+
+# Genre
+OutputTo "genre"
+json_select "classification"
+SayRest
+
+# Artist 
+outputto "artist"
+json_foreach "composers"
+json_select "names"
+json_select "en"
+
+sayrest
+# Adding this below will output all the albums but if omitted it will only get the first array.
+say ", "
+json_foreach_end
+
+
+
+
+
+
+
+
+OutputTo "title"
+
+
+json_select "discs"
+json_foreach "tracks"
+
+json_select "names"
+json_select "English"
+sayrest
+
+json_foreach_end
+
+	
+
+
+
+
+
