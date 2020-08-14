@@ -163,7 +163,7 @@ json_foreach "composers"
 	json_select "names"
 	json_select "en"
 sayrest
-# Adding this below will output all the albums but if omitted it will only get the first array.
+# Adding this below will output all the artists(composers) but if omitted it will only get the first array.
 #say ", "
 #json_foreach_end
 
