@@ -79,8 +79,8 @@ OutputTo "Catalog"
 json_select "catalog"
 SayRest
 
-# Categories
-OutputTo "comment"
+# notes
+OutputTo "notes"
 json_select "category"
 SayRest
 
@@ -89,38 +89,83 @@ OutputTo "genre"
 json_select "classification"
 SayRest
 
+# Tracks
+json_select_array "discs" 1
+json_foreach "tracks"
+
+	# Length
+	outputto "_Length"
+	json_select "track_length"
+	SayRest
+	say "|"
+
+	# Title
+	OutputTo "Title"
+	json_select "names"
+	json_select "English"
+	SayRest
+	say "|"
+
+json_foreach_end
+
+
+# Media type
+OutputTo "MEDIATYPE"
+json_select "media_format"
+SayRest
+	
+# Comments
+OutputTo "comment"
+json_select "notes"
+SayRest	
+	
+# Cover
+OutputTo "COVERURL"
+json_select "picture_full"
+SayRest
+## You can choose the cover resolution here
+# json_select "picture_small"
+# json_select "picture_thumb"
+
+# publish_format
+OutputTo "format"
+json_select "publish_format"
+SayRest
+	
+# publisher
+OutputTo "publisher"
+json_select "publisher"
+json_select "names"
+json_select "en"
+SayRest
+
+json_unselect_object	
+# rating
+OutputTo "rating"
+json_select "rating"
+SayRest	
+
+# release_date
+OutputTo "YEAR"
+json_select "release_date"
+SayRest	
+
+# vgmdb_link
+OutputTo "www"
+json_select "vgmdb_link"
+SayRest
+	
+json_unselect_object	
+# this must be last	
 # Artist 
 outputto "artist"
 json_foreach "composers"
-json_select "names"
-json_select "en"
-
+	json_select "names"
+	json_select "en"
 sayrest
 # Adding this below will output all the albums but if omitted it will only get the first array.
-say ", "
-json_foreach_end
-
-
-
-
-
-
-
-
-OutputTo "title"
-
-
-json_select "discs"
-json_foreach "tracks"
-
-json_select "names"
-json_select "English"
-sayrest
-
-json_foreach_end
-
-	
-
+#say ", "
+#json_foreach_end
 
 
 
