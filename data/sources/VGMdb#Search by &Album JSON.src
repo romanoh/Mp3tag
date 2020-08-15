@@ -69,10 +69,22 @@ Debug "ON" "C:\Users\egual\Desktop\album.txt"
 
 json "ON"
 
-# Album
-OutputTo "ALBUM"
-json_select "name"
-SayRest
+
+# Arrangers
+outputto "CONDUCTOR"
+json_select "arrangers"
+ifnot ""
+	json_select "names"
+	
+	json_select "en"
+	say ", "
+	sayrest
+  
+	
+  endif
+
+
+
 
 # Catalog
 OutputTo "Catalog"
@@ -87,26 +99,59 @@ SayRest
 # Genre
 OutputTo "genre"
 json_select "classification"
+ifnot ""
 SayRest
+endif
+
+# Album
+OutputTo "ALBUM"
+json_select "name"
+SayRest
+json_unselect_object
+
+
+# Artist 
+outputto "artist"
+json_foreach "composers"
+
+	json_select "names"
+
+	json_select "en"
+	ifnot ""
+sayrest
+# Adding this below will output all the artists(composers) but if omitted it will only get the first array.
+say ", "
+endif
+json_foreach_end
 
 # Tracks
 json_select_array "discs" 1
 json_foreach "tracks"
 
-	# Length
-	outputto "_Length"
+
+# Length
+	OutputTo "_LENGTH"
+	json_select "0"
 	json_select "track_length"
+	replace ":" ""
 	SayRest
 	say "|"
-
+	
 	# Title
 	OutputTo "Title"
+	json_select "0"
 	json_select "names"
 	json_select "English"
 	SayRest
 	say "|"
-
+		
 json_foreach_end
+
+
+
+
+
+
 
 
 # Media type
@@ -149,23 +194,15 @@ SayRest
 OutputTo "YEAR"
 json_select "release_date"
 SayRest	
+## B) Year only, e.g. 2018
+#SayUntil "-"
 
 # vgmdb_link
 OutputTo "www"
 json_select "vgmdb_link"
 SayRest
 	
-json_unselect_object	
-# this must be last	
-# Artist 
-outputto "artist"
-json_foreach "composers"
-	json_select "names"
-	json_select "en"
-sayrest
-# Adding this below will output all the artists(composers) but if omitted it will only get the first array.
-#say ", "
-#json_foreach_end
+
 
 
 
