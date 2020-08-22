@@ -72,16 +72,16 @@ json "ON"
 
 # Arrangers
 outputto "CONDUCTOR"
-json_select "arrangers"
-ifnot ""
+json_foreach "arrangers"
+ifnot "0"
 	json_select "names"
-	
 	json_select "en"
-	say ", "
-	sayrest
-  
-	
-  endif
+ 	sayrest
+else
+	say ""
+endif
+say ", "	
+json_foreach_end
 
 
 
@@ -117,7 +117,7 @@ json_foreach "composers"
 	json_select "names"
 
 	json_select "en"
-	ifnot ""
+	ifnot "0"
 sayrest
 # Adding this below will output all the artists(composers) but if omitted it will only get the first array.
 say ", "
@@ -129,11 +129,10 @@ json_select_array "discs" 1
 json_foreach "tracks"
 
 
-# Length
+	# Length
 	OutputTo "_LENGTH"
 	json_select "0"
 	json_select "track_length"
-	replace ":" ""
 	SayRest
 	say "|"
 	
