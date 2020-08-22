@@ -73,14 +73,16 @@ json "ON"
 # Arrangers
 outputto "CONDUCTOR"
 json_foreach "arrangers"
+# ifnot "0" is for when there is no data.
 ifnot "0"
 	json_select "names"
 	json_select "en"
  	sayrest
+	say ", "
 else
 	say ""
 endif
-say ", "	
+	
 json_foreach_end
 
 
@@ -124,26 +126,31 @@ say ", "
 endif
 json_foreach_end
 
-# Tracks
+# Tracks English
 json_select_array "discs" 1
 json_foreach "tracks"
-
-
-	# Length
-	OutputTo "_LENGTH"
-	json_select "0"
-	json_select "track_length"
-	SayRest
-	say "|"
+	ifnot "0"
 	
-	# Title
-	OutputTo "Title"
-	json_select "0"
-	json_select "names"
-	json_select "English"
-	SayRest
-	say "|"
+		# Length
+		OutputTo "_LENGTH"
+		json_select "tracks"
+		json_select "track_length"
+		SayRest
+		say "|"
+	
+		# Title
+		OutputTo "Title"
+		json_select "names"
+		json_select "English"
+		ifnot "0"
 		
+			SayRest
+			say "|"
+		else
+		say ""
+		endif
+				
+	endif		
 json_foreach_end
 
 
