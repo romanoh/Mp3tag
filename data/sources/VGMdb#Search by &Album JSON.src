@@ -65,7 +65,7 @@ json_select "results"
 
 ## Comment/uncomment for debugging purposes:
 DebugWriteInput "C:\Users\egual\Desktop\mp3tag-deezer-ws-album-debug.out.html"
-Debug "ON" "C:\Users\egual\Desktop\album.txt"
+Debug "ON" "C:\Users\egual\Desktop\vocadb.json"
 
 json "ON"
 
@@ -73,7 +73,7 @@ json "ON"
 # Arrangers
 outputto "CONDUCTOR"
 json_foreach "arrangers"
-# ifnot "0" is for when there is no data.
+# ifnot "0" is for when there is no data or lenght of array, The index starts at zero and not one. Few languages use 1 as the first index.
 ifnot "0"
 	json_select "names"
 	json_select "en"
@@ -101,30 +101,34 @@ SayRest
 # Genre
 OutputTo "genre"
 json_select "classification"
-ifnot ""
-SayRest
+ifnot "0"
+	SayRest
 endif
 
 # Album
 OutputTo "ALBUM"
 json_select "name"
 SayRest
-json_unselect_object
+
 
 
 # Artist 
 outputto "artist"
 json_foreach "composers"
-
-	json_select "names"
-
-	json_select "en"
 	ifnot "0"
-sayrest
-# Adding this below will output all the artists(composers) but if omitted it will only get the first array.
-say ", "
-endif
+		json_select "names"
+		json_select "en"
+		sayrest
+		# Adding this below will output all the artists(composers) but if omitted it will only get the first array.
+		say ", "
+	else
+		say ""
+	endif
 json_foreach_end
+
+# Set Artist = Albumartist
+outputto "albumartist"
+sayoutput "Artist"
 
 # Tracks English
 json_select_array "discs" 1
@@ -190,11 +194,16 @@ json_select "names"
 json_select "en"
 SayRest
 
-json_unselect_object	
+json_unselect_object
+
 # rating
 OutputTo "rating"
 json_select "rating"
+ifnot "0"
 SayRest	
+else
+say ""
+endif
 
 # release_date
 OutputTo "YEAR"
