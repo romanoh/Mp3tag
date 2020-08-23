@@ -114,17 +114,46 @@ SayRest
 
 # Artist 
 outputto "artist"
-json_foreach "composers"
-	ifnot "0"
+json_foreach "performers"
+ifnot "0"
 		json_select "names"
 		json_select "en"
 		sayrest
-		# Adding this below will output all the artists(composers) but if omitted it will only get the first array.
-		say ", "
-	else
-		say ""
-	endif
-json_foreach_end
+		say " "
+else
+		json_foreach "composers"
+			ifnot "0"
+			
+				json_select "names"
+				json_select "en"
+				sayrest
+				# Adding this below will output all the artists(composers) but if omitted it will only get the first array.
+				say ", "
+			else
+				say ""
+			endif
+		json_foreach_end
+endif
+json_foreach_end		
+		
+# Composers
+outputto "composer"
+json_foreach "composers"
+			ifnot "0"
+			
+				json_select "names"
+				json_select "en"
+				sayrest
+				say ", "
+			else
+				say ""
+			endif
+		json_foreach_end
+
+
+
+
+
 
 # Set Artist = Albumartist
 outputto "albumartist"
@@ -158,7 +187,21 @@ json_foreach "tracks"
 json_foreach_end
 
 
+# LYRICIST
+OutputTo "LYRICIST"
 
+json_foreach "lyricists"
+	ifnot "0"
+		json_select "names"
+		json_select "en"
+		
+		sayrest
+		
+		say " "
+	else
+		say ""
+	endif
+json_foreach_end
 
 
 
@@ -225,25 +268,28 @@ SayRest
 
 
 	
-
+# Involved People
 json_foreach "organizations"
 ifnot "0"
 	OutputTo "INVOLVEDPEOPLE"
-
 	json_select "role"
 	ifnot ""
 		sayrest
 		say ":"
-	endif
+		
 		json_select "names"
 		json_select "en"
 		sayrest
 		say "  "
+	endif
+		
 else
 		say ""
 endif
 	
 json_foreach_end
+
+
 	
 
 
