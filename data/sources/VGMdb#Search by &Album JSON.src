@@ -190,9 +190,13 @@ SayRest
 # publisher
 OutputTo "publisher"
 json_select "publisher"
-json_select "names"
-json_select "en"
-SayRest
+ifnot "0"
+	json_select "names"
+	json_select "en"
+	SayRest
+else
+	say ""
+endif
 
 json_unselect_object
 
@@ -216,6 +220,30 @@ SayRest
 OutputTo "www"
 json_select "vgmdb_link"
 SayRest
+
+
+
+
+	
+
+json_foreach "organizations"
+ifnot "0"
+	OutputTo "INVOLVEDPEOPLE"
+
+	json_select "role"
+	ifnot ""
+		sayrest
+		say ":"
+	endif
+		json_select "names"
+		json_select "en"
+		sayrest
+		say "  "
+else
+		say ""
+endif
+	
+json_foreach_end
 	
 
 
