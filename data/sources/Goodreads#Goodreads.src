@@ -27,19 +27,17 @@
 #					I  N  D  E  X
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxxx\Desktop\mp3taggood.html"
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebuggood.txt"
+#Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebuggood.txt"
 
 
-#join everything until end 
-joinuntil "</html>"
 
-#.+ Matches any character except linebreaks and replace them whith "results"
-regexpreplace ".+http://schema.org/Book" "results"
 
-findinline "results"
+
+findline "<tr itemscope itemtype=\"http://schema.org/Book\">"
 do
 	
 	#  Title	
+	findline "title=\""
 	findinline "title=\""
 	sayuntil "\""
 	say "|"
@@ -51,18 +49,18 @@ do
 	say "|"
 	
 	# Author
-	findinline "class=\"authorName\""
+	findline "class=\"authorName\""
 	joinuntil "</a>"
 	findinline "\"name\">"
 	sayuntil "<"
 	
 	saynewline
 	
-	findinline "130px" 
- 	
+	findline "</tr>" 
+ 	findinline "</"
 #put this just the end of the last place the ^ is.  
 #put only the numbers of search if the site searchs 20 put 19  
-while "</tr>" 10
+while "tr>" 10
 	
 	
 	
@@ -76,7 +74,7 @@ Debug "ON" "C:\Users\egual\Desktop\goodreads.txt"
 
 # Cover	
 outputto "coverurl"
-findline "<img title"
+findline "<img src=\""
 findinline "src=\""
 sayuntil "\""
 
@@ -126,20 +124,19 @@ sayuntil "</span>"
 #Year
 outputto "year"
 findline "bookFormat"
-joinuntil "bookDataBoxShow"
 
-findinline "class=\"row\">" 2
-
-sayuntil ")"
+findline "<div class=\"row\">" 2
+joinuntil "</div>"
+findinline "<div class=\"row\">" 
+sayuntil "</div>"
 
 # Asin
 outputto "asin"
-findline "ASIN"
-findline "infoBoxRowItem"
-findinline "itemprop='isbn'>"
-sayuntil "<"
-outputto "isbn"
-sayoutput "asin"
+findline "nasin:"
+findinline "nasin:"
+
+sayuntil "\n"
+
 
 
 
