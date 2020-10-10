@@ -117,27 +117,21 @@ endif
 endif
 
 # Composer
-findline "<b>Composed by</b>"
+findline "Composer"
 outputto "Composer"
-moveline 1
-regexpreplace "<span style=\"display:none\"><em> */ *</em></span>" ""
-regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"display:inline\">([^<]+)</span>" "$1"
-regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">.+?</span>" ""
-regexpreplace "<a[^>]+>" ""
-replace "</a>" ""
-sayregexp "(?<=<td>)[^<]+(?=</td>)" ""
+replace "</a>," ","
+findinline "<a href=\"/artist/"
+findinline "\">"
+
+sayuntil "</td></tr>"
+
 
 
 # Arranged
-findline "<b>Arranged by</b>"
+findinline "Arranger</span><span style=\"display:none\"><em>"
 outputto "Writer"
-moveline 1
-regexpreplace "<span style=\"display:none\"><em> */ *</em></span>" ""
-regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"display:inline\">([^<]+)</span>" "$1"
-regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">.+?</span>" ""
-regexpreplace "<a[^>]+>" ""
-replace "</a>" ""
-sayregexp "(?<=<td>)[^<]+(?=</td>)" ""
+sayuntil "</em></span><span"
+
 
 
 # Artist
