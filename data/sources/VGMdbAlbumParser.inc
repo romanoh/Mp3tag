@@ -119,20 +119,22 @@ endif
 # Composer
 findline "Composer"
 outputto "Composer"
-replace "</a>," ","
-findinline "<a href=\"/artist/"
-findinline "\">"
+replace "</a>" ""
+regexpreplace "<a href=\"/artist/[0-9 ]+\">" ""
+regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"display:inline\">([^<]+)</span>" ""
+regexpreplace "<span style=\"display:none\"><em> / </em></span><span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">" ""
+replace "</span>," ","
+regexpreplace "<a style=\"color: #[^\"]*\" href=\"/artist/[^\"]*\">" ""
+replace "</span> " ""
 
+findinline ">Composer</span></b></span></td><td>"
+
+if "<"
+findinline ">"
+sayuntil "</td>"
+else
 sayuntil "</td></tr>"
-
-
-
-# Arranged
-findinline "Arranger</span><span style=\"display:none\"><em>"
-outputto "Writer"
-sayuntil "</em></span><span"
-
-
+endif
 
 # Artist
 outputto "Artist"
