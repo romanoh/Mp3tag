@@ -1,6 +1,7 @@
 # ###################################################################
 # Mp3tag parsing for VGMdb.net, created by dano on 2010-01-20
 #
+# After 26.06.2020, changes in the commits: https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/VGMdbAlbumParser.inc
 #
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
