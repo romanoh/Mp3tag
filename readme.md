@@ -4,6 +4,9 @@ This is my modified custom web sources/actions/export for [mp3tag](https://www.m
 
 Updated tags using sources-->use actions to order folders.
 
+This helps me make sure all audiobooks are tagged properly, have the correct filenames, and have the proper folder structure.  
+This ensures consistency across Plex.
+
 ## Sources:
 ### VGMdb.net
 Search by Album: [VGMdb#Search by &Album.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/VGMdb%23Search%20by%20%26Album.src)
@@ -36,8 +39,7 @@ Search by artist: [Amazon#Amazon.co2.src](https://github.com/romanoh/Mp3tag-Repo
 
 
 
-This helps me make sure all audiobooks are tagged properly, have the correct filenames, and have the proper folder structure.  
-This ensures consistency across Plex.
+
 
 ![romanoh's github stats](https://github-readme-stats.vercel.app/api?username=romanoh&show_icons=true)
 
