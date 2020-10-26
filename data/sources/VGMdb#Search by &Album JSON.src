@@ -187,6 +187,62 @@ json_foreach "tracks"
 	endif		
 json_foreach_end
 
+# Tracks English 2
+json_select_array "discs" 2
+json_foreach "tracks"
+	ifnot "0"
+	
+		# Length
+		OutputTo "_LENGTH"
+		json_select "tracks"
+		json_select "track_length"
+		SayRest
+		say "|"
+	
+		# Title
+		OutputTo "Title"
+		json_select "names"
+		#change to json_select "Japanese" for track name in Japanase
+		json_select "English"
+		ifnot "0"
+		
+			SayRest
+			say "|"
+		else
+		say ""
+		endif
+				
+	endif		
+json_foreach_end
+
+# Tracks English 3
+json_select_array "discs" 3
+json_foreach "tracks"
+	ifnot "0"
+	
+		# Length
+		OutputTo "_LENGTH"
+		json_select "tracks"
+		json_select "track_length"
+		SayRest
+		say "|"
+	
+		# Title
+		OutputTo "Title"
+		json_select "names"
+		#change to json_select "Japanese" for track name in Japanase
+		json_select "English"
+		ifnot "0"
+		
+			SayRest
+			say "|"
+		else
+		say ""
+		endif
+				
+	endif		
+json_foreach_end
+
 
 # LYRICIST
 OutputTo "LYRICIST"
