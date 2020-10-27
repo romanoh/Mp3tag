@@ -32,12 +32,12 @@ json "ON"
 json_select "results"
 	json_foreach "albums"
 
-		# URL
+		# Catalog
 		json_select "catalog"
 		SayRest
 		Say "|"
 
-		# URL
+		# Link
 		json_select "link"
 		SayRest
 		Say "|"
