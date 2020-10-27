@@ -6,7 +6,8 @@
 # %APPDATA%\Mp3tag\data\sources
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# 
+# Last update 27.10.2020
+#
 # ###################################################################
 
 [Name]=VGMdb - Search by Album
@@ -25,8 +26,6 @@
 #					I  N  D  E  X
 # ###################################################################
 #Debug "ON" "C:\Users\egual\Desktop\mp3tag-json-index-debug.txt"
-
-
 
 json "ON" 
 
@@ -67,11 +66,7 @@ json_select "results"
 #DebugWriteInput "C:\Users\egual\Desktop\mp3tag-deezer-ws-album-debug.out.html"
 #Debug "ON" "C:\Users\c051w\Downloads\vocadb.json"
 
-
-
-
 json "ON"
-
 
 # Arrangers
 outputto "CONDUCTOR"
@@ -87,9 +82,6 @@ json_foreach "arrangers"
 	endif
 json_foreach_end
 
-
-
-
 # Catalog
 OutputTo "Catalog"
 json_select "catalog"
@@ -99,7 +91,6 @@ SayRest
 OutputTo "notes"
 json_select "category"
 SayRest
-
 
 # Involved People
 json_foreach "organizations"
@@ -121,12 +112,7 @@ ifnot "0"
 else
 		say ""
 endif
-	
 json_foreach_end
-
-
-
-
 
 # Genre
 OutputTo "genre"
@@ -141,8 +127,6 @@ endif
 OutputTo "ALBUM"
 json_select "name"
 SayRest
-
-
 
 # Artist 
 outputto "artist"
@@ -195,24 +179,12 @@ json_foreach "discs"
 		json_foreach_end	
 json_foreach_end		
 
-
-
-
 # Set Artist = Albumartist
 outputto "albumartist"
 sayoutput "Artist"
 
-
-
-
-						
-
-
-
-
 # LYRICIST
 OutputTo "LYRICIST"
-
 json_foreach "lyricists"
 	ifnot "0"
 		json_select "names"
@@ -225,10 +197,6 @@ json_foreach "lyricists"
 		say ""
 	endif
 json_foreach_end
-
-
-
-
 
 # Media type
 OutputTo "MEDIATYPE"
@@ -253,8 +221,6 @@ OutputTo "format"
 json_select "publish_format"
 SayRest
 	
-
-
 # rating
 OutputTo "rating"
 json_select "rating"
@@ -271,26 +237,18 @@ SayRest
 ## B) Year only, e.g. 2018
 #SayUntil "-"
 
-
-
-
-
 # vgmdb_link
 OutputTo "www"
 json_select "vgmdb_link"
 SayRest
 
-
-
-
 # Event
 outputto "Event"
 json_foreach "release_events"
-ifnot "0"
-		
-			json_select "name"
-			sayrest
-else
-say ""
-endif
+	ifnot "0"
+		json_select "name"
+		sayrest
+	else
+		say ""
+	endif
 json_foreach_end
