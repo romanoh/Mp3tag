@@ -65,7 +65,10 @@ json_select "results"
 
 ## Comment/uncomment for debugging purposes:
 DebugWriteInput "C:\Users\egual\Desktop\mp3tag-deezer-ws-album-debug.out.html"
-Debug "ON" "C:\Users\egual\Desktop\vocadb.json"
+Debug "ON" "C:\Users\c051w\Downloads\vocadb.json"
+
+
+
 
 json "ON"
 
@@ -73,16 +76,15 @@ json "ON"
 # Arrangers
 outputto "CONDUCTOR"
 json_foreach "arrangers"
-# ifnot "0" is for when there is no data or lenght of array, The index starts at zero and not one. Few languages use 1 as the first index.
-ifnot "0"
-	json_select "names"
-	json_select "en"
- 	sayrest
-	say ", "
-else
-	say ""
-endif
-	
+	# ifnot "0" is for when there is no data or lenght of array, The index starts at zero and not one. Few languages use 1 as the first index.
+	ifnot "0"
+		json_select "names"
+		json_select "en"
+		sayrest
+		say ", "
+	else
+		say ""
+	endif
 json_foreach_end
 
 
@@ -98,11 +100,41 @@ OutputTo "notes"
 json_select "category"
 SayRest
 
+
+# Involved People
+json_foreach "organizations"
+ifnot "0"
+	OutputTo "INVOLVEDPEOPLE"
+	json_select "role"
+	ifnot ""
+		sayrest
+		say ":"
+		
+		json_select "names"
+		json_select "en"
+		sayrest
+		say "  "
+	else
+		say ""
+	endif
+		
+else
+		say ""
+endif
+	
+json_foreach_end
+
+
+
+
+
 # Genre
 OutputTo "genre"
 json_select "classification"
 ifnot "0"
 	SayRest
+else
+	say ""
 endif
 
 # Album
@@ -148,9 +180,20 @@ json_foreach "composers"
 			else
 				say ""
 			endif
-		json_foreach_end
+json_foreach_end
 
-
+# Tracks English
+json_foreach "discs"
+		# Title
+		OutputTo "Title"
+		json_foreach "tracks"
+			json_select "names"
+			#change to json_select "Japanese" for track name in Japanase	
+			json_select "English"
+			SayRest
+			say "|"
+		json_foreach_end	
+json_foreach_end		
 
 
 
@@ -159,89 +202,12 @@ json_foreach "composers"
 outputto "albumartist"
 sayoutput "Artist"
 
-# Tracks English
-json_select_array "discs" 1
-json_foreach "tracks"
-	ifnot "0"
-	
-		# Length
-		OutputTo "_LENGTH"
-		json_select "tracks"
-		json_select "track_length"
-		SayRest
-		say "|"
-	
-		# Title
-		OutputTo "Title"
-		json_select "names"
-		#change to json_select "Japanese" for track name in Japanase
-		json_select "English"
-		ifnot "0"
-		
-			SayRest
-			say "|"
-		else
-		say ""
-		endif
-				
-	endif		
-json_foreach_end
 
-# Tracks English 2
-json_select_array "discs" 2
-json_foreach "tracks"
-	ifnot "0"
-	
-		# Length
-		OutputTo "_LENGTH"
-		json_select "tracks"
-		json_select "track_length"
-		SayRest
-		say "|"
-	
-		# Title
-		OutputTo "Title"
-		json_select "names"
-		#change to json_select "Japanese" for track name in Japanase
-		json_select "English"
-		ifnot "0"
-		
-			SayRest
-			say "|"
-		else
-		say ""
-		endif
-				
-	endif		
-json_foreach_end
 
-# Tracks English 3
-json_select_array "discs" 3
-json_foreach "tracks"
-	ifnot "0"
-	
-		# Length
-		OutputTo "_LENGTH"
-		json_select "tracks"
-		json_select "track_length"
-		SayRest
-		say "|"
-	
-		# Title
-		OutputTo "Title"
-		json_select "names"
-		#change to json_select "Japanese" for track name in Japanase
-		json_select "English"
-		ifnot "0"
-		
-			SayRest
-			say "|"
-		else
-		say ""
-		endif
-				
-	endif		
-json_foreach_end
+
+						
+
+
 
 
 # LYRICIST
@@ -287,26 +253,15 @@ OutputTo "format"
 json_select "publish_format"
 SayRest
 	
-# publisher
-OutputTo "publisher"
-json_select "publisher"
-ifnot "0"
-	json_select "names"
-	json_select "en"
-	SayRest
-else
-	say ""
-endif
 
-json_unselect_object
 
 # rating
 OutputTo "rating"
 json_select "rating"
 ifnot "0"
-SayRest	
+	SayRest	
 else
-say ""
+	say ""
 endif
 
 # release_date
@@ -316,6 +271,10 @@ SayRest
 ## B) Year only, e.g. 2018
 #SayUntil "-"
 
+
+
+
+
 # vgmdb_link
 OutputTo "www"
 json_select "vgmdb_link"
@@ -324,32 +283,14 @@ SayRest
 
 
 
-	
-# Involved People
-json_foreach "organizations"
+# Event
+outputto "Event"
+json_foreach "release_events"
 ifnot "0"
-	OutputTo "INVOLVEDPEOPLE"
-	json_select "role"
-	ifnot ""
-		sayrest
-		say ":"
 		
-		json_select "names"
-		json_select "en"
-		sayrest
-		say "  "
-	endif
-		
+			json_select "name"
+			sayrest
 else
-		say ""
+say ""
 endif
-	
 json_foreach_end
-
-
-	
-
-
-
-
-
