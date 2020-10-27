@@ -104,7 +104,7 @@ ifnot "0"
 		json_select "names"
 		json_select "en"
 		sayrest
-		say "  "
+		say " "
 	else
 		say ""
 	endif
@@ -135,7 +135,7 @@ ifnot "0"
 		json_select "names"
 		json_select "en"
 		sayrest
-		say " "
+		say ", "
 else
 		json_foreach "composers"
 			ifnot "0"
