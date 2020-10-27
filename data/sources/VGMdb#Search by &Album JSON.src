@@ -10,8 +10,8 @@
 #
 # ###################################################################
 
-[Name]=VGMdb - Search by Album
-[BasedOn]=vgmdb.net
+[Name]=VGMdb - Search by Album - v.27.10.2020
+[BasedOn]=vgmdb.info
 [IndexUrl]=http://vgmdb.info/search?q=
 [AlbumUrl]=http://vgmdb.info/
 [WordSeparator]=+
