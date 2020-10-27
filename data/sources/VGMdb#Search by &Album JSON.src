@@ -24,7 +24,7 @@
 # ###################################################################
 #					I  N  D  E  X
 # ###################################################################
-Debug "ON" "C:\Users\egual\Desktop\mp3tag-json-index-debug.txt"
+#Debug "ON" "C:\Users\egual\Desktop\mp3tag-json-index-debug.txt"
 
 
 
@@ -64,8 +64,8 @@ json_select "results"
 [ParserScriptAlbum]=...
 
 ## Comment/uncomment for debugging purposes:
-DebugWriteInput "C:\Users\egual\Desktop\mp3tag-deezer-ws-album-debug.out.html"
-Debug "ON" "C:\Users\c051w\Downloads\vocadb.json"
+#DebugWriteInput "C:\Users\egual\Desktop\mp3tag-deezer-ws-album-debug.out.html"
+#Debug "ON" "C:\Users\c051w\Downloads\vocadb.json"
 
 
 
