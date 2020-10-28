@@ -127,6 +127,43 @@ endif
 OutputTo "ALBUM"
 json_select "name"
 SayRest
+# Artist 
+outputto "artist"
+json_foreach "performers"
+ifnot "0"
+		json_select "names"
+		json_select "en"
+		sayrest
+		say ", "
+else
+		json_foreach "composers"
+			ifnot "0"
+			
+				json_select "names"
+				json_select "en"
+				sayrest
+				# Adding this below will output all the artists(composers) but if omitted it will only get the first array.
+				say ", "
+			else
+				say ""
+			endif
+		json_foreach_end
+endif
+json_foreach_end		
+		
+# Composers
+outputto "composer"
+json_foreach "composers"
+			ifnot "0"
+			
+				json_select "names"
+				json_select "en"
+				sayrest
+				say ", "
+			else
+				say ""
+			endif
+json_foreach_end
 
 # Tracks English to Japanese to Romaji
 json_foreach "discs"
@@ -157,33 +194,6 @@ json_foreach "discs"
 		json_foreach_end	
 json_foreach_end		
 		
-# Composers
-outputto "composer"
-json_foreach "composers"
-			ifnot "0"
-			
-				json_select "names"
-				json_select "en"
-				sayrest
-				say ", "
-			else
-				say ""
-			endif
-json_foreach_end
-
-# Tracks English
-json_foreach "discs"
-		# Title
-		OutputTo "Title"
-		json_foreach "tracks"
-			json_select "names"
-			#change to json_select "Japanese" for track name in Japanase	
-			json_select "English"
-			SayRest
-			say "|"
-		json_foreach_end	
-json_foreach_end		
-
 # Set Artist = Albumartist
 outputto "albumartist"
 sayoutput "Artist"
