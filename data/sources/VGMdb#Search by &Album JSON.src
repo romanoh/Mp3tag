@@ -6,11 +6,11 @@
 # %APPDATA%\Mp3tag\data\sources
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update 27.10.2020
+# Last update 28.10.2020
 #
 # ###################################################################
 
-[Name]=VGMdb - Search by Album - v.27.10.2020
+[Name]=VGMdb - Search by Album - v.28.10.2020
 [BasedOn]=vgmdb.info
 [IndexUrl]=http://vgmdb.info/search?q=
 [AlbumUrl]=http://vgmdb.info/
@@ -128,28 +128,33 @@ OutputTo "ALBUM"
 json_select "name"
 SayRest
 
-# Artist 
-outputto "artist"
-json_foreach "performers"
-ifnot "0"
-		json_select "names"
-		json_select "en"
-		sayrest
-		say ", "
-else
-		json_foreach "composers"
-			ifnot "0"
-			
-				json_select "names"
-				json_select "en"
-				sayrest
-				# Adding this below will output all the artists(composers) but if omitted it will only get the first array.
-				say ", "
+# Tracks English to Japanese to Romaji
+json_foreach "discs"
+		# Title
+		OutputTo "Title"
+		json_foreach "tracks"
+			json_select "names"
+			json_select "English"
+			ifnot ""
+				SayRest
+				say "|"
 			else
-				say ""
+				json_select "Japanese"
+					ifnot ""
+						SayRest
+						say "|"
+					else
+						json_select "Romaji"
+							ifnot ""
+								SayRest
+								say "|"
+							else
+							say "no songs names"
+							endif
+					endif
 			endif
-		json_foreach_end
-endif
+			
+		json_foreach_end	
 json_foreach_end		
 		
 # Composers
