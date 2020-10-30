@@ -1,8 +1,9 @@
 # ###################################################################
 # Mp3tag parsing for VGMdb.net, created by dano on 2010-01-20
 #
-# After 26.06.2020, changes in the commits: https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/VGMdbAlbumParser.inc
-#
+# After 26.06.2020, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
+# Last update 30.10.2020
+# 
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
 # ###################################################################
@@ -126,6 +127,7 @@ regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"d
 regexpreplace "<span style=\"display:none\"><em> / </em></span><span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">([^<]+)</span>" ""
 regexpreplace "<a style=\"color: #[^\"]*\" href=\"/artist/[^\"]*\">" ""
 replace "</span> " ""
+replace "</span>)" ")"
 replace "</span>," ","
 
 findinline ">Composer</span></b></span></td><td>"
