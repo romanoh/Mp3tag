@@ -1,5 +1,5 @@
 # ###################################################################
-# Mp3tag parsing for VGMdb.net, created by dano on 2010-01-20
+# Mp3tag parsing for VGMdb.net, created by dano on 2010-01-20.
 #
 # After 26.06.2020, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
 # Last update 30.10.2020
@@ -13,7 +13,7 @@
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-Debug "ON" "C:\Users\egual\Desktop\vgmdbalbum.txt"
+# Debug "ON" "C:\vgmdbalbum.txt"
 
 # Album
 outputto "Album"
@@ -39,7 +39,6 @@ else
 	sayuntil "\""
 endif
 
-
 # Catalog
 outputto "Catalog"
 findline "<b>Catalog Number</b>"
@@ -63,7 +62,6 @@ outputto "Year"
 findline "<b>Release Date</b>"
 moveline 1
 sayregexp "(?<=<td>)\d{4} *(?=</td>)" "" 
-
 if "<td><a "
 	findinline "#"
 	SayNChars 4
@@ -71,7 +69,6 @@ if "<td><a "
 	SayNChars 2
 	say "."
 	SayNChars 2
-	
 endif
 
 
@@ -95,7 +92,6 @@ findline "<b>Classification</b>"
 joinuntil "</tr>"
 findinline "<td>"
 sayuntil "</td>"
-
 
 # Publisher
 findline "<b>Organizations</b>"
@@ -133,10 +129,10 @@ replace "</span>," ","
 findinline ">Composer</span></b></span></td><td>"
 
 if "<"
-findinline ">"
-sayuntil "</td>"
+	findinline ">"
+	sayuntil "</td>"
 else
-sayuntil "</td></tr>"
+	sayuntil "</td></tr>"
 endif
 
 # Artist
@@ -144,7 +140,7 @@ outputto "Artist"
 sayoutput "Composer"
 IfNotOutput "Composer"
 	outputto "Artist"
-    sayoutput "Writer"
+    	sayoutput "Writer"
 endif
 
 # Tracks
@@ -170,13 +166,12 @@ while "<td "
 gotoline 1
 outputto "Notes"
 findline "<h3>Notes"
-
-	findline "id=\"notes\">"
-	regexpreplace "<br />" " "
-	replace "<i class='label'>" ""
-	replace "</i>" ""
-	findinline "id=\"notes\">"
-	sayuntil "</div>"
+findline "id=\"notes\">"
+regexpreplace "<br />" " "
+replace "<i class='label'>" ""
+replace "</i>" ""
+findinline "id=\"notes\">"
+sayuntil "</div>"
 
 # rating
 findline "<span rel=\"rating\""
@@ -193,12 +188,12 @@ sayuntil "</div>"
 joinuntil "<div id=\"preview\"></div>"
 
 if "<div style=\"margin-bottom:"
-say " - "
-moveline 1
-findinline "\"display:inline\">"
-sayuntil "</span><span"
+	say " - "
+	moveline 1
+	findinline "\"display:inline\">"
+	sayuntil "</span><span"
 else
-say ""
+	say ""
 endif
 
 # Set Artist = Albumartist
