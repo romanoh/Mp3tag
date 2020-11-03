@@ -1,12 +1,11 @@
 # ###################################################################
 # Mp3tag parsing for VGMdb.net, created by dano on 2010-01-17
-#
 # Uses the release url to find an album
-# 
+# After 26.06.2020, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
+# Last Update: 03.11.2020
 # ###################################################################
 
 [Name]=VGMdb
 [BasedOn]=VGMdb.net
-[SearchBy]=%VGMdb Album Url%
+[SearchBy]=Enter Album Url||%VGMdb Album Url%||%s
 [Include]=VGMdbAlbumParser.inc
-
