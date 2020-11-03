@@ -3,12 +3,11 @@
 # Mp3tag parsing for Audible.com, created by dano on 2013-03-11
 #
 # After 11.04.2020, join Github, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
+# Last update: 03.11.2020
 #
 # This file should be in your sources dir. 
 # On Windows XP it's C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
-#
-#
-
+# ####################################################################
 
 [Name]=Audible.com
 [BasedOn]=www.audible.com
@@ -16,7 +15,7 @@
 [AlbumUrl]=https://www.audible.com
 [WordSeperator]=+
 [IndexFormat]=%_url%|%Album%|%Author%|%Duration%|%Year%|%Language%
-[SearchBy]=%artist% $regexp(%album%,'[- ]+cd ?\d+$',,1)
+[SearchBy]=Enter Artist and/or Album||%artist% $regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
 [Encoding]=url-utf-8
 
 
