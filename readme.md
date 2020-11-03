@@ -12,8 +12,6 @@ Search by URL: [VGMdb#U&RL.src](https://github.com/romanoh/Mp3tag-Repository/blo
 
 Search by Album(JSON)(WIP): [VGMdb#Search by &Album JSON.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/VGMdb%23Search%20by%20%26Album%20JSON.src)
 
-For Japanese tracks just change the line 177 json_select "English" to json_select "Japanese", in the tracks part.
-
 
 ### Audible.com
 Search by Album:[Audible.com#Search by Album.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/Audible.com%23Search%20by%20Album.src)
