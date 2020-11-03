@@ -17,7 +17,7 @@
 [WordSeparator]=+
 [IndexFormat]=%Catalog%|%_url%|%Year%|%Album%
 #remove everything inside ()
-[SearchBy]=$regexp(%album%,'\([^)]*\)',,1)
+[SearchBy]=Enter Album Name||$regexp(%album%,'\([^)]*\)',,1)||%s
 [Encoding]=url-utf-8
 
 
