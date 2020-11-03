@@ -45,13 +45,11 @@ do
     sayuntil "</span"
     say "|"
     
-	   
     # URL
     findinline "https://vgmdb.net/album/"
     sayuntil "\""
     say "|"
 	
-    
     # Album
     findinline "class=\"albumtitle\""
     findinline "\">"
@@ -76,4 +74,3 @@ do
     moveline 1 1
     unspace
 while "<tr rel='rel_" 55
-
