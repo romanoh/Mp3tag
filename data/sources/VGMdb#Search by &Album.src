@@ -16,7 +16,7 @@
 [WordSeparator]=+
 [IndexFormat]=% ↓ Catalog%|%_url%|% ↓ Album%|% ↓ Year%|% ↓ Media%																	
 #remove everything inside ()
-[SearchBy]=$regexp(%album%,'\([^)]*\)',,1)
+[SearchBy]=Enter Album Name||$regexp(%album%,'\([^)]*\)',,1)||%s
 [Encoding]=url-utf-8
 [Include]=VGMdbAlbumParser.inc
 
