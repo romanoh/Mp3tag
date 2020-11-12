@@ -160,18 +160,23 @@ endif
 # Author
 outputto "Artist"
 findline "authorLabel"
-joinuntil "</a>"
-findinline "\">"
-sayuntil "</a>"
+moveline 3 1
+joinuntil "</li>"
+regexpreplace "</?[^><]+>" ""
+unspace
+regexpreplace "  +" " "
+regexpreplace ".+By:" ""
+sayrest
+
 
 
 
 # narratorLabel
 outputto "Composer"
 findline "narratorLabel"
-moveline 1 1
+moveline 3 1
 joinuntil "</li>"
-#remove the </b> and all variations
+
 regexpreplace "</?[^><]+>" ""
 unspace
 #join more than one space
