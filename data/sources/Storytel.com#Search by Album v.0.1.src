@@ -1,0 +1,170 @@
+# ###################################################################
+#
+# Mp3tag parsing for storytel.com, created by romano on 2020-11-20
+#
+# Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
+# Last update: 20.11.2020
+#
+# This file should be in your sources dir. 
+# On Windows C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+# ####################################################################
+
+[Name]=storytel.com
+[BasedOn]=www.storytel.com
+[IndexUrl]=https://www.storytel.com/in/en/search-
+[AlbumUrl]=https://www.storytel.com
+[WordSeperator]=+
+[IndexFormat]=% ↓ Album%|% ↓ Author%|% ↓ Type%|%_url%
+[SearchBy]=Enter Album||$regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
+[Encoding]=url-utf-8
+
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
+
+#Only select the area we need instead of everyting.
+findline "gridItem"
+joinuntil "hiddenSearchPhrase"
+
+replace "asAudio" "Audiobook"
+replace "asEbook" "Ebook"
+
+
+do	
+	# Album
+	findinline "name=\"" 
+	sayuntil "\""
+	say "|" 
+
+	# Author
+	findinline "authors=\"" 
+	sayuntil "\""
+	say "|" 
+
+	# Type
+	findinline "<span class=\"" 
+	sayuntil "\""
+	say "|" 
+
+	#  Url		
+	findinline "gridBookTitle" 
+	findinline "href=\"" 
+	sayuntil "\""
+	#the last on remove the #	
+	#say "|"
+	
+	saynewline
+	 
+   findinline "gridItem" 1 1
+    
+while "\"" 25
+
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+
+# Cover
+outputto "Coverurl"
+findline "og:image"
+findinline "content=\""
+sayuntil "\""
+
+# Album
+outputto "Album"
+findline "hide-on-mobile"
+findline "name\">"
+findinline "name\">"
+sayuntil "</span>"
+
+# Rating
+outputto "RATING WINAMP"
+findline "dennisBookRating" 1 1
+findinline "rating=\""
+sayuntil "\""
+
+# Author/Artist
+outputto "Artist"
+findline "expandAuthor"
+findinline "expandAuthorName\">"
+sayuntil "</span>"
+
+# Narrator
+outputto "Composer"
+findline "expandReader"
+findinline "expandReaderName\">"
+sayuntil "</span>"
+
+# Description
+outputto "Comment"
+findline "description"
+findinline "\">"
+moveline 1
+replace "<br />" " "
+sayuntil "</span>"
+
+# Genre
+outputto "genre"
+findline "Category:"
+findinline "category\">"
+sayuntil "</span>"
+
+# Series
+outputto "SERIES"
+findline "Series:" 1 1
+if "<b class=\"bookDetailListItem margin\">"
+	findinline "/series/" 1 1
+	findinline "\">" 1 1
+	sayuntil ":"
+	outputto "series-part"
+	findinline ":" 1 1
+	sayuntil "</a>"
+else
+	say "Standalone"
+	gotoline 1
+endif
+
+#Publisher
+outputto "Publisher"
+findline "Publisher:"
+joinuntil "</span>"
+findinline "\" itemprop=\"brand\">"
+sayuntil "</a>"
+
+# Year
+outputto "year"
+findline "Published:"
+moveline 1
+SayUntil "</b>"
+
+# Lenght
+outputto "lenght"
+findline "Length:"
+findinline "Length:"
+sayuntil "</b>"
+
+#ISBN
+outputto "ISBN"
+findline "ISBN: "
+findinline "ISBN: "
+saynextnumber
+
+
+
+
+
+
+
+
+
+
+
+
+
