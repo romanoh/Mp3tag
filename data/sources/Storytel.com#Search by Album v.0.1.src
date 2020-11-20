@@ -33,7 +33,6 @@ joinuntil "hiddenSearchPhrase"
 replace "asAudio" "Audiobook"
 replace "asEbook" "Ebook"
 
-
 do	
 	# Album
 	findinline "name=\"" 
@@ -63,13 +62,12 @@ do
     
 while "\"" 25
 
-
 [ParserScriptAlbum]=...
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
 
 # Cover
 outputto "Coverurl"
@@ -155,16 +153,3 @@ outputto "ISBN"
 findline "ISBN: "
 findinline "ISBN: "
 saynextnumber
-
-
-
-
-
-
-
-
-
-
-
-
-
