@@ -3,13 +3,13 @@
 # Mp3tag parsing for storytel.com, created by romano on 2020-11-28
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 28.11.2020 v.0.4
+# Last update: 28.11.2020 v.0.5
 #
 # This file should be in your sources dir. 
 # On Windows C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
 # ####################################################################
 
-[Name]=storytel.com
+[Name]=Storytel v.0.5 28.11.2020
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/in/en/search-
 [AlbumUrl]=https://www.storytel.com
@@ -73,7 +73,7 @@ while "\"" 25
 #					A  L  B  U  M
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
-#Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
 
 # Cover
 outputto "Coverurl"
@@ -162,16 +162,19 @@ saynextnumber
 
 #DESCRIPTION
 outputto "DESCRIPTION"
-findline "expanderTags" 1 1
-if "<div"
+findline "expandTagsTag" 1 1
+if "<b"
 	joinuntil "</div>"
-	regexpreplace "<b class=\"expandTagsTag\"><a href=\"/in/en/tags/(\d+)-(\w+)-(\w+)-(\w+)\">" " - "
-	regexpreplace "<b class=\"expandTagsTag\"><a href=\"/in/en/tags/(\d+)-(\w+)-(\w+)\">" " - "
-	regexpreplace "<b class=\"expandTagsTag\"><a href=\"/in/en/tags/(\d+)-(\w+)\">" " - "
-	replace "</a></b>" ""
-	replace "<div class=\"expanderTags\">" ""
-	replace "</div>" ""
-	sayrest
+do	
+	findinline "\">" 2
+	sayuntil "</a></b>"
+	say "; "
+		
+	saynewline
+	 
+    findinline "expandTagsTag" 1 1
+    
+while "\"" 25
 else
 
 endif	
