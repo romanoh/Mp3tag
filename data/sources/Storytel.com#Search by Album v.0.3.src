@@ -1,9 +1,9 @@
 # ###################################################################
 #
-# Mp3tag parsing for storytel.com, created by romano on 2020-11-20
+# Mp3tag parsing for storytel.com, created by romano on 2020-11-28
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 20.11.2020
+# Last update: 28.11.2020 v.0.3
 #
 # This file should be in your sources dir. 
 # On Windows C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
@@ -163,3 +163,7 @@ saynextnumber
 # Set Audible Album URL
 outputto "WWWAUDIOFILE"
 sayoutput "CurrentUrl"
+
+# Set Artist = Albumartist
+outputto "albumartist"
+sayoutput "Artist"
