@@ -14,7 +14,7 @@
 [IndexUrl]=https://www.storytel.com/in/en/search-
 [AlbumUrl]=https://www.storytel.com
 [WordSeperator]=+
-[IndexFormat]=% ↓ Album%|% ↓ Author%|% ↓ Type%|%_url%
+[IndexFormat]=% ↓ Language%|% ↓ Album%|% ↓ Author%|% ↓ Type%|%_url%
 [SearchBy]=Enter Album||$regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
 [Encoding]=url-utf-8
 
@@ -24,7 +24,7 @@
 #					I  N  D  E  X
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"	
 
 #Only select the area we need instead of everyting.
 findline "gridItem"
@@ -34,10 +34,16 @@ replace "asAudio" "Audiobook"
 replace "asEbook" "Ebook"
 
 do	
+	# Language
+	findinline "language=\"" 
+	sayuntil "\""
+	say "|" 
+	
 	# Album
 	findinline "name=\"" 
 	sayuntil "\""
 	say "|" 
+	
 
 	# Author
 	findinline "authors=\"" 
@@ -153,3 +159,7 @@ outputto "ISBN"
 findline "ISBN: "
 findinline "ISBN: "
 saynextnumber
+
+# Set Audible Album URL
+outputto "WWWAUDIOFILE"
+sayoutput "CurrentUrl"
