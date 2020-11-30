@@ -3,13 +3,13 @@
 # Mp3tag parsing for storytel.com, created by romano on 2020-11-28
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 28.11.2020 v.0.5
+# Last update: 30.11.2020 v.0.6
 #
 # This file should be in your sources dir. 
-# On Windows C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+# 
 # ####################################################################
 
-[Name]=Storytel v.0.5 28.11.2020
+[Name]=Storytel [v.0.6-28.11.2020]
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/in/en/search-
 [AlbumUrl]=https://www.storytel.com
@@ -44,7 +44,6 @@ do
 	sayuntil "\""
 	say "|" 
 	
-
 	# Author
 	findinline "authors=\"" 
 	sayuntil "\""
@@ -178,6 +177,28 @@ while "\"" 25
 else
 
 endif	
+
+# Set "Albumsort"
+IfOutput "series"
+	outputto "Albumsort"
+	sayoutput "series"
+	say " "
+	sayoutput "series-part"
+	say " "
+	say "- "
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+else
+	outputto "Albumsort"
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+endif
+
+# Set Disknumber
+outputto "DISCNUMBER"
+sayoutput "series-part"
 
 # Set Audible Album URL
 outputto "WWWAUDIOFILE"
