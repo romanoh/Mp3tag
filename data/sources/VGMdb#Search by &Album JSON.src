@@ -1,4 +1,4 @@
-# ###################################################################
+# ######################################################################
 # Mp3tag parsing for VGMdb.net, created by romano on 2010-08-13
 #
 #
@@ -6,16 +6,16 @@
 # %APPDATA%\Mp3tag\data\sources
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update 03.11.2020
+# Last update 04.12.2020
 #
-# ###################################################################
+# ######################################################################
 
-[Name]=VGMdb - Search by Album - v.28.10.2020
+[Name]=VGMdb [v.04.12.2020]
 [BasedOn]=vgmdb.info
 [IndexUrl]=http://vgmdb.info/search?q=
 [AlbumUrl]=http://vgmdb.info/
 [WordSeparator]=+
-[IndexFormat]=%Catalog%|%_url%|%Year%|%Album%
+[IndexFormat]=% ↓ Catalog%|%_url%|% ↓ Year%|% ↓ Album%
 #remove everything inside ()
 [SearchBy]=Enter Album Name||$regexp(%album%,'\([^)]*\)',,1)||%s
 [Encoding]=url-utf-8
@@ -25,7 +25,7 @@
 # ###################################################################
 #					I  N  D  E  X
 # ###################################################################
-#Debug "ON" "C:\Users\egual\Desktop\mp3tag-json-index-debug.txt"
+#Debug "ON" "C:\Users\xxx\Desktop\mp3tag-json-index-debug.txt"
 
 json "ON" 
 
@@ -63,8 +63,8 @@ json_select "results"
 [ParserScriptAlbum]=...
 
 ## Comment/uncomment for debugging purposes:
-#DebugWriteInput "C:\Users\egual\Desktop\mp3tag-deezer-ws-album-debug.out.html"
-#Debug "ON" "C:\Users\c051w\Downloads\vocadb.json"
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag-deezer-ws-album-debug.out.html"
+#Debug "ON" "C:\Users\xxxx\Downloads\vocadb.json"
 
 json "ON"
 
@@ -100,7 +100,6 @@ ifnot "0"
 	ifnot ""
 		sayrest
 		say ":"
-		
 		json_select "names"
 		json_select "en"
 		sayrest
@@ -231,12 +230,12 @@ SayRest
 # json_select "picture_small"
 # json_select "picture_thumb"
 
-# publish_format
+# Publish_format
 OutputTo "format"
 json_select "publish_format"
 SayRest
 	
-# rating
+# Rating
 OutputTo "rating"
 json_select "rating"
 ifnot "0"
@@ -245,7 +244,7 @@ else
 	say ""
 endif
 
-# release_date
+# Release_date
 OutputTo "YEAR"
 json_select "release_date"
 SayRest	
