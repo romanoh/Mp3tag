@@ -3,13 +3,13 @@
 # Mp3tag parsing for storytel.com, created by romano on 2020-11-28
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 30.11.2020 v.0.6
-#
+# Last update: 04.12.2020 v.0.7
+# 04.12.2020 - Fix sort album tag if the album is not from a series
 # This file should be in your sources dir. 
 # 
 # ####################################################################
 
-[Name]=Storytel [v.0.6-28.11.2020]
+[Name]=Storytel [v.0.7-04.12.2020]
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/in/en/search-
 [AlbumUrl]=https://www.storytel.com
@@ -130,7 +130,7 @@ if "<b class=\"bookDetailListItem margin\">"
 	findinline ":" 1 1
 	sayuntil "</a>"
 else
-	say "Standalone"
+	say ""
 	gotoline 1
 endif
 
