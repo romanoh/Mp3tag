@@ -25,7 +25,8 @@
 # ###################################################################
 #					I  N  D  E  X
 # ###################################################################
-#Debug "ON" "C:\Users\xxx\Desktop\mp3tag-json-index-debug.txt"
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
 
 json "ON" 
 
@@ -63,8 +64,8 @@ json_select "results"
 [ParserScriptAlbum]=...
 
 ## Comment/uncomment for debugging purposes:
-#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag-deezer-ws-album-debug.out.html"
-#Debug "ON" "C:\Users\xxxx\Downloads\vocadb.json"
+#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
 
 json "ON"
 
@@ -73,12 +74,17 @@ outputto "CONDUCTOR"
 json_foreach "arrangers"
 	# ifnot "0" is for when there is no data or lenght of array, The index starts at zero and not one. Few languages use 1 as the first index.
 	ifnot "0"
-		json_select "names"
-		json_select "en"
-		sayrest
-		say ", "
-	else
-		say ""
+		json_select_object "names"
+		if "names"
+			json_select "en"
+			ifnot ""
+				ifoutput "CONDUCTOR"
+					say ", "
+				endif
+				sayrest
+			endif
+			json_unselect_object
+		endif
 	endif
 json_foreach_end
 
@@ -93,34 +99,30 @@ json_select "category"
 SayRest
 
 # Involved People
+OutputTo "INVOLVEDPEOPLE"
 json_foreach "organizations"
-ifnot "0"
-	OutputTo "INVOLVEDPEOPLE"
-	json_select "role"
-	ifnot ""
-		sayrest
-		say ":"
-		json_select "names"
-		json_select "en"
-		sayrest
-		say " "
-	else
-		say ""
+	ifnot "0"
+		json_select "role"
+		ifnot ""
+			ifoutput "INVOLVEDPEOPLE"
+				say " "
+			endif
+			sayrest
+			say ":"
+			json_select_object "names"
+			if "names"
+				json_select "en"
+				sayrest
+				json_unselect_object
+			endif
+		endif
 	endif
-		
-else
-		say ""
-endif
 json_foreach_end
 
 # Genre
 OutputTo "genre"
 json_select "classification"
-ifnot "0"
-	SayRest
-else
-	say ""
-endif
+SayRest
 
 # Album
 OutputTo "ALBUM"
@@ -131,69 +133,87 @@ SayRest
 outputto "artist"
 json_foreach "performers"
 	ifnot "0"
-		json_select "names"
-		json_select "en"
-		ifoutput "artist"
-			say ", "
+		json_select_object "names"
+		if "names"
+			json_select "en"
+			ifoutput "artist"
+				say ", "
+			endif
+			sayrest
+			json_unselect_object
 		endif
-		sayrest
 	endif
 json_foreach_end		
 
 # Composers
 json_foreach "composers"
 	ifnot "0"
-		json_select "names"
-		json_select "en"
+		json_select_object "names"
+		if "names"
+			json_select "en"
 
-		set "TEMP_composer"
-		outputto "TEMP_composer"
-		sayrest
-		outputto "composer"
-		ifoutput "composer"
-			say ", "
-		endif
-		sayoutput "TEMP_composer"
+			set "TEMP_composer"
+			outputto "TEMP_composer"
+			sayrest
+			outputto "composer"
+			ifoutput "composer"
+				say ", "
+			endif
+			sayoutput "TEMP_composer"
 
-		outputto "artist"
-		ifoutput "artist"
-			say ", "
+			outputto "artist"
+			ifoutput "artist"
+				say ", "
+			endif
+			sayoutput "TEMP_composer"
+			set "TEMP_composer"
+
+			json_unselect_object
 		endif
-		sayoutput "TEMP_composer"
-		set "TEMP_composer"
 	endif
 json_foreach_end
 
 # Tracks English to Japanese to Romaji
 json_foreach "discs"
+	ifnot "0"
 		# Title
-		OutputTo "Title"
 		json_foreach "tracks"
-			json_select "names"
-			json_select "English"
-			ifnot ""
-				SayRest
-				say "|"
-			else
-				json_select "Japanese"
-					ifnot ""
-						SayRest
-						say "|"
-					else
-						json_select "Romaji"
-							ifnot ""
-								SayRest
-								say "|"
-							else
-							say "no songs names"
-							endif
+			ifnot "0"
+				json_select_object "names"
+				if "names"
+					set "TEMP_Title"
+					OutputTo "TEMP_Title"
+					ifNotOutput "TEMP_Title"
+						json_select "English"
+						ifnot ""
+							SayRest
+						endif
 					endif
+					ifNotOutput "TEMP_Title"
+						json_select "Japanese"
+						ifnot ""
+							SayRest
+						endif
+					endif
+					ifNotOutput "TEMP_Title"
+						json_select "Romaji"
+						ifnot ""
+							SayRest
+						endif
+					endif
+					say "|"
+					outputto "Title"
+					sayoutput "TEMP_Title"
+					set "TEMP_Title"
+					json_unselect_object
+				endif
 			endif
-			
 		json_foreach_end	
+	endif
 json_foreach_end		
 		
 # Set Artist = Albumartist
+set "albumartist"
 outputto "albumartist"
 sayoutput "Artist"
 
@@ -202,13 +222,16 @@ OutputTo "LYRICIST"
 json_foreach "lyricists"
 	ifnot "0"
 		json_select "names"
-		json_select "en"
-		
-		sayrest
-		
-		say " "
-	else
-		say ""
+		if "names"
+			json_select "en"
+			ifnot ""
+				ifoutput "LYRICIST"
+					say " "
+				endif
+				sayrest
+			endif
+			json_unselect_object
+		endif		
 	endif
 json_foreach_end
 
@@ -240,16 +263,14 @@ OutputTo "rating"
 json_select "rating"
 ifnot "0"
 	SayRest	
-else
-	say ""
 endif
 
 # Release_date
 OutputTo "YEAR"
 json_select "release_date"
-SayRest	
 ## B) Year only, e.g. 2018
-#SayUntil "-"
+RegexpReplace "^.*?(?:^|\D)(\d{4})(?:\D|$).*$" "$1"
+SayRegexp "^.*$"
 
 # vgmdb_link
 OutputTo "www"
@@ -262,7 +283,5 @@ json_foreach "release_events"
 	ifnot "0"
 		json_select "name"
 		sayrest
-	else
-		say ""
 	endif
 json_foreach_end
