@@ -6,11 +6,11 @@
 # %APPDATA%\Mp3tag\data\sources
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update 04.12.2020
+# Last update 05.12.2020
 #
 # ######################################################################
 
-[Name]=VGMdb [v.04.12.2020]
+[Name]=VGMdb [v.05.12.2020]
 [BasedOn]=vgmdb.info
 [IndexUrl]=http://vgmdb.info/search?q=
 [AlbumUrl]=http://vgmdb.info/
@@ -126,42 +126,42 @@ endif
 OutputTo "ALBUM"
 json_select "name"
 SayRest
+
 # Artist 
 outputto "artist"
 json_foreach "performers"
-ifnot "0"
+	ifnot "0"
 		json_select "names"
 		json_select "en"
+		ifoutput "artist"
+			say ", "
+		endif
 		sayrest
-		say ", "
-else
-		json_foreach "composers"
-			ifnot "0"
-			
-				json_select "names"
-				json_select "en"
-				sayrest
-				# Adding this below will output all the artists(composers) but if omitted it will only get the first array.
-				say ", "
-			else
-				say ""
-			endif
-		json_foreach_end
-endif
+	endif
 json_foreach_end		
-		
+
 # Composers
-outputto "composer"
 json_foreach "composers"
-			ifnot "0"
-			
-				json_select "names"
-				json_select "en"
-				sayrest
-				say ", "
-			else
-				say ""
-			endif
+	ifnot "0"
+		json_select "names"
+		json_select "en"
+
+		set "TEMP_composer"
+		outputto "TEMP_composer"
+		sayrest
+		outputto "composer"
+		ifoutput "composer"
+			say ", "
+		endif
+		sayoutput "TEMP_composer"
+
+		outputto "artist"
+		ifoutput "artist"
+			say ", "
+		endif
+		sayoutput "TEMP_composer"
+		set "TEMP_composer"
+	endif
 json_foreach_end
 
 # Tracks English to Japanese to Romaji
