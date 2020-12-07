@@ -65,7 +65,7 @@ json_select "results"
 
 ## Comment/uncomment for debugging purposes:
 #DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
-#Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
 
 json "ON"
 
@@ -176,9 +176,28 @@ json_foreach_end
 # Tracks English to Japanese to Romaji
 json_foreach "discs"
 	ifnot "0"
+	
+		# Number of discs
+		outputto "TotalDiscs"
+		sayrest
+		
+		# Discnumber
+		json_select "discs"
+		ifnot ""
+			outputto "Discnumber"
+			sayrest
+		endif
+		
 		# Title
 		json_foreach "tracks"
 			ifnot "0"
+			
+				#Lenght
+				outputto "_LENGTH"
+				json_select "track_length"
+				sayrest
+				say "|"
+								
 				json_select_object "names"
 				if "names"
 					set "TEMP_Title"
@@ -207,6 +226,7 @@ json_foreach "discs"
 					set "TEMP_Title"
 					json_unselect_object
 				endif
+				
 			endif
 		json_foreach_end	
 	endif
