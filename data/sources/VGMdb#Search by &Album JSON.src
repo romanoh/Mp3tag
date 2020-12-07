@@ -6,11 +6,11 @@
 # %APPDATA%\Mp3tag\data\sources
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update 05.12.2020
+# Last update 07.12.2020
 #
 # ######################################################################
 
-[Name]=VGMdb [v.05.12.2020]
+[Name]=VGMdb [v.07.12.2020]
 [BasedOn]=vgmdb.info
 [IndexUrl]=http://vgmdb.info/search?q=
 [AlbumUrl]=http://vgmdb.info/
@@ -65,7 +65,7 @@ json_select "results"
 
 ## Comment/uncomment for debugging purposes:
 #DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
 
 json "ON"
 
@@ -300,7 +300,6 @@ endif
 # Release_date
 OutputTo "YEAR"
 json_select "release_date"
-## B) Year only, e.g. 2018
 RegexpReplace "^.*?(?:^|\D)(\d{4})(?:\D|$).*$" "$1"
 SayRegexp "^.*$"
 
