@@ -88,6 +88,13 @@ json_foreach "arrangers"
 	endif
 json_foreach_end
 
+# barcode
+OutputTo "Barcode"
+json_select "barcode"
+ifnot "0"
+	SayRest	
+endif
+
 # Catalog
 OutputTo "Catalog"
 json_select "catalog"
@@ -105,7 +112,7 @@ json_foreach "organizations"
 		json_select "role"
 		ifnot ""
 			ifoutput "INVOLVEDPEOPLE"
-				say " "
+				
 			endif
 			sayrest
 			say ":"
@@ -115,6 +122,7 @@ json_foreach "organizations"
 				sayrest
 				json_unselect_object
 			endif
+			say ";"
 		endif
 	endif
 json_foreach_end
