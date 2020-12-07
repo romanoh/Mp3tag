@@ -192,6 +192,10 @@ json_foreach "discs"
 		json_foreach "tracks"
 			ifnot "0"
 			
+				# Track nr
+				outputto "tracks"
+				say "|"
+			
 				#Lenght
 				outputto "_LENGTH"
 				json_select "track_length"
