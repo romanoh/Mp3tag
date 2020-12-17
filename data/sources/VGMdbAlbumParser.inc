@@ -13,7 +13,7 @@
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-# Debug "ON" "C:\vgmdbalbum.txt"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
 
 # Album
 outputto "Album"
@@ -93,47 +93,50 @@ joinuntil "</tr>"
 findinline "<td>"
 sayuntil "</td>"
 
-# Publisher
-findline "<b>Organizations</b>"
-moveline 3 1
-outputto "Publisher"
-say ""
-if "<script type=\"text/javascript\">"
-	findline "id=\"publisher_less\""	
+# Publisher/Label
+findline "class=\"maincred\">"
+findinline "<b>" 1 1
+If "Publisher"
 	outputto "Publisher"
-	findinline "display:inline\">"
-	sayuntil "</span>"
+	findinline "style=\"display:inline\">" 1 1
+	sayuntil "<"
 else
-if "<a href=\"/org/"
-	outputto "Publisher"
-	findinline "style=\"display:inline\">"
-	sayuntil "</span>"
-	else 
-	outputto "Publisher"
-	sayuntil "</td></tr>"
+If "Label"
+	outputto "Label"
+	findinline "style=\"display:inline\">" 1 1
+	sayuntil "<"
+else
 endif
 endif
 
+
+
+
 # Composer
-findline "Composer"
+findline "Composer" 1 1
+findinline "width=\"100%\">" 1 1
 outputto "Composer"
-replace "</a>" ""
+
 regexpreplace "<a href=\"/artist/[0-9 ]+\">" ""
 regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"display:inline\">" ""
 regexpreplace "<span style=\"display:none\"><em> / </em></span><span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">([^<]+)</span>" ""
 regexpreplace "<a style=\"color: #[^\"]*\" href=\"/artist/[^\"]*\">" ""
 replace "</span> " ""
 replace "</span>)" ")"
-replace "</span>," ","
+replace "</span>" ""
+replace "</a>" ""
+replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</span></b></span></td><td width="100%">" ""
+replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</b></td><td width="100%">" ""
 
-findinline ">Composer</span></b></span></td><td>"
+sayuntil "</td></tr>"
 
-if "<"
-	findinline ">"
-	sayuntil "</td>"
-else
-	sayuntil "</td></tr>"
-endif
+# LYRICIST
+findinline "Lyricist" 1 1
+OutputTo "LYRICIST"
+findinline "width=\"100%\">" 1 1
+sayuntil "</td>"
+
+
 
 # Artist
 outputto "Artist"
@@ -145,11 +148,11 @@ endif
 
 # Tracks
 # findline "<b>Disc 2</b></span>"
-findline "class=\"smallfont\"><span class=\"label\">"
+findline "class=\"smallfont\"><span class=\"label\">" 1 1
 do
 	outputto "Tracks"
 	moveline 1
-	findinline "width=\"100%\" colspan=\"2\">"
+	findinline "width=\"100%\" colspan=\"2\">" 1 1
 	moveline 2
 	sayuntil "</td>"
 	say "|"
