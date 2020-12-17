@@ -1,8 +1,8 @@
 # ###################################################################
 # Mp3tag parsing for VGMdb.net, created by dano on 2010-01-20.
 #
-# After 26.06.2020, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update 30.10.2020
+# After 26.06.2020, changes : https://github.com/romanoh/Mp3tag-Repository
+# Last update 17.12.2020
 # 
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
@@ -13,7 +13,7 @@
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+# Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
 
 # Album
 outputto "Album"
