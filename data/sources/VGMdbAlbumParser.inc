@@ -1,19 +1,21 @@
 # ###################################################################
 # Mp3tag parsing for VGMdb.net, created by dano on 2010-01-20.
 #
-# After 26.06.2020, changes : https://github.com/romanoh/Mp3tag-Repository
-# Last update 17.12.2020
+# After 26.06.2020, changes: https://github.com/romanoh/Mp3tag-Repository
+# Last update 19.12.2020
 # 
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
 # ###################################################################
 
-
 [ParserScriptAlbum]=...
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-# Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+
+findline "main page contents"
+
 
 # Album
 outputto "Album"
@@ -71,7 +73,6 @@ if "<td><a "
 	SayNChars 2
 endif
 
-
 # Publish Format
 outputto "Format"
 findline "<b>Publish Format</b>"
@@ -93,7 +94,7 @@ joinuntil "</tr>"
 findinline "<td>"
 sayuntil "</td>"
 
-# Publisher/Label
+# Publisher-Label
 findline "class=\"maincred\">"
 findinline "<b>" 1 1
 If "Publisher"
@@ -108,9 +109,6 @@ If "Label"
 else
 endif
 endif
-
-
-
 
 # Composer
 findline "Composer" 1 1
@@ -130,13 +128,55 @@ replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Compose
 
 sayuntil "</td></tr>"
 
-# LYRICIST
-findinline "Lyricist" 1 1
-OutputTo "LYRICIST"
+
+# Composer2
+gotoline 1
+findline "main page contents"
+findline "Composed by" 1 1
 findinline "width=\"100%\">" 1 1
-sayuntil "</td>"
+outputto "Composer"
+
+regexpreplace "<a href=\"/artist/[0-9 ]+\">" ""
+regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"display:inline\">" ""
+regexpreplace "<span style=\"display:none\"><em> / </em></span><span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">([^<]+)</span>" ""
+regexpreplace "<a style=\"color: #[^\"]*\" href=\"/artist/[^\"]*\">" ""
+replace "</span> " ""
+replace "</span>)" ")"
+replace "</span>" ""
+replace "</a>" ""
+replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</span></b></span></td><td width="100%">" ""
+replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</b></td><td width="100%">" ""
+
+sayuntil "</td></tr>"
 
 
+# Writer
+gotoline 1
+findline "main page contents"
+findline "Written by</span></b></span></td><td" 1 1
+findinline "Written by</span>" 1 1
+outputto "writer"
+
+regexpreplace "<a href=\"/artist/[0-9 ]+\">" ""
+regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"display:inline\">" ""
+regexpreplace "<span style=\"display:none\"><em> / </em></span><span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">([^<]+)</span>" ""
+regexpreplace "<a style=\"color: #[^\"]*\" href=\"/artist/[^\"]*\">" ""
+replace "</span> " ""
+replace "</span>)" ")"
+replace "</span>" ""
+replace "</a>" ""
+replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</span></b></span></td><td width="100%">" ""
+replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</b></td><td width="100%">" ""
+replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Written by</b></td><td width="100%">" ""
+sayuntil "</td></tr>"
+
+# LYRICIST
+gotoline 1
+findline "main page contents"
+findline "Lyricist" 1 1
+OutputTo "LYRICIST"
+findinline "</span></td><td width=\"100%\">" 1 1
+sayuntil "</td></tr><tr"
 
 # Artist
 outputto "Artist"
@@ -147,18 +187,19 @@ IfNotOutput "Composer"
 endif
 
 # Tracks
-# findline "<b>Disc 2</b></span>"
+gotoline 1
+findline "left\">Tracklist "
 findline "class=\"smallfont\"><span class=\"label\">" 1 1
 do
 	outputto "Tracks"
-	moveline 1
+	moveline 1 1
 	findinline "width=\"100%\" colspan=\"2\">" 1 1
-	moveline 2
+	moveline 2 1
 	sayuntil "</td>"
 	say "|"
 	
 	outputto "_Length"
-	moveline 2
+	moveline 2 1
 	sayregexp "(?<=<span class=\"time\">)[\d:]+(?=</span>)" ""
 	say "|"
 
@@ -199,15 +240,14 @@ else
 	say ""
 endif
 
-# Set Artist = Albumartist
-outputto "albumartist"
-sayoutput "Artist"
-
 # VGMdb Album URL
 outputto "VGMdb Album Url"
 sayoutput "CurrentUrl"
 
-# this site dont have artist weird
+# Set Artist = Albumartist
+outputto "albumartist"
+sayoutput "Artist"
+
 # Set artistname
 #outputto "artist"
 #sayoutput "composer"
@@ -218,4 +258,3 @@ sayoutput "CurrentUrl"
 
 # Fields that you want to remove
 #	(to remove a field write: set "field")
-
