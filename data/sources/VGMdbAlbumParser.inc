@@ -2,7 +2,7 @@
 # Mp3tag parsing for VGMdb.net, created by dano on 2010-01-20.
 #
 # After 26.06.2020, changes: https://github.com/romanoh/Mp3tag-Repository
-# Last update 19.12.2020
+# Last update 20.12.2020
 # 
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
@@ -110,8 +110,46 @@ else
 endif
 endif
 
+# Distributor
+gotochar 1
+OutputTo "Distributor"
+findinline "Distributor" 1 1
+findinline "display:inline\">" 1 1
+sayuntil "<"
+
+# Copyright
+gotochar 1
+outputto "copyright"
+findinline "Phonographic Copyright" 1 1
+findinline "display:inline\">" 1 1
+sayuntil "<"
+
+# Organizations
+gotochar 1
+outputto "Organizations"
+findinline "Organizations" 1 1
+joinuntil "</td>"
+findinline "<td>" 1 1
+sayuntil "<"
+
+# Retailer
+gotochar 1
+outputto "Retailer"
+findinline "Retailer" 1 1
+findinline "display:inline\">" 1 1
+sayuntil "<"
+
+# Manufacturer
+gotochar 1
+outputto "Manufacturer"
+findinline "Manufacturer" 1 1
+findinline "display:inline\">" 1 1
+sayuntil "<"
+
 # Composer
-findline "Composer" 1 1
+findline "left\">Credits " 1 1
+findline "<tr class=\"maincred\">" 1 1
+findinline "Composer" 4 1
 findinline "width=\"100%\">" 1 1
 outputto "Composer"
 
@@ -125,58 +163,15 @@ replace "</span>" ""
 replace "</a>" ""
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</span></b></span></td><td width="100%">" ""
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</b></td><td width="100%">" ""
-
-sayuntil "</td></tr>"
-
-
-# Composer2
-gotoline 1
-findline "main page contents"
-findline "Composed by" 1 1
-findinline "width=\"100%\">" 1 1
-outputto "Composer"
-
-regexpreplace "<a href=\"/artist/[0-9 ]+\">" ""
-regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"display:inline\">" ""
-regexpreplace "<span style=\"display:none\"><em> / </em></span><span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">([^<]+)</span>" ""
-regexpreplace "<a style=\"color: #[^\"]*\" href=\"/artist/[^\"]*\">" ""
-replace "</span> " ""
-replace "</span>)" ")"
-replace "</span>" ""
-replace "</a>" ""
-replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</span></b></span></td><td width="100%">" ""
-replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</b></td><td width="100%">" ""
-
-sayuntil "</td></tr>"
-
-
-# Writer
-gotoline 1
-findline "main page contents"
-findline "Written by</span></b></span></td><td" 1 1
-findinline "Written by</span>" 1 1
-outputto "writer"
-
-regexpreplace "<a href=\"/artist/[0-9 ]+\">" ""
-regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"display:inline\">" ""
-regexpreplace "<span style=\"display:none\"><em> / </em></span><span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">([^<]+)</span>" ""
-regexpreplace "<a style=\"color: #[^\"]*\" href=\"/artist/[^\"]*\">" ""
-replace "</span> " ""
-replace "</span>)" ")"
-replace "</span>" ""
-replace "</a>" ""
-replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</span></b></span></td><td width="100%">" ""
-replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</b></td><td width="100%">" ""
+replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Music</b></td><td width="100%">" ""
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Written by</b></td><td width="100%">" ""
 sayuntil "</td></tr>"
 
 # LYRICIST
-gotoline 1
-findline "main page contents"
-findline "Lyricist" 1 1
+findinline "Lyricist" 1 1
 OutputTo "LYRICIST"
-findinline "</span></td><td width=\"100%\">" 1 1
-sayuntil "</td></tr><tr"
+findinline "<td width=\"100%\">" 1 1
+sayuntil "</td></tr>"
 
 # Artist
 outputto "Artist"
