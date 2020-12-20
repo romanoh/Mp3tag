@@ -73,6 +73,11 @@ if "<td><a "
 	SayNChars 2
 endif
 
+# Event
+outputto "Event"
+findinline "<span class='label'>" 1 1
+sayuntil "<"
+
 # Publish Format
 outputto "Format"
 findline "<b>Publish Format</b>"
@@ -158,7 +163,7 @@ regexpreplace "<span title=\"[^\"]*\" class=\"artistname\" lang=\"en\" style=\"d
 regexpreplace "<span style=\"display:none\"><em> / </em></span><span title=\"[^\"]*\" class=\"artistname\" lang=\"ja\" style=\"display:none\">([^<]+)</span>" ""
 regexpreplace "<a style=\"color: #[^\"]*\" href=\"/artist/[^\"]*\">" ""
 replace "</span> " ""
-replace "</span>)" ")"
+replace "</span>)" ""
 replace "</span>" ""
 replace "</a>" ""
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</span></b></span></td><td width="100%">" ""
@@ -178,7 +183,7 @@ outputto "Artist"
 sayoutput "Composer"
 IfNotOutput "Composer"
 	outputto "Artist"
-    	sayoutput "Writer"
+    sayoutput "Writer"
 endif
 
 # Tracks
@@ -225,7 +230,6 @@ outputto "comment"
 moveline 1
 sayuntil "</div>"
 joinuntil "<div id=\"preview\"></div>"
-
 if "<div style=\"margin-bottom:"
 	say " - "
 	moveline 1
@@ -242,10 +246,6 @@ sayoutput "CurrentUrl"
 # Set Artist = Albumartist
 outputto "albumartist"
 sayoutput "Artist"
-
-# Set artistname
-#outputto "artist"
-#sayoutput "composer"
 
 # ... Customization ...
 
