@@ -1,0 +1,129 @@
+# ###################################################################
+#
+# Mp3tag parsing for storytel.com, created by romano on 2020-12-21
+#
+# Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
+# Last update: 21.12.2020 v.0.1
+# 
+# This file should be in your sources dir. 
+# 
+# ####################################################################
+
+[Name]=Libro [v.0.1-21.12.2020]
+[BasedOn]=www.libro.fm
+[IndexUrl]=https://libro.fm/search?utf8=0x2713&q=
+[AlbumUrl]=https://libro.fm
+[WordSeperator]=+
+[IndexFormat]=% ↓ Album%|% ↓ Author%|% ↓ Narrator%|% ↓ Lenght%|% ↓ Abridged%|%_url%
+[SearchBy]=Enter Album||$regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
+[Encoding]=url-utf-8
+
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"	
+
+#Only select the area we need instead of everyting.
+findline "<div class=\"book-grid-item-info\">"
+joinuntil "aria-label=\"Pagination\""
+
+do	
+	# Album
+	findinline "<div class=\"title\">"
+	sayuntil "<"
+	say "|" 
+	
+	# Author
+	findinline "class=\"author\">"
+	sayuntil "<"
+	say "|" 
+	
+	# Narrator
+	findinline "narrators\">"
+	sayuntil "<"
+	say "|" 
+
+	# Lenght
+	findinline "Length:</strong> "
+	sayuntil "<br>"
+	say "|" 
+
+	#  Abridged		
+	findinline "Abridged:</strong> "
+	sayuntil "</h6>"
+	say "|"
+	
+	#  Url		
+	findinline "no-margin\" href=\"" 
+	sayuntil "\""
+	#the last on remove the #	
+	#say "|"
+	
+	saynewline
+	 
+   findinline "<div class=\"book-grid-item-info\">" 1 1
+   
+while " " 30
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebugalbum.txt"
+
+
+replace " hours " ":"
+replace " minutes" ""
+
+
+
+# Cover
+outputto "Coverurl"
+findline "og:image"
+findinline "content=\""
+sayuntil "\""
+
+# Album
+outputto "Album"
+findline "<h1 itemprop=\"name\">"
+findinline "name\">"
+sayuntil "<"
+
+# Subtitle
+outputto "Subtitle"
+findline "<h2>" 1 1
+findinline "<h2>" 1 1
+Sayuntil "</h2>"
+
+# Author
+gotoline 1
+outputto "Artist"
+findline "By:</strong>"
+findinline "authors\">"
+sayuntil "</a></li>"
+
+# Composer
+outputto "Composer"
+findline "Narrated by:</strong> "
+findinline "Narrated by:</strong> "
+findinline ">"
+sayuntil "</a></li>"
+
+# Lenght
+outputto "Lenght"
+findline "Length:</strong>"
+findinline "Length:</strong> "
+findinline ">"
+sayuntil "<"
+
+
+
+
+
+
+
+
