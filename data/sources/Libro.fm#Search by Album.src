@@ -3,7 +3,7 @@
 # Mp3tag parsing for storytel.com, created by romano on 2020-12-21
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 21.12.2020 v.0.1
+# Last update: 22.12.2020 v.0.2
 # 
 # This file should be in your sources dir. 
 # 
@@ -72,13 +72,8 @@ while " " 30
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebugalbum.txt"
-
-
-replace " hours " ":"
-replace " minutes" ""
-
+#DebugWriteInput "C:\Users\xxx\Desktop\mp3tag.txt"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebugalbum.txt"
 
 
 # Cover
@@ -93,6 +88,17 @@ findline "<h1 itemprop=\"name\">"
 findinline "name\">"
 sayuntil "<"
 
+# Series
+outputto "SERIES"
+findline "searchby=series" 1 1
+findinline "\">" 1 1
+sayuntil "<"
+# Series-part
+outputto "series-part"
+replace " Book #" ""
+findinline ":" 1 1
+sayuntil "<"
+
 # Subtitle
 outputto "Subtitle"
 findline "<h2>" 1 1
@@ -101,29 +107,212 @@ Sayuntil "</h2>"
 
 # Author
 gotoline 1
-outputto "Artist"
+outputto "ArtistTMP1"
 findline "By:</strong>"
 findinline "authors\">"
-sayuntil "</a></li>"
+sayuntil "</a>"
+outputto "ArtistTMP2"
+findinline "authors\">" 1 1
+sayuntil "</a>"
+outputto "ArtistTMP3"
+findinline "authors\">" 1 1
+sayuntil "</a>"
+outputto "ArtistTMP4"
+findinline "authors\">" 1 1
+sayuntil "</a>"
+outputto "ArtistTMP5"
+findinline "authors\">" 1 1
+sayuntil "</a>"
+
+outputto "Artist"
+sayoutput "ArtistTMP1"
+IfOutput "ArtistTMP2"
+	say ", "
+	sayoutput "ArtistTMP2"
+else
+endif
+IfOutput "ArtistTMP3"
+	say ", "
+	sayoutput "ArtistTMP3"
+else
+endif
+IfOutput "ArtistTMP4"
+	say ", "
+	sayoutput "ArtistTMP4"
+else
+endif
+IfOutput "ArtistTMP5"
+	say ", "
+	sayoutput "ArtistTMP5"
+else
+endif
+
+set "ArtistTMP1"
+set "ArtistTMP2"
+set "ArtistTMP3"
+set "ArtistTMP4"
+set "ArtistTMP5"
 
 # Composer
-outputto "Composer"
+outputto "ComposerTMP1"
 findline "Narrated by:</strong> "
 findinline "Narrated by:</strong> "
 findinline ">"
-sayuntil "</a></li>"
+sayuntil "</a>"
+
+outputto "ComposerTMP2"
+findinline "\">" 1 1
+sayuntil "</a>"
+
+outputto "Composer"
+sayoutput "ComposerTMP1"
+IfOutput "ComposerTMP2"
+	say ", "
+	sayoutput "ComposerTMP2"
+else
+endif
+
+set "ComposerTMP1"
+set "ComposerTMP2"
 
 # Lenght
 outputto "Lenght"
 findline "Length:</strong>"
+replace " hours " ":"
+replace " minutes" ""
+replace " minute" ""
 findinline "Length:</strong> "
 findinline ">"
 sayuntil "<"
 
+# Description
+outputto "Comment"
+findline "Description</h2>"
+findline "<div itemprop=\"description\""
 
+joinuntil "</div>"
+replace "<i>" ""
+replace "</i>" ""
+replace "</b> " ""
+replace "</b>" ""
+replace "<b>" ""
+replace "<br>" ""
+replace " <br> " ""
+replace "<p>" ""
+replace "</p>" ""
+replace "<strong>" ""
+findinline ">"
+sayuntil "</div>"
 
+#ISBN
+outputto "ISBN"
+findline "ISBN"
+joinuntil "</div>"
+findinline "\">"
+sayuntil "<"
 
+#Language
+outputto "Language"
+findline "Language"
+joinuntil "</div>"
+findinline "\">"
+sayuntil "<"
 
+#Publisher
+outputto "Publisher"
+findline "Publisher"
+joinuntil "</div>"
+findinline "\">"
+sayuntil "<"
 
+#Year
+outputto "year"
+findline "Publication date"
+joinuntil "</div>"
+findinline "\">"
+joinuntil "<"
+findinline ", "
+sayuntil "<"
 
+#Edition
+outputto "Edition"
+findline "Edition"
+joinuntil "</div>"
+findinline "<span>"
+sayuntil "<"
 
+#Genres
+outputto "GenreTMP1"
+findline "Genres"
+joinuntil "</div>"
+findinline "\">"
+sayuntil "<"
+
+outputto "GenreTMP2"
+findinline "\">" 1 1
+sayuntil "<"
+
+outputto "GenreTMP3"
+findinline "\">" 1 1
+sayuntil "<"
+
+outputto "GenreTMP4"
+findinline "\">" 1 1
+sayuntil "<"
+
+outputto "Genre"
+sayoutput "GenreTMP1"
+IfOutput "GenreTMP2"
+	say "/"
+	sayoutput "GenreTMP2"
+else
+endif
+IfOutput "GenreTMP3"
+	say "/"
+	sayoutput "GenreTMP3"
+else
+endif
+IfOutput "GenreTMP4"
+	say "/"
+	sayoutput "GenreTMP4"
+else
+endif
+
+set "GenreTMP1"
+set "GenreTMP2"
+set "GenreTMP3"
+set "GenreTMP4"
+
+# Set "Albumsort"
+IfOutput "series"
+	outputto "Albumsort"
+	sayoutput "series"
+	say " "
+	sayoutput "series-part"
+	say " "
+	say "- "
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+else
+	outputto "Albumsort"
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+endif
+
+# Set Artist = Albumartist
+outputto "albumartist"
+sayoutput "Artist"
+
+# Set Disknumber
+outputto "DISCNUMBER"
+sayoutput "series-part"
+
+# Set Audible Album URL
+outputto "WWWAUDIOFILE"
+sayoutput "CurrentUrl"
+
+# Set Comment to DESCRIPTION for better MP4 support
+outputto "DESCRIPTION"
+sayoutput "Comment"
