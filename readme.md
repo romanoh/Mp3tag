@@ -5,6 +5,9 @@ This is my modified custom web sources/actions/export for [mp3tag](https://www.m
 Updated tags using sources-->use actions to order folders.
 
 ## Sources:
+### Libro.fm
+Search by Album: [Libro.fm#Search by Album.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/Libro.fm%23Search%20by%20Album.src)
+
 ### storytell.com
 Search by Album: [Storytel.com#Search by Album.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/Storytel.com%23Search%20by%20Album.src)
 
