@@ -3,13 +3,13 @@
 # Mp3tag parsing for Libro.fm, created by romano on 2020-12-21
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 22.12.2020 v.0.2
+# Last update: 22.12.2020 v.0.3
 # 
 # This file should be in your sources dir. 
 # 
 # ####################################################################
 
-[Name]=Libro [v.0.2-22.12.2020]
+[Name]=Libro [v.0.3-22.12.2020]
 [BasedOn]=www.libro.fm
 [IndexUrl]=https://libro.fm/search?utf8=0x2713&q=
 [AlbumUrl]=https://libro.fm
@@ -23,12 +23,12 @@
 # ###################################################################
 #					I  N  D  E  X
 # ###################################################################
-#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
+#DebugWriteInput "C:\Users\xxx\Desktop\mp3tag.html"
 #Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"	
 
 #Only select the area we need instead of everyting.
 findline "<div class=\"book-grid-item-info\">"
-joinuntil "aria-label=\"Pagination\""
+joinuntil "<!--close #search-content -->"
 
 do	
 	# Album
@@ -74,7 +74,6 @@ while " " 30
 # ###################################################################
 #DebugWriteInput "C:\Users\xxx\Desktop\mp3tag.txt"
 #Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebugalbum.txt"
-
 
 # Cover
 outputto "Coverurl"
@@ -189,20 +188,10 @@ sayuntil "<"
 outputto "Comment"
 findline "Description</h2>"
 findline "<div itemprop=\"description\""
-
 joinuntil "</div>"
-replace "<i>" ""
-replace "</i>" ""
-replace "</b> " ""
-replace "</b>" ""
-replace "<b>" ""
-replace "<br>" ""
-replace " <br> " ""
-replace "<p>" ""
-replace "</p>" ""
-replace "<strong>" ""
-findinline ">"
-sayuntil "</div>"
+# Use this to remove the html tags
+regexpreplace "<[^>]+>" ""
+sayrest
 
 #ISBN
 outputto "ISBN"
