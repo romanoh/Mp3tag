@@ -9,7 +9,7 @@
 # 
 # ####################################################################
 
-[Name]=Libro [v.0.1-21.12.2020]
+[Name]=Libro [v.0.2-22.12.2020]
 [BasedOn]=www.libro.fm
 [IndexUrl]=https://libro.fm/search?utf8=0x2713&q=
 [AlbumUrl]=https://libro.fm
