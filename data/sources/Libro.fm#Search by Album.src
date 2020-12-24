@@ -3,13 +3,13 @@
 # Mp3tag parsing for Libro.fm, created by romano on 2020-12-21
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 24.12.2020 v.0.5
+# Last update: 24.12.2020 v.0.6
 # 
 # This file should be in your sources dir. 
 # 
 # ####################################################################
 
-[Name]=Libro [v.0.5-24.12.2020]
+[Name]=Libro [v.0.6-24.12.2020]
 [BasedOn]=www.libro.fm
 [IndexUrl]=https://libro.fm/search?utf8=0x2713&q=
 [AlbumUrl]=https://libro.fm
@@ -81,7 +81,7 @@ while " " 30
 #					A  L  B  U  M
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.txt"
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebugalbum.txt"
+#Debug "ON" "C:\Users\xxx\Desktop\mp3tagdebugalbum.txt"
 
 # Cover
 outputto "Coverurl"
@@ -232,6 +232,7 @@ findline "Length:</strong>"
 replace " hours " ":"
 replace " minutes" ""
 replace " minute" ""
+replace ":</span>" ":00"
 findinline "Length:</strong> "
 findinline ">"
 sayuntil "<"
@@ -284,24 +285,29 @@ sayuntil "<"
 
 #Genres
 outputto "GenreTMP1"
-findline "Genres" 1 1
+findline "Genres"
 joinuntil "</div>"
 findinline "\">" 1 1
-sayuntil "<"
+if "<a href=\"/genres\">Genres</a></li>    </ul>"
+say "No genre"
+else
+	sayuntil "<"
+	
+	outputto "GenreTMP2"
+	findinline "\">" 1 1
+	sayuntil "<"
 
-outputto "GenreTMP2"
-findinline "\">" 1 1
-sayuntil "<"
+	outputto "GenreTMP3"
+	findinline "\">" 1 1
+	sayuntil "<"
 
-outputto "GenreTMP3"
-findinline "\">" 1 1
-sayuntil "<"
-
-outputto "GenreTMP4"
-findinline "\">" 1 1
-sayuntil "<"
+	outputto "GenreTMP4"
+	findinline "\">" 1 1
+	sayuntil "<"
+endif
 
 outputto "Genre"
+
 IfOutput "GenreTMP1"
 	sayoutput "GenreTMP1"
 else
