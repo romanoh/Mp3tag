@@ -23,8 +23,8 @@
 # ###################################################################
 #					I  N  D  E  X
 # ###################################################################
-DebugWriteInput "C:\Users\egual\Desktop\mp3tagindex.txt"
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebugindex.txt"	
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tagindex.txt"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebugindex.txt"	
 
 #Only select the area we need instead of everyting.
 findline "<div class=\"book-grid-item-info\">"
