@@ -3,13 +3,13 @@
 # Mp3tag parsing for storytel.com, created by romano on 2020-11-28
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 04.12.2020 v.0.7
+# Last update: 27.12.2020 v.0.8
 # 04.12.2020 - Fix sort album tag if the album is not from a series
-# This file should be in your sources dir. 
+# 27.12.2020 - Improve Lenght display 
 # 
 # ####################################################################
 
-[Name]=Storytel [v.0.7-04.12.2020]
+[Name]=Storytel [v.0.8-27.12.2020]
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/in/en/search-
 [AlbumUrl]=https://www.storytel.com
@@ -72,7 +72,7 @@ while "\"" 25
 #					A  L  B  U  M
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
 
 # Cover
 outputto "Coverurl"
@@ -150,6 +150,8 @@ SayUntil "</b>"
 # Lenght
 outputto "lenght"
 findline "Length:"
+replace "H " ":"
+replace "Min" ""
 findinline "Length:"
 sayuntil "</b>"
 
@@ -175,7 +177,6 @@ do
     
 while "\"" 25
 else
-
 endif	
 
 # Set "Albumsort"
