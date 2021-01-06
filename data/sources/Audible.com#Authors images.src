@@ -5,7 +5,7 @@
 #
 # 2020-04-24: wip first(romano)
 # After 26.06.2020, join Github, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-#
+# Last Change: 06.01.2021
 #
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
@@ -80,24 +80,25 @@ while "bc-color-link" 99
 #					A  L  B  U  M
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
-Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebugauthor.txt"
-
-
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebugauthor.txt"
 
 # Cover
 outputto "Coverurl"
-findline "image-mask app-image-position author-image-outline"
+findline "image-mask app-image-position author-image-outline" 1 1
 #findline "data-bc-hiRes=\"" 3
-findinline "data-bc-hiRes=\""
+#findinline "data-bc-hiRes=\"" 1 1
+findinline "js-only-element\" src=\"" 1 1
 sayuntil "\""
+gotoline 1
 
 # Artist Bio
 Outputto "INVOLVEDPEOPLE"
-findline "AUTHOR</span>"
-findline "bc-color-secondary\">"
-joinuntil "</p>"
-findinline "\">"
-sayuntil "</p>"
-
-
-
+findline "AUTHOR</span>" 
+findline "bc-color-secondary\">" 1 1
+if "    bc-color-secondary\">"
+	joinuntil "</p>"
+	findinline "\">"
+	sayuntil "</p>"
+else
+say "No Bio in Audible"
+endif
