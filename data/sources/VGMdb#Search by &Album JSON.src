@@ -1,5 +1,5 @@
 # ######################################################################
-# Mp3tag parsing for VGMdb.net, created by romano on 2010-08-13
+# Mp3tag parsing for VGMdb.net
 #
 #
 # Copy this file to your sources directory at
@@ -64,10 +64,75 @@ json_select "results"
 [ParserScriptAlbum]=...
 
 ## Comment/uncomment for debugging purposes:
-#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
-#Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
+#DebugWriteInput "C:\Users\xxx\Desktop\mp3tagvgmdb.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
 
 json "ON"
+
+# LYRICIST
+OutputTo "LYRICIST"
+json_foreach "lyricists"
+	ifnot "0"
+		json_select_object "names"
+		if "names"
+			json_select "en"
+			ifnot ""
+				ifoutput "LYRICIST"
+					say "; "
+				endif
+				sayrest
+			endif
+			json_unselect_object
+		endif		
+	endif
+json_foreach_end
+
+# roles
+json_foreach "organizations"
+ifnot "0"
+	json_select "role"
+			if "manufacturer"
+			OutputTo "manufacturer"
+				json_select_object "names"
+					if "names"
+						json_select "en"
+						sayrest
+						json_unselect_object
+					endif
+			else
+				if "label"
+				OutputTo "label"
+							json_select_object "names"
+							if "names"
+								json_select "en"
+								sayrest
+								json_unselect_object
+							endif
+				endif
+			else
+				if "retailer"
+				OutputTo "retailer"
+							json_select_object "names"
+							if "names"
+								json_select "en"
+								sayrest
+								json_unselect_object
+							endif
+				endif
+			else
+				if "distributor"
+				OutputTo "distributor"
+							json_select_object "names"
+							if "names"
+								json_select "en"
+								sayrest
+								json_unselect_object
+							endif
+				endif
+			endif
+			
+endif
+json_foreach_end
 
 # Arrangers
 outputto "CONDUCTOR"
@@ -181,7 +246,7 @@ json_foreach "composers"
 	endif
 json_foreach_end
 
-# Tracks English to Japanese to Romaji
+# Tracks English to Japanese to Romaji to Italian
 json_foreach "discs"
 	ifnot "0"
 	
@@ -255,41 +320,7 @@ json_foreach "discs"
 	endif
 json_foreach_end		
 
-# Distributor
-OutputTo "distributor"
-json_select "distributor"
-ifnot "0"
-	json_select_object "names"
-		if "names"
-			json_select "en"
-			sayrest
-			json_unselect_object
-		endif
-endif
 
-		
-# Set Artist = Albumartist
-set "albumartist"
-outputto "albumartist"
-sayoutput "Artist"
-
-# LYRICIST
-OutputTo "LYRICIST"
-json_foreach "lyricists"
-	ifnot "0"
-		json_select "names"
-		if "names"
-			json_select "en"
-			ifnot ""
-				ifoutput "LYRICIST"
-					say " "
-				endif
-				sayrest
-			endif
-			json_unselect_object
-		endif		
-	endif
-json_foreach_end
 
 # Media type
 OutputTo "MEDIATYPE"
@@ -353,17 +384,7 @@ ifnot "0"
 		endif
 endif	
 
-# label
-OutputTo "label"
-json_select "organizations"
-	ifnot "0"
-		json_select "role"
-				if "label"
-					json_select_object "names"
-						if "names"
-							json_select "en"
-							sayrest
-							json_unselect_object
-						endif
-				endif
-	endif
+# Set Artist = Albumartist
+set "albumartist"
+outputto "albumartist"
+sayoutput "Artist"
