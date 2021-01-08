@@ -6,11 +6,11 @@
 # %APPDATA%\Mp3tag\data\sources
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update 29.12.2020
+# Last update 08.01.2021
 #
 # ######################################################################
 
-[Name]=VGMdb [v.29.12.2020]
+[Name]=VGMdb [v.08.01.2021]
 [BasedOn]=vgmdb.info
 [IndexUrl]=http://vgmdb.info/search?q=
 [AlbumUrl]=http://vgmdb.info/
@@ -65,7 +65,7 @@ json_select "results"
 
 ## Comment/uncomment for debugging purposes:
 #DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
+#Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
 
 json "ON"
 
@@ -254,6 +254,19 @@ json_foreach "discs"
 		json_foreach_end	
 	endif
 json_foreach_end		
+
+# Distributor
+OutputTo "distributor"
+json_select "distributor"
+ifnot "0"
+	json_select_object "names"
+		if "names"
+			json_select "en"
+			sayrest
+			json_unselect_object
+		endif
+endif
+
 		
 # Set Artist = Albumartist
 set "albumartist"
@@ -300,7 +313,7 @@ SayRest
 OutputTo "format"
 json_select "publish_format"
 SayRest
-	
+
 # Rating
 OutputTo "rating"
 json_select "rating"
@@ -327,3 +340,30 @@ json_foreach "release_events"
 		sayrest
 	endif
 json_foreach_end
+
+# Publisher
+OutputTo "publisher"
+json_select "publisher"
+ifnot "0"
+	json_select_object "names"
+		if "names"
+			json_select "en"
+			sayrest
+			json_unselect_object
+		endif
+endif	
+
+# label
+OutputTo "label"
+json_select "organizations"
+	ifnot "0"
+		json_select "role"
+				if "label"
+					json_select_object "names"
+						if "names"
+							json_select "en"
+							sayrest
+							json_unselect_object
+						endif
+				endif
+	endif
