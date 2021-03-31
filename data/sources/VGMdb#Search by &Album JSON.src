@@ -6,11 +6,11 @@
 # %APPDATA%\Mp3tag\data\sources
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update 08.01.2021
+# Last update 31.03.2021
 #
 # ######################################################################
 
-[Name]=VGMdb [v.08.01.2021]
+[Name]=VGMdb [v.31.03.2021]
 [BasedOn]=vgmdb.info
 [IndexUrl]=http://vgmdb.info/search?q=
 [AlbumUrl]=http://vgmdb.info/
@@ -19,14 +19,14 @@
 #remove everything inside ()
 [SearchBy]=Enter Album Name||$regexp(%album%,'\([^)]*\)',,1)||%s
 [Encoding]=url-utf-8
-
+[UserAgent]=1
 
 [ParserScriptIndex]=...
 # ###################################################################
 #					I  N  D  E  X
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
 
 json "ON" 
 
@@ -169,6 +169,7 @@ SayRest
 OutputTo "notes"
 json_select "category"
 SayRest
+
 
 # Involved People
 OutputTo "INVOLVEDPEOPLE"
@@ -382,7 +383,7 @@ ifnot "0"
 			sayrest
 			json_unselect_object
 		endif
-endif	
+endif
 
 # Set Artist = Albumartist
 set "albumartist"
