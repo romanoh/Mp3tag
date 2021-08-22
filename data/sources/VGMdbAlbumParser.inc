@@ -2,7 +2,9 @@
 # Mp3tag parsing for VGMdb.net, created by dano on 2010-01-20.
 #
 # After 26.06.2020, changes: https://github.com/romanoh/Mp3tag-Repository
-# Last update 20.12.2020
+# Last update 22.08.2021
+#	-Fix: "Rating" removed as no longer in site.
+#	-Fix: Artist 
 # 
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
@@ -12,7 +14,8 @@
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+#Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
+#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
 
 findline "main page contents"
 
@@ -170,6 +173,9 @@ replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Compose
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Composer</b></td><td width="100%">" ""
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Music</b></td><td width="100%">" ""
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Written by</b></td><td width="100%">" ""
+replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>All Music Composed by</b></td><td width="100%">" ""
+replace "<span style="color:yellow" title="Uncredited">*" ""
+
 sayuntil "</td></tr>"
 
 # LYRICIST
@@ -217,12 +223,7 @@ replace "</i>" ""
 findinline "id=\"notes\">"
 sayuntil "</div>"
 
-# rating
-findline "<span rel=\"rating\""
-replace "Rated " ""
-outputto "rating"
-findinline "class="time\">"
-sayuntil "</span>"
+
 
 # comments
 findline "Category"
