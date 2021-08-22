@@ -4,7 +4,8 @@
 # After 26.06.2020, changes: https://github.com/romanoh/Mp3tag-Repository
 # Last update 22.08.2021
 #	-Fix: "Rating" removed as no longer in site.
-#	-Fix: Artist 
+#	-Fix: "Artist" 
+#	-Fix: "Event"
 # 
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
@@ -14,7 +15,7 @@
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-#Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
 #DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
 
 findline "main page contents"
@@ -78,8 +79,8 @@ endif
 
 # Event
 outputto "Event"
-findinline "<span class='label'>" 1 1
-sayuntil "<"
+findinline "rel='nofollow' title='" 1 1
+sayuntil "'"
 
 # Publish Format
 outputto "Format"
