@@ -79,8 +79,11 @@ endif
 
 # Event
 outputto "Event"
-findinline "rel='nofollow' title='Released at " 1 1
-sayuntil "'"
+findinline "at " 1 1
+sayuntil "("
+findinline ".png' />" 1 1
+say " / "
+sayuntil "</span>"
 
 # Publish Format
 outputto "Format"
