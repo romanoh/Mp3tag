@@ -15,8 +15,8 @@
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
-#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
 
 findline "main page contents"
 
@@ -79,7 +79,7 @@ endif
 
 # Event
 outputto "Event"
-findinline "rel='nofollow' title='" 1 1
+findinline "rel='nofollow' title='Released at " 1 1
 sayuntil "'"
 
 # Publish Format
