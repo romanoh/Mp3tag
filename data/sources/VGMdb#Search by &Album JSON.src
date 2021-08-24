@@ -1,12 +1,12 @@
 # ######################################################################
-# Mp3tag parsing for VGMdb.net
-#
+# Mp3tag parsing for VGMdb.net, Created by Romano.
 #
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update 31.03.2021
+# Last update 24.08.2021
+# -Fix: Clean up.
 #
 # ######################################################################
 
@@ -25,8 +25,8 @@
 # ###################################################################
 #					I  N  D  E  X
 # ###################################################################
-#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+#DebugWriteInput "C:\Users\%user%\Desktop\mp3tag_vgmdb_json.html"
+#Debug "ON" "C:\Users\%user%\Desktop\mp3tag_vgmdb_json.txt"
 
 json "ON" 
 
@@ -64,14 +64,15 @@ json_select "results"
 [ParserScriptAlbum]=...
 
 ## Comment/uncomment for debugging purposes:
-#DebugWriteInput "C:\Users\xxx\Desktop\mp3tagvgmdb.html"
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
+#DebugWriteInput "C:\Users\%user%\Desktop\mp3tagvgmdb.html"
+#Debug "ON" "C:\Users\%user%\Desktop\mp3tagdebug.txt"
 
 json "ON"
 
 # LYRICIST
 OutputTo "LYRICIST"
 json_foreach "lyricists"
+# ifnot "0" is for when there is no data or lenght of array, The index starts at zero and not one. Few languages use 1 as the first index.
 	ifnot "0"
 		json_select_object "names"
 		if "names"
@@ -137,7 +138,6 @@ json_foreach_end
 # Arrangers
 outputto "CONDUCTOR"
 json_foreach "arrangers"
-	# ifnot "0" is for when there is no data or lenght of array, The index starts at zero and not one. Few languages use 1 as the first index.
 	ifnot "0"
 		json_select_object "names"
 		if "names"
