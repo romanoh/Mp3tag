@@ -6,6 +6,8 @@
 #	-Fix: "Rating" removed as no longer in site.
 #	-Fix: "Artist" 
 #	-Fix: "Event"
+# Update 25.08.2021
+#	-Fix: "Event" for when an album as none.
 # 
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
@@ -15,11 +17,10 @@
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
-DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\%user%\Desktop\mp3tagdebug.txt"
+#DebugWriteInput "C:\Users\%user%\Desktop\mp3tag.html"
 
 findline "main page contents"
-
 
 # Album
 outputto "Album"
@@ -39,7 +40,6 @@ findinline "style=\"background-image: url("
 if "'"
 	movechar 1
 	sayuntil "'"
-	
 else
 	findinline "../"
 	sayuntil "\""
@@ -80,10 +80,14 @@ endif
 # Event
 outputto "Event"
 findinline "at " 1 1
-sayuntil "("
-findinline ".png' />" 1 1
-say " / "
-sayuntil "</span>"
+if ""
+	say ""
+else
+	sayuntil "("
+	findinline ".png' />" 1 1
+	say " / "
+	sayuntil "</span>"
+endif
 
 # Publish Format
 outputto "Format"
@@ -228,8 +232,6 @@ replace "</i>" ""
 findinline "id=\"notes\">"
 sayuntil "</div>"
 
-
-
 # comments
 findline "Category"
 outputto "comment"
@@ -249,6 +251,7 @@ endif
 outputto "VGMdb Album Url"
 sayoutput "CurrentUrl"
 
+# here the Artist album is the same as the artist.
 # Set Artist = Albumartist
 outputto "albumartist"
 sayoutput "Artist"
