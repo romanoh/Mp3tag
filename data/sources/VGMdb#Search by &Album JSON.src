@@ -10,7 +10,7 @@
 #
 # ######################################################################
 
-[Name]=VGMdb [v.31.03.2021]
+[Name]=VGMdb [v.24.08.2021]
 [BasedOn]=vgmdb.info
 [IndexUrl]=http://vgmdb.info/search?q=
 [AlbumUrl]=http://vgmdb.info/
