@@ -8,6 +8,8 @@
 #	-Fix: "Event"
 # Update 25.08.2021
 #	-Fix: "Event" for when an album as none.
+# Update 26.08.2021
+#	-Fix: "Release date" for when it had no day.
 # 
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
@@ -70,11 +72,19 @@ moveline 1
 sayregexp "(?<=<td>)\d{4} *(?=</td>)" "" 
 if "<td><a "
 	findinline "#"
+	#if day is not present get month and year 
+	if "u"
+		findinline "\">" 1 1
+		sayuntil "<"
+	else
+	#else get the full day
 	SayNChars 4
 	say "."
 	SayNChars 2
 	say "."
 	SayNChars 2
+	
+	endif
 endif
 
 # Event
