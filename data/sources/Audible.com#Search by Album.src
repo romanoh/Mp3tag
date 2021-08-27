@@ -1,20 +1,21 @@
 # ###################################################################
+# Mp3tag parsing for Audible.com.
+# Initially created by dano on 2013-03-11
+# After 11.04.2020, improved by romano, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
+# Last update: 27.08.2021
 #
-# Mp3tag parsing for Audible.com, created by dano on 2013-03-11
 #
-# After 11.04.2020, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 12.11.2020
 #
 # This file should be in your sources dir. 
 # On Windows XP it's C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
 # ####################################################################
 
-[Name]=Audible.com
+[Name]=Audible.com [v.27.08.2021]
 [BasedOn]=www.audible.com
 [IndexUrl]=https://www.audible.com/search?keywords=
 [AlbumUrl]=https://www.audible.com
 [WordSeperator]=+
-[IndexFormat]=%_url%|%Album%|%Author%|%Duration%|%Year%|%Language%
+[IndexFormat]=%_url%|% ↓ Album%|% ↓ Author%|% ↓ Duration%|% ↓ Year%|% ↓ Language%
 [SearchBy]=Enter Artist and/or Album||%artist% $regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
 [Encoding]=url-utf-8
 
@@ -25,7 +26,6 @@
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
 #Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
-
 
 #Only select the area we need instead of everyting.
 findline "<ul  class=\"bc-list"
@@ -40,10 +40,8 @@ replace "\" >" "\">"
 replace "> <" "><"
 replace "Running Time:" ""
 
-
 findinline "results"
 findinline "<h3 class=\"bc-heading"
-
 
 #this \" is iqual to "
 do	
@@ -78,11 +76,10 @@ do
 	findinline ">"
 	sayuntil "<"
 	say "|"
-
 	
     # Duration
     findinline "runtimeLabel\">"
-    findinline "bc-color-secondary\">"
+    findinline "Length: "
     sayuntil "<"
     say "|"
 	
@@ -110,7 +107,6 @@ while "bc-color-link" 99
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
 #Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
-
 
 # Asin
 findline "<input type=\"hidden\" name=\"asin\" value=\""
@@ -168,15 +164,11 @@ regexpreplace "  +" " "
 regexpreplace ".+By:" ""
 sayrest
 
-
-
-
 # narratorLabel
 outputto "Composer"
 findline "narratorLabel"
 moveline 3 1
 joinuntil "</li>"
-
 regexpreplace "</?[^><]+>" ""
 unspace
 #join more than one space
@@ -227,7 +219,6 @@ if "categoriesLabel"
 else
 	gotoline 1
 endif
-
 
 # Rating
 outputto "RATING WINAMP"
@@ -313,7 +304,6 @@ else
 	sayoutput "album"
 endif
 
-
 # Set Artist = Albumartist
 outputto "albumartist"
 sayoutput "Artist"
@@ -329,5 +319,3 @@ sayoutput "CurrentUrl"
 # Set Comment to DESCRIPTION for better MP4 support
 outputto "DESCRIPTION"
 sayoutput "Comment"
-
-
