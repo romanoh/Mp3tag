@@ -1,8 +1,10 @@
 # ###################################################################
-# Mp3tag parsing for VGMdb.net, created by dano on 2010-01-20.
+# Mp3tag parsing for VGMdb.net.
 #
-# After 26.06.2020, changes: https://github.com/romanoh/Mp3tag-Repository
-# Last update 22.08.2021
+# Initially created by dano on 2010-01-20. 
+# After 26.06.2020, started improving this script, 
+# you can find the latest changes in: https://github.com/romanoh/Mp3tag-Repository
+# Update 22.08.2021
 #	-Fix: "Rating" removed as no longer in site.
 #	-Fix: "Artist" 
 #	-Fix: "Event"
@@ -72,6 +74,7 @@ moveline 1
 sayregexp "(?<=<td>)\d{4} *(?=</td>)" "" 
 if "<td><a "
 findinline "#"
+
 #if day is not present get month and year 
 if "u"
 	findinline "\">" 1 1
