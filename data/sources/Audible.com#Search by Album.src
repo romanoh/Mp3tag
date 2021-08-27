@@ -77,6 +77,16 @@ do
 	sayuntil "<"
 	say "|"
 	
+	#Series
+	#findinline "Series:" 1 1
+	#findinline "href=\"/series/" 1 1
+	#findinline "\">" 1 1
+	#sayuntil "<"
+	#findinline "Book " 1 1
+	#say " "
+	#saynextnumber
+	#say "|"
+	
     # Duration
     findinline "runtimeLabel\">"
     findinline "Length: "
