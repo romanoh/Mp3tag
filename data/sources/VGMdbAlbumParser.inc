@@ -203,7 +203,7 @@ sayuntil "</td></tr>"
 findinline "Lyricist" 1 1
 OutputTo "LYRICIST"
 findinline "<td width=\"100%\">" 1 1
-sayuntil "</td></tr>"
+sayuntil "<"
 
 # Artist
 outputto "Artist"
