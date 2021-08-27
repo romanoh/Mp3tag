@@ -12,6 +12,8 @@
 #	-Fix: "Event" for when an album as none.
 # Update 26.08.2021
 #	-Fix: "Release date" for when it had no day.
+# Update 27.08.2021
+#	-Fix: "Lyricist" tag.
 # 
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
