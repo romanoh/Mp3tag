@@ -1,18 +1,19 @@
-﻿################################################################################
+################################################################################
 # Mp3tag Tag Source for Audiobooks.com                                         #
 #                                                                              #
-# Created by romano	in 29.08.2021				                               #
+# Created by romano in 29.08.2021				               #
 #                                                                              #
 # This file needs to be stored in Mp3tag's tag sources directory:              #
 # %APPDATA%\Mp3tag\data\sources                                                #
 #                                                                              #
 # [2020-08-29] v0.1                                                            #
-#         NEW: Initial work													   #
-#																			   #
+#       NEW: Initial work						       #
+#	NEW: Some cleanup						       #
+#	CHG: "Description" is now "comment" and updated to "Edition"	       #
 # Notes: Search limited to 3 books, as it gives error if not present,          #
-# for more change the number in this line "this while "R" 3".			       #
-# Tip: dont search with a lot of words  									   #
-# This web site only allows search for book or author.						   #
+# for more change the number in this line "this while "R" 3".		       #
+# Tip: dont search with a lot of words  				       #
+# This web site only allows search for book or author.			       #
 ################################################################################
 
 [Name]=Audiobooks.com
@@ -36,7 +37,6 @@
 FindLine "<h3 class=\"nobold nopadding\">"
 
 do
-
 	# URL
 	FindLine "<a href=\""
 	findinline "<a href=\""
@@ -55,20 +55,17 @@ do
 	SayUntil "<"
 	Say "|"
 	
-	# DURATION line 2814
+	# DURATION
 	MoveLine 2
 	unspace
 	replace "</p>" ""
 	sayrest
 		
-
 	SayNewline
-
 
 	FindLine "<p class=\"details__price--currency\">" 1 1
 	FindinLine "<p class=\"details__price--currency\">" 1 1
 while "R" 3
-
 
 ################################################################################
 #                        ADJUST TAG INFORMATION DIALOG                         #
@@ -96,8 +93,8 @@ findinline "<h1 class=\"audiobookTitle\">"
 sayuntil "<"
 
 # I have to put the Unabridged somewhere
-#Description
-outputto "Description"
+#Edition
+outputto "Edition"
 findinline "<h4 class=\"fleft nobold\">"
 sayuntil "<"
 
@@ -153,3 +150,7 @@ sayoutput "Artist"
 # Set Audible Album URL
 outputto "WWWAUDIOFILE"
 sayoutput "CurrentUrl"
+
+# Set Comment to DESCRIPTION for better MP4 support
+outputto "DESCRIPTION"
+sayoutput "Comment"
