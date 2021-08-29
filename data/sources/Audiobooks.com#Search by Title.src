@@ -1,0 +1,155 @@
+﻿################################################################################
+# Mp3tag Tag Source for Audiobooks.com                                         #
+#                                                                              #
+# Created by romano	in 29.08.2021				                               #
+#                                                                              #
+# This file needs to be stored in Mp3tag's tag sources directory:              #
+# %APPDATA%\Mp3tag\data\sources                                                #
+#                                                                              #
+# [2020-08-29] v0.1                                                            #
+#         NEW: Initial work													   #
+#																			   #
+# Notes: Search limited to 3 books, as it gives error if not present,          #
+# for more change the number in this line "this while "R" 3".			       #
+# Tip: dont search with a lot of words  									   #
+# This web site only allows search for book or author.						   #
+################################################################################
+
+[Name]=Audiobooks.com
+[BasedOn]=Audiobooks.com
+[IndexUrl]=https://www.audiobooks.com/search/book/
+[AlbumUrl]=https://www.audiobooks.com/audiobook
+[WordSeparator]=%20
+[IndexFormat]=%_url%|% ↓ Album%|% ↓ Artist%|% ↓ Duration%
+[SearchBy]=%Album%
+[Encoding]=url-utf-8
+
+
+################################################################################
+#                        LIST OF SEARCH RESULTS DIALOG                         #
+################################################################################
+[ParserScriptIndex]=...
+## Comment/uncomment for debugging purposes:
+#DebugWriteInput "C:\Users\xxx\Desktop\mp3tag_audiobooks.html"
+#Debug "on" "C:\Users\xxxx\Desktop\audiobooks.txt"
+
+FindLine "<h3 class=\"nobold nopadding\">"
+
+do
+
+	# URL
+	FindLine "<a href=\""
+	findinline "<a href=\""
+	SayUntil "\""
+	Say "|"
+
+	# ALBUM
+	FindLine "<h5 class=\"book-title\">"
+	findinline "<h5 class=\"book-title\">"
+	SayUntil "<"
+	Say "|"
+
+	# ARTIST
+	findline "<span class=\"book-author\"> "	
+	findinline "<span class=\"book-author\"> "
+	SayUntil "<"
+	Say "|"
+	
+	# DURATION line 2814
+	MoveLine 2
+	unspace
+	replace "</p>" ""
+	sayrest
+		
+
+	SayNewline
+
+
+	FindLine "<p class=\"details__price--currency\">" 1 1
+	FindinLine "<p class=\"details__price--currency\">" 1 1
+while "R" 3
+
+
+################################################################################
+#                        ADJUST TAG INFORMATION DIALOG                         #
+################################################################################
+[ParserScriptAlbum]=...
+
+## Comment/uncomment for debugging purposes:
+#DebugWriteInput "C:\Users\xxx\Desktop\mp3tag_audiobooks_album.html"
+#Debug "on" "C:\Users\xxxx\Desktop\mp3tag_audiobooks_album.txt"
+
+# Get only the html we need to make it more simple
+findline "<div class=\"book-details-content container clearfix\">"
+joinuntil "Similar Titles and Also Customers"
+
+# Cover
+outputto "Coverurl"
+findinline "<div class=\"book-details-sidenav\">"
+findinline "<img src=\""
+say "https:"
+sayuntil "\""
+
+#Album Title
+outputto "Album"
+findinline "<h1 class=\"audiobookTitle\">"
+sayuntil "<"
+
+# I have to put the Unabridged somewhere
+#Description
+outputto "Description"
+findinline "<h4 class=\"fleft nobold\">"
+sayuntil "<"
+
+#Author
+outputto "Artist"
+findinline "<h4 class=\"book-written-by\">"
+# todo: use regex here
+findinline "\">" 3
+sayuntil "<"
+
+#Narrator
+outputto "Composer"
+findinline "<h4 class=\"book-narrated-by\">Narrated By:"
+# todo: use regex here
+findinline "\">" 3
+sayuntil "<"
+
+#Year
+outputto "Year"
+#todo: improve date
+findinline "Date: <span class=\"nobold\">"
+sayuntil "<"
+
+#Duration
+# Is it worth it?
+# todo: improve it
+outputto "Duration"
+findinline "<h4 class=\"book-duration\">"
+findinline "\">"
+
+#Comment
+outputto "Comment"
+findinline "<p class=\"hide\">"
+sayuntil "</p>"
+replace "<br />" " "
+
+#Genres
+outputto "Genre 1"
+findinline "<span itemprop=\"title\">"
+sayuntil "<"
+outputto "Genre 2"
+findinline "<span itemprop=\"title\">"
+sayuntil "<"
+outputto "Genre"
+sayoutput "Genre 1"
+say "/"
+sayoutput "Genre 2"
+
+# Set Artist = Albumartist
+outputto "albumartist"
+sayoutput "Artist"
+
+# Set Audible Album URL
+outputto "WWWAUDIOFILE"
+sayoutput "CurrentUrl"
