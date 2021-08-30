@@ -1,19 +1,19 @@
 ################################################################################
-# Mp3tag Tag Source for Audiobooks.com                                         #
-#                                                                              #
-# Created by romano in 29.08.2021				               #
-#                                                                              #
-# This file needs to be stored in Mp3tag's tag sources directory:              #
-# %APPDATA%\Mp3tag\data\sources                                                #
-#                                                                              #
-# [2020-08-29] v0.1                                                            #
-#       NEW: Initial work						       #
-#	NEW: Some cleanup						       #
-#	CHG: "Description" is now "comment" and updated to "Edition"	       #
-# Notes: Search limited to 3 books, as it gives error if not present,          #
-# for more change the number in this line "this while "R" 3".		       #
-# Tip: dont search with a lot of words  				       #
-# This web site only allows search for book or author.			       #
+# Mp3tag Tag Source for Audiobooks.com                                         
+#                                                                              
+# Created by romano in 29.08.2021				              				   
+#                                                                              
+# This file needs to be stored in Mp3tag's tag sources directory:              
+# %APPDATA%\Mp3tag\data\sources                                                
+#                                                                              
+# [2020-08-29] v0.1                                                            
+#       NEW: Initial work						    
+#	NEW: Some cleanup						       
+#	CHG: "Description" is now "comment" and updated to "Edition"	      
+# Notes: Search limited to 3 books, as it gives error if not present,     
+# for more change the number in this line "this while "R" 3".		      
+# Tip: dont search with a lot of words  				       
+# This web site only allows search for book or author.			       
 ################################################################################
 
 [Name]=Audiobooks.com
@@ -24,7 +24,6 @@
 [IndexFormat]=%_url%|% ↓ Album%|% ↓ Artist%|% ↓ Duration%
 [SearchBy]=%Album%
 [Encoding]=url-utf-8
-
 
 ################################################################################
 #                        LIST OF SEARCH RESULTS DIALOG                         #
