@@ -11,9 +11,8 @@
 #	NEW: Some cleanup						       
 #	CHG: "Description" is now "comment" and updated to "Edition"	      
 # Notes: Search limited to 3 books, as it gives error if not present,     
-# for more change the number in this line "this while "R" 3".		      
-# Tip: dont search with a lot of words  				       
-# This web site only allows search for book or author.			       
+# for more change the number in this line "this while "R" 3".		      				       
+# This web site only allows search for book or author.
 ################################################################################
 
 [Name]=Audiobooks.com
