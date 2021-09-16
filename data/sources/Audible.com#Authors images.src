@@ -1,11 +1,11 @@
 # ###################################################################
 #
-# Mp3tag parsing for Audible.com, created by romano
-# This is only to get artist Cover and Bio
+# Mp3tag parsing for Audible.com, created by romano.
+# This is only to get artist Cover and Bio.
 #
 # 2020-04-24: wip first(romano)
-# After 26.06.2020, join Github, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last Change: 07.01.2021
+# Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
+# Last Change: 16.09.2021
 #
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
@@ -22,14 +22,12 @@
 [SearchBy]=%artist% %album%
 [Encoding]=url-utf-8
 
-
 [ParserScriptIndex]=...
 # ###################################################################
 #					I  N  D  E  X
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
 #Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
-
 
 #join everything until end 
 joinuntil "</html>"
@@ -51,10 +49,8 @@ replace "\" >" "\">"
 replace "> <" "><"
 replace "Running Time:" ""
 
-
 findinline "results"
 findinline "<h3 class=\"bc-heading"
-
 
 #this \" is iqual to "
 do	
@@ -73,7 +69,6 @@ do
    	findinline "<h3 class=\"bc-heading " 1 1
     
 while "bc-color-link" 99
-
 
 [ParserScriptAlbum]=...
 # ###################################################################
