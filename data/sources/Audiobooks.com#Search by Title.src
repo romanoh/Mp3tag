@@ -7,15 +7,22 @@
 # %APPDATA%\Mp3tag\data\sources                                                
 #                                                                              
 # [2020-08-29] v0.1                                                            
-#       NEW: Initial work						    
+#   NEW: Initial work						    
 #	NEW: Some cleanup						       
-#	CHG: "Description" is now "comment" and updated to "Edition"	      
+#	CHG: "Description" is now "comment" and updated to "Edition"	
+#
+# [2021-11-26] v0.2
+#	CHG: Improved Duration.
+#	FIX: Fixed to work with new html.
+#
+#
+#     
 # Notes: Search limited to 3 books, as it gives error if not present,     
 # for more change the number in this line "this while "R" 3".		      				       
 # This web site only allows search for book or author.
 ################################################################################
 
-[Name]=Audiobooks.com
+[Name]=Audiobooks.com [v.0.2-26.11.2021]
 [BasedOn]=Audiobooks.com
 [IndexUrl]=https://www.audiobooks.com/search/book/
 [AlbumUrl]=https://www.audiobooks.com/audiobook
@@ -78,13 +85,6 @@ while "R" 3
 findline "<div class=\"book-details-content container clearfix\">"
 joinuntil "Similar Titles and Also Customers"
 
-# Cover
-outputto "Coverurl"
-findinline "<div class=\"book-details-sidenav\">"
-findinline "<img src=\""
-say "https:"
-sayuntil "\""
-
 #Album Title
 outputto "Album"
 findinline "<h1 class=\"audiobookTitle\">"
@@ -95,6 +95,13 @@ sayuntil "<"
 outputto "Edition"
 findinline "<h4 class=\"fleft nobold\">"
 sayuntil "<"
+
+# Cover
+outputto "Coverurl"
+findinline "<div class=\"book-details-sidenav\">"
+findinline "src=\""
+say "https:"
+sayuntil "\""
 
 #Author
 outputto "Artist"
@@ -120,8 +127,8 @@ sayuntil "<"
 # Is it worth it?
 # todo: improve it
 outputto "Duration"
-findinline "<h4 class=\"book-duration\">"
-findinline "\">"
+findinline "<span class="nobold\">"
+sayuntil "<"
 
 #Comment
 outputto "Comment"
