@@ -3,13 +3,15 @@
 # Mp3tag parsing for Libro.fm, created by romano on 2020-12-21
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 24.12.2020 v.0.6
+#
+# [28.11.2021] v.0.7
+#	CHG: Results for search to 10
 # 
 # This file should be in your sources dir. 
 # 
 # ####################################################################
 
-[Name]=Libro [v.0.6-24.12.2020]
+[Name]=Libro [v.0.7-28.11.2021]
 [BasedOn]=www.libro.fm
 [IndexUrl]=https://libro.fm/search?utf8=0x2713&q=
 [AlbumUrl]=https://libro.fm
@@ -24,7 +26,7 @@
 #					I  N  D  E  X
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tagindex.txt"
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebugindex.txt"	
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tag_debug_libro_index.txt"	
 
 #Only select the area we need instead of everyting.
 findline "<div class=\"book-grid-item-info\">"
@@ -74,7 +76,7 @@ do
 	 
    findinline "<div class=\"book-grid-item-info\">" 1 1
    
-while " " 30
+while " " 10
 
 [ParserScriptAlbum]=...
 # ###################################################################
