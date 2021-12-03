@@ -3,28 +3,29 @@
 # Mp3tag parsing for storytel.com, created by romano on 2020-11-28
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 27.12.2020 v.0.8
+# Last update: 03.12.2021 v.0.9
 # 04.12.2020 - Fix sort album tag if the album is not from a series
-# 27.12.2020 - Improve Lenght display 
+# 27.12.2020 - Improve Lenght display
+# 03.12.2021 - Complete change because hmtl changes
 # 
 # ####################################################################
 
-[Name]=Storytel [v.0.8-27.12.2020]
+[Name]=Storytel [v.0.9-03.12.2021]
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/in/en/search-
 [AlbumUrl]=https://www.storytel.com
 [WordSeperator]=+
 [IndexFormat]=% ↓ Language%|% ↓ Album%|% ↓ Author%|% ↓ Type%|%_url%
 [SearchBy]=Enter Album||$regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
+[UserAgent]=1
 [Encoding]=url-utf-8
-
 
 [ParserScriptIndex]=...
 # ###################################################################
 #					I  N  D  E  X
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"	
+#Debug "ON" "C:\Users\xxx\Desktop\mp3tag_storytel_debug_index.txt"	
 
 #Only select the area we need instead of everyting.
 findline "gridItem"
@@ -71,8 +72,8 @@ while "\"" 25
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag_storytel_html.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tag_storytel_debug.txt"
 
 # Cover
 outputto "Coverurl"
@@ -82,124 +83,63 @@ sayuntil "\""
 
 # Album
 outputto "Album"
-findline "hide-on-mobile"
-findline "name\">"
-findinline "name\">"
-sayuntil "</span>"
-
-# Rating
-outputto "RATING WINAMP"
-findline "dennisBookRating" 1 1
-findinline "rating=\""
-sayuntil "\""
+findline "marginBottomDesktop: 0;\">"
+findinline "marginBottomDesktop: 0;\">"
+sayuntil "<"
 
 # Author/Artist
 outputto "Artist"
-findline "expandAuthor"
-findinline "expandAuthorName\">"
-sayuntil "</span>"
+findline "authors"
+findinline "href="
+findinline ">"
+sayuntil "<"
 
 # Narrator
 outputto "Composer"
-findline "expandReader"
-findinline "expandReaderName\">"
-sayuntil "</span>"
+findline "narrators"
+findinline "href="
+findinline ">"
+sayuntil "<"
 
 # Description
 outputto "Comment"
-findline "description"
-findinline "\">"
-moveline 1
-replace "<br />" " "
-sayuntil "</span>"
+findline "book-description"
+findinline "><p>"
+sayuntil "<"
 
 # Genre
 outputto "Genre"
-findline "Category:"
-findinline "category\">"
-sayuntil "</span>"
-
-# Series
-outputto "SERIES"
-findline "Series:" 1 1
-if "<b class=\"bookDetailListItem margin\">"
-	findinline "/series/" 1 1
-	findinline "\">" 1 1
-	sayuntil ":"
-	outputto "series-part"
-	findinline ":" 1 1
-	sayuntil "</a>"
-else
-	say ""
-	gotoline 1
-endif
+findline "categories"
+findinline "href="
+findinline ">"
+sayuntil "<"
 
 #Publisher
 outputto "Publisher"
-findline "Publisher:"
-joinuntil "</span>"
-findinline "\" itemprop=\"brand\">"
-sayuntil "</a>"
+findline "publishers"
+findinline "href="
+findinline ">"
+sayuntil "<"
 
 # Year
 outputto "year"
-findline "Published:"
 moveline 1
-SayUntil "</b>"
+findinline "\">"
+sayuntil "<"
 
 # Lenght
 outputto "lenght"
-findline "Length:"
-replace "H " ":"
+moveline 1
+findinline "\">"
+replace "T " ":"
 replace "Min" ""
-findinline "Length:"
-sayuntil "</b>"
+sayuntil "<"
 
 #ISBN
 outputto "ISBN"
-findline "ISBN: "
-findinline "ISBN: "
+moveline 1
+findinline "\">"
 saynextnumber
-
-#DESCRIPTION
-outputto "DESCRIPTION"
-findline "expandTagsTag" 1 1
-if "<b"
-	joinuntil "</div>"
-do	
-	findinline "\">" 2
-	sayuntil "</a></b>"
-	say "; "
-		
-	saynewline
-	 
-    findinline "expandTagsTag" 1 1
-    
-while "\"" 25
-else
-endif	
-
-# Set "Albumsort"
-IfOutput "series"
-	outputto "Albumsort"
-	sayoutput "series"
-	say " "
-	sayoutput "series-part"
-	say " "
-	say "- "
-	sayoutput "Year"
-	say ". "
-	sayoutput "album"
-else
-	outputto "Albumsort"
-	sayoutput "Year"
-	say ". "
-	sayoutput "album"
-endif
-
-# Set Disknumber
-outputto "DISCNUMBER"
-sayoutput "series-part"
 
 # Set Audible Album URL
 outputto "WWWAUDIOFILE"
@@ -208,3 +148,69 @@ sayoutput "CurrentUrl"
 # Set Artist = Albumartist
 outputto "albumartist"
 sayoutput "Artist"
+
+
+#####Below are tags todo#####
+
+## Rating
+#outputto "RATING WINAMP"
+#findline "dennisBookRating" 1 1
+#findinline "rating=\""
+#sayuntil "\""
+#
+## Series
+#outputto "SERIES"
+#findline "Series:" 1 1
+#if "<b class=\"bookDetailListItem margin\">"
+#	findinline "/series/" 1 1
+#	findinline "\">" 1 1
+#	sayuntil ":"
+#	outputto "series-part"
+#	findinline ":" 1 1
+#	sayuntil "</a>"
+#else
+#	say ""
+#	gotoline 1
+#endif
+#
+#
+##DESCRIPTION
+#outputto "DESCRIPTION"
+#findline "expandTagsTag" 1 1
+#if "<b"
+#	joinuntil "</div>"
+#do	
+#	findinline "\">" 2
+#	sayuntil "</a></b>"
+#	say "; "
+#		
+#	saynewline
+#	 
+#    findinline "expandTagsTag" 1 1
+#    
+#while "\"" 25
+#else
+#endif	
+#
+## Set "Albumsort"
+#IfOutput "series"
+#	outputto "Albumsort"
+#	sayoutput "series"
+#	say " "
+#	sayoutput "series-part"
+#	say " "
+#	say "- "
+#	sayoutput "Year"
+#	say ". "
+#	sayoutput "album"
+#else
+#	outputto "Albumsort"
+#	sayoutput "Year"
+#	say ". "
+#	sayoutput "album"
+#endif
+#
+## Set Disknumber
+#outputto "DISCNUMBER"
+#sayoutput "series-part"
+
