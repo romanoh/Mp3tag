@@ -3,14 +3,15 @@
 # Mp3tag parsing for storytel.com, created by romano on 2020-11-28
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 03.12.2021 v.0.9
-# 04.12.2020 - Fix sort album tag if the album is not from a series
-# 27.12.2020 - Improve Lenght display
-# 03.12.2021 - Complete change because hmtl changes
+# 
+# 04.12.2020 - Fix sort album tag if the album is not from a series.
+# 27.12.2020 - Improve Lenght display.
+# 03.12.2021 - Complete change because hmtl changes.
+# 04.12.2021 - Added series name and number, more Genres, album sort.
 # 
 # ####################################################################
 
-[Name]=Storytel [v.0.9-03.12.2021]
+[Name]=Storytel [v.1-04.12.2021]
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/in/en/search-
 [AlbumUrl]=https://www.storytel.com
@@ -114,6 +115,22 @@ findinline "href="
 findinline ">"
 sayuntil "<"
 
+## Series
+outputto "SERIES"
+findline "Series:" 1 1
+if "<dd class=\"book-meta-def svelte-g64wvk"
+	moveline 1
+	findinline "href=\""
+	findinline "\">"
+	sayuntil ":"
+	outputto "series-part"
+	moveline 1
+	sayuntil "</a>"
+else
+	say ""
+	gotoline 1
+endif
+
 #Publisher
 outputto "Publisher"
 findline "publishers"
@@ -135,13 +152,13 @@ replace "T " ":"
 replace "Min" ""
 sayuntil "<"
 
-#ISBN
+# ISBN
 outputto "ISBN"
 moveline 1
 findinline "\">"
 saynextnumber
 
-# Set Audible Album URL
+# Set Album URL
 outputto "WWWAUDIOFILE"
 sayoutput "CurrentUrl"
 
@@ -149,68 +166,83 @@ sayoutput "CurrentUrl"
 outputto "albumartist"
 sayoutput "Artist"
 
+# Set Disknumber
+outputto "DISCNUMBER"
+sayoutput "series-part"
 
-#####Below are tags todo#####
+# Set "Albumsort"
+IfOutput "series"
+	outputto "Albumsort"
+	sayoutput "series"
+	say " "
+	sayoutput "series-part"
+	say " "
+	say "- "
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+else
+	outputto "Albumsort"
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+endif
 
-## Rating
-#outputto "RATING WINAMP"
-#findline "dennisBookRating" 1 1
-#findinline "rating=\""
-#sayuntil "\""
-#
-## Series
-#outputto "SERIES"
-#findline "Series:" 1 1
-#if "<b class=\"bookDetailListItem margin\">"
-#	findinline "/series/" 1 1
-#	findinline "\">" 1 1
-#	sayuntil ":"
-#	outputto "series-part"
-#	findinline ":" 1 1
-#	sayuntil "</a>"
-#else
-#	say ""
-#	gotoline 1
-#endif
-#
-#
-##DESCRIPTION
-#outputto "DESCRIPTION"
-#findline "expandTagsTag" 1 1
-#if "<b"
-#	joinuntil "</div>"
-#do	
-#	findinline "\">" 2
-#	sayuntil "</a></b>"
-#	say "; "
-#		
-#	saynewline
-#	 
-#    findinline "expandTagsTag" 1 1
-#    
-#while "\"" 25
-#else
-#endif	
-#
-## Set "Albumsort"
-#IfOutput "series"
-#	outputto "Albumsort"
-#	sayoutput "series"
-#	say " "
-#	sayoutput "series-part"
-#	say " "
-#	say "- "
-#	sayoutput "Year"
-#	say ". "
-#	sayoutput "album"
-#else
-#	outputto "Albumsort"
-#	sayoutput "Year"
-#	say ". "
-#	sayoutput "album"
-#endif
-#
-## Set Disknumber
-#outputto "DISCNUMBER"
-#sayoutput "series-part"
+# More Genres
+outputto "GenreTMP1"
+findline "tag-list svelte-1qizh7d"
+if "<ul class=\"tag-list svelte-1qizh7d"
+	joinuntil "</a></li></ul>"
+	findinline "href=\""
+	findinline ">"
+	sayuntil "<"
+	
+	outputto "GenreTMP2"
+	findinline "href=\""
+	findinline ">"
+	sayuntil "<"
 
+	outputto "GenreTMP3"
+	findinline "href=\""
+	findinline ">"
+	sayuntil "<"
+
+	outputto "GenreTMP4"
+	findinline "href=\""
+	findinline ">"
+	sayuntil "<"
+else
+
+endif
+
+outputto "Genre"
+
+say "//"
+
+IfOutput "GenreTMP1"
+	sayoutput "GenreTMP1"
+else
+endif
+
+IfOutput "GenreTMP2"
+	say "//"
+	sayoutput "GenreTMP2"
+else
+endif
+
+IfOutput "GenreTMP3"
+	say "//"
+	sayoutput "GenreTMP3"
+else
+endif
+
+IfOutput "GenreTMP4"
+	say "//"
+	sayoutput "GenreTMP4"
+else
+endif
+
+set "GenreTMP1"
+set "GenreTMP2"
+set "GenreTMP3"
+set "GenreTMP4"
