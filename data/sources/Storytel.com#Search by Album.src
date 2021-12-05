@@ -8,10 +8,11 @@
 # 27.12.2020 - Improve Lenght display.
 # 03.12.2021 - Complete change because hmtl changes.
 # 04.12.2021 - Added series name and number, more Genres, album sort.
+# 04.12.2021 - Fix several tags errors if data was not present.
 # 
 # ####################################################################
 
-[Name]=Storytel [v.1-04.12.2021]
+[Name]=Storytel [v.1.1-04.12.2021]
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/in/en/search-
 [AlbumUrl]=https://www.storytel.com
@@ -189,37 +190,60 @@ else
 endif
 
 # More Genres
-outputto "GenreTMP1"
+
 findline "tag-list svelte-1qizh7d"
+if "<ul class=\"tag-list svelte-1qizh7d\"></ul>"
+
+else
+
 if "<ul class=\"tag-list svelte-1qizh7d"
 	joinuntil "</a></li></ul>"
-	findinline "href=\""
-	findinline ">"
-	sayuntil "<"
+	
+	outputto "GenreTMP1"
+	findinline "href=\"" 1 1
+	if "/"
+		findinline ">"
+		sayuntil "<"
+	else
+		say ""
+	endif
 	
 	outputto "GenreTMP2"
-	findinline "href=\""
-	findinline ">"
-	sayuntil "<"
+	findinline "href=\"" 1 1
+	if "/"
+		findinline ">"
+		sayuntil "<"
+	else
+		say ""
+	endif
 
 	outputto "GenreTMP3"
-	findinline "href=\""
-	findinline ">"
-	sayuntil "<"
+	findinline "href=\"" 1 1
+	if "/"
+		findinline ">"
+		sayuntil "<"
+	else
+		say ""
+	endif
 
 	outputto "GenreTMP4"
-	findinline "href=\""
-	findinline ">"
-	sayuntil "<"
+	findinline "href=\"" 1 1
+	if "/"
+		findinline ">"
+		sayuntil "<"
+	else
+		say ""
+	endif
 else
 
 endif
+endif
+
 
 outputto "Genre"
 
-say "//"
-
 IfOutput "GenreTMP1"
+	say "//"
 	sayoutput "GenreTMP1"
 else
 endif
