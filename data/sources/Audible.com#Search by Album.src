@@ -2,7 +2,7 @@
 # Mp3tag parsing for Audible.com.
 # Initially created by dano on 2013-03-11
 # After 11.04.2020, improved by romano, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 27.08.2021
+# Last update: 22.12.2021: Fix a rare error in series name appearing as "Audible Original Stories"
 #
 #
 #
@@ -10,7 +10,7 @@
 # On Windows XP it's C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
 # ####################################################################
 
-[Name]=Audible.com [v.27.08.2021]
+[Name]=Audible.com [v.22.12.2021]
 [BasedOn]=www.audible.com
 [IndexUrl]=https://www.audible.com/search?keywords=
 [AlbumUrl]=https://www.audible.com
@@ -193,10 +193,14 @@ if "seriesLabel"
 	outputto "SERIES"
 	findline "href="
 	findinline ">"
-	sayuntil "<"
-	outputto "series-part"
-	findinline "a>, Book " 1 1
-	SayRegexp "^[.?\d]+$"
+	if "Audible Original Stories" 
+		sayoutput ""
+	else
+		sayuntil "<"
+		outputto "series-part"
+		findinline "a>, Book " 1 1
+		SayRegexp "^[.?\d]+$"
+	endif
 else
 	gotoline 1
 endif
