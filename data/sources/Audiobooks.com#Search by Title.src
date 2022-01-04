@@ -19,9 +19,7 @@
 #   FIX: Handle search redirect to book (Frozer)
 #   FIX: Only ouput year (Frozer)
 #   CHG: List all search results on page (Frozer)
-#     
-# Notes: Search limited to 3 books, as it gives error if not present,     
-# for more change the number in this line "this while "R" 3".		      				       
+#         				       
 # This web site only allows search for book or author.
 ################################################################################
 
