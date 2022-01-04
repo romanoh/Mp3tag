@@ -15,14 +15,17 @@
 #	CHG: Improved Duration.
 #	FIX: Fixed to work with new html.
 #
-#
+# [2022-01-04] v0.3 (by Frozer)
+#   FIX: Handle search redirect to book (Frozer)
+#   FIX: Only ouput year (Frozer)
+#   CHG: List all search results on page (Frozer)
 #     
 # Notes: Search limited to 3 books, as it gives error if not present,     
 # for more change the number in this line "this while "R" 3".		      				       
 # This web site only allows search for book or author.
 ################################################################################
 
-[Name]=Audiobooks.com [v.0.2-26.11.2021]
+[Name]=Audiobooks.com [v.0.3-04.01.2022]
 [BasedOn]=Audiobooks.com
 [IndexUrl]=https://www.audiobooks.com/search/book/
 [AlbumUrl]=https://www.audiobooks.com/audiobook
@@ -39,38 +42,50 @@
 #DebugWriteInput "C:\Users\xxx\Desktop\mp3tag_audiobooks.html"
 #Debug "on" "C:\Users\xxxx\Desktop\audiobooks.txt"
 
-FindLine "<h3 class=\"nobold nopadding\">"
+FindLine "<h3 class=\"nobold nopadding\">" 1 1
+unspace
 
-do
-	# URL
-	FindLine "<a href=\""
-	findinline "<a href=\""
-	SayUntil "\""
-	Say "|"
+if "<h3"
+	do
+		# URL
+		FindLine "<a href=\""
+		findinline "<a href=\""
+		SayUntil "\""
+		Say "|"
 
-	# ALBUM
-	FindLine "<h5 class=\"book-title\">"
-	findinline "<h5 class=\"book-title\">"
-	SayUntil "<"
-	Say "|"
+		# ALBUM
+		FindLine "<h5 class=\"book-title\">"
+		findinline "<h5 class=\"book-title\">"
+		SayUntil "<"
+		Say "|"
 
-	# ARTIST
-	findline "<span class=\"book-author\"> "	
-	findinline "<span class=\"book-author\"> "
-	SayUntil "<"
-	Say "|"
-	
-	# DURATION
-	MoveLine 2
-	unspace
-	replace "</p>" ""
-	sayrest
+		# ARTIST
+		findline "<span class=\"book-author\"> "	
+		findinline "<span class=\"book-author\"> "
+		SayUntil "<"
+		Say "|"
 		
-	SayNewline
+		# DURATION
+		MoveLine 2
+		unspace
+		replace "</p>" ""
+		sayrest
+			
+		SayNewline
 
-	FindLine "<p class=\"details__price--currency\">" 1 1
-	FindinLine "<p class=\"details__price--currency\">" 1 1
-while "R" 3
+		FindLine "<div class=\"browseContainer__bookItem flexer\">" 1 1
+		FindInLine "<div class=\"" 1 1
+	while "browseContainer__bookItem flexer"
+else
+	gotoline 1
+	FindLine "<meta property=\"og:url\""
+	FindInLine "<meta property="og:url" content=\""
+	# redirected straight to the page instead of a search page, just pass it to the Album Parser
+	sayuntil "\""
+	say "|||"
+	saynewline
+	gotoline 1
+endif
 
 ################################################################################
 #                        ADJUST TAG INFORMATION DIALOG                         #
@@ -121,7 +136,7 @@ sayuntil "<"
 outputto "Year"
 #todo: improve date
 findinline "Date: <span class=\"nobold\">"
-sayuntil "<"
+sayregexp "\d+" "" "<"
 
 #Duration
 # Is it worth it?
