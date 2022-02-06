@@ -2,6 +2,12 @@
 
 This is my modified custom web sources/actions/export for [mp3tag](https://www.mp3tag.de/en/).
 
+### Installing
+Just copy the files to:
+
+```
+C:\Users\"your username"\AppData\Roaming\Mp3tag
+```
 
 ## Sources:
 ### Audiobooks.com
