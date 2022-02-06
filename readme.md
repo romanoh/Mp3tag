@@ -1,8 +1,19 @@
 # Audiobook/Music Tag Scraper for Mp3tag
 
 This is my modified custom web sources/actions/export for [mp3tag](https://www.mp3tag.de/en/).
+### Installing
 
-Updated tags using sources-->use actions to order folders.
+1. Clone (or unzip) this project into your Mp3tag directory(C:\Users\xxxxx\AppData\Roaming\Mp3tag):
+
+```
+git clone https://github.com/romanoh/Mp3tag-Repository.git
+```
+
+For future updates, run the below commmand from within the Mp3tag folder.
+
+```
+git pull
+```
 
 ## Sources:
 ### Audiobooks.com
