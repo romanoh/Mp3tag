@@ -6,7 +6,7 @@ This is my modified custom web sources/actions/export for [mp3tag](https://www.m
 1. Clone (or unzip) this project into your parent Mp3tag directory(C:\Users\xxxxx\AppData\Roaming):
 
 ```
-git clone https://github.com/romanoh/Mp3tag-Repository.git
+git clone https://github.com/romanoh/Mp3tag.git
 ```
 
 For future updates, run the below commmand from within the Mp3tag folder.
