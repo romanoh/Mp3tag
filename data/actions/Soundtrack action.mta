@@ -1,0 +1,15 @@
+﻿[#0]
+T=5
+1=%_counter%
+F=TRACK
+
+[#1]
+T=5
+F=_DIRECTORY
+1=U:\\%albumartist%\\%album% [(%comment%)](%_bitrate%kb) [(%year%)]
+
+[#2]
+T=5
+1=$num(%track%,2). %title%
+F=_FILENAME
+
