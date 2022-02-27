@@ -1,0 +1,211 @@
+﻿################################################################################
+# Mp3tag Tag Source for Deezer 		                                           
+# I used vikaesar web source(v1.00) to make my own(this version uses the json 
+# in https://api.deezer.com, instead of the json inside the html).                                                                                                                                    
+#                                                                              
+# INSTRUCTIONS: This file needs to be stored in Mp3tag's tag sources           
+#               directory:                                                     
+#               %APPDATA%\Mp3tag\data\sources                                  
+#                                                                              
+# CHANGELOG                                                                                                                                        
+# [2022-02-27]  v1.01  Initial release           
+################################################################################
+
+[Name]=Deezer [2022-02-27 v1.01]
+[BasedOn]=www.deezer.com
+[IndexUrl]=https://www.deezer.com/search/%s
+[AlbumUrl]=https://api.deezer.com/album/
+[WordSeparator]=%20
+[IndexFormat]=%_preview%|%_url%|%Album%|%Artist%|%Year%
+[SearchBy]=%Artist% %Album%
+[Encoding]=url-utf-8
+[UserAgent]=1
+
+
+################################################################################
+#                        LIST OF SEARCH RESULTS DIALOG                         #
+################################################################################
+[ParserScriptIndex]=...
+
+## Comment/uncomment for debugging purposes:
+# DebugWriteInput "C:\Users\your_username\Desktop\deezer_index_debug.html"
+# Debug "ON" "C:\Users\xxxx\Desktop\deezer_index_debug.txt"
+
+FindLine "<script>window.__DZR_APP_STATE__"
+RegexpReplace ".+<script>.+ = " ""
+RegexpReplace "</script>.+</div>" ""
+
+json "ON" "current"
+
+## First, check if we've found anything
+json_select_object "ALBUM"
+json_select "count"
+
+## Then iterate over all releases
+ifnot "0"
+	json_foreach "data"
+		
+		# Preview (no column, only for preview)
+        say "https://www.deezer.com/pt/album/"
+		json_select "ALB_ID"
+		SayRest
+		Say "|"
+		
+		# URL
+		json_select "ALB_ID"
+		SayRest
+		Say "|"
+
+		# Album
+		json_select "ALB_TITLE"
+		SayRest
+		Say "|"
+
+		# Artist
+		json_select "ART_NAME"
+		SayRest
+		Say "|"
+
+		# Year
+		json_select "PHYSICAL_RELEASE_DATE"
+		SayRest
+
+		SayNewline
+
+	json_foreach_end
+endif
+
+
+################################################################################
+#                        ADJUST TAG INFORMATION DIALOG                         #
+################################################################################
+[ParserScriptAlbum]=...
+
+## Comment/uncomment for debugging purposes:
+# DebugWriteInput "C:\Users\your_username\Desktop\deezer_album_debug.html"
+# Debug "ON" "C:\Users\xxxx\Desktop\deezer_album_debug.txt"
+
+
+json "ON" "current"
+
+# Album
+OutputTo "ALBUM"
+json_select "title"
+SayRest
+
+# Album
+OutputTo "MEDIATYPE"
+json_select "record_type"
+SayRest
+
+# UPC
+OutputTo "UPC"
+json_select "upc"
+SayRest
+
+# Link
+OutputTo "www"
+json_select "link"
+SayRest
+
+# Album artist
+outputto "albumartist"
+json_select_object "artist"
+json_select "name"
+if "Various Artists"
+	OutputTo "COMPILATION"
+	Say "1"
+endif
+SayRest
+json_unselect_object
+
+# Publisher
+OutputTo "PUBLISHER"
+json_select "label"
+SayRest
+
+# Cover
+OutputTo "COVERURL"
+json_select "cover_big"
+SayRest
+## You can choose the cover resolution here, up to 1000px x 1000px
+## Just use "cover_medium" or "cover_big" or "cover_xl"
+
+# Release date
+OutputTo "YEAR"
+json_select "release_date"
+## A) Full date, e.g. 2018-09-26
+#SayRest
+## B) Year only, e.g. 2018
+SayUntil "-"
+
+# Genres
+outputto "GENRE"
+json_select_object "genres"
+json_foreach "data"
+	ifnot "0"
+		json_select "name"
+		ifoutput "genre"
+			say "/"
+		endif
+		sayrest			
+	endif
+json_foreach_end
+json_unselect_object
+
+# All kind of contributors(the data in Deezer is small)
+OutputTo "INVOLVEDPEOPLE"
+json_foreach "contributors"
+	ifnot "0"
+		json_select "type"
+		sayrest
+		say "("
+		json_select "role"
+		sayrest
+		say "):"
+		json_select "name"
+		sayrest			
+	endif
+json_foreach_end
+json_unselect_object	
+
+# Track count
+outputto "comment"
+say "Full release date: "
+json_select "release_date"
+SayRest
+
+# Track count
+outputto "TOTALTRACKS"
+json_select "nb_tracks"
+SayRest
+
+
+## Then iterate over all tracks
+json_select_object "tracks"
+json_foreach "data"
+	ifnot "0"
+				
+		# tracks
+		outputto "tracks"
+		json_select "title"	
+		sayrest	
+		say "|"
+		
+		#Lenght
+		outputto "_LENGTH"
+		json_select "duration"
+		sayrest
+		say "|"
+		
+		#artist
+		outputto "Artist"
+		json_select_object "artist"
+		json_select "name"
+		sayrest
+		say "|"
+		
+	endif
+
+json_foreach_end
+json_unselect_object
