@@ -112,15 +112,6 @@ SayRest
 outputto "albumartist"
 json_select_object "artist"
 json_select "name"
-if "Various Artists"
-	OutputTo "COMPILATION"
-	Say "1"
-endif
-if "Vários intérpretes"
-	OutputTo "COMPILATION"
-	Say "1"
-endif
-
 SayRest
 json_unselect_object
 
