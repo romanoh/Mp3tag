@@ -14,6 +14,8 @@
 #	-Fix: "Release date" for when it had no day.
 # Update 27.08.2021
 #	-Fix: "Lyricist" tag.
+# Update 03.04.2022
+#	-Fix: "Artist" tag.
 # 
 # Copy this file to your sources directory at
 # %APPDATA%\Mp3tag\data\sources
@@ -23,8 +25,8 @@
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-#Debug "ON" "C:\Users\%user%\Desktop\mp3tagdebug.txt"
-#DebugWriteInput "C:\Users\%user%\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
+#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.html"
 
 findline "main page contents"
 
@@ -197,6 +199,7 @@ replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Music</
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Written by</b></td><td width="100%">" ""
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>All Music Composed by</b></td><td width="100%">" ""
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Music Composed by</b></td><td width="100%">" ""
+replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Sound Director</b></td><td width="100%">" ""
 replace "<span style="color:yellow" title="Uncredited">*" ""
 
 sayuntil "</td></tr>"
