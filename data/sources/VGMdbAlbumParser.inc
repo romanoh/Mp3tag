@@ -33,7 +33,7 @@ findline "main page contents"
 # Album
 outputto "Album"
 findline "class=\"albumtitle\""
-replace "|" "$verticalBar()"
+Unspace
 findinline "class=\"albumtitle\""
 findinline ">"
 sayuntil "</span"
