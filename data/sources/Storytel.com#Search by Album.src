@@ -9,10 +9,11 @@
 # 03.12.2021 - Complete change because hmtl changes.
 # 04.12.2021 - Added series name and number, more Genres, album sort.
 # 04.12.2021 - Fix several tags errors if data was not present.
+# 07.05.2022 - Fix publisher/year tags errors after html changes
 # 
 # ####################################################################
 
-[Name]=Storytel [v.1.1-04.12.2021]
+[Name]=Storytel [v.1.2-07.05.2022]
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/in/en/search-
 [AlbumUrl]=https://www.storytel.com
@@ -134,7 +135,8 @@ endif
 
 #Publisher
 outputto "Publisher"
-findline "publishers"
+findline "Publisher:</dt>"
+moveline 1
 findinline "href="
 findinline ">"
 sayuntil "<"
@@ -149,8 +151,6 @@ sayuntil "<"
 outputto "lenght"
 moveline 1
 findinline "\">"
-replace "T " ":"
-replace "Min" ""
 sayuntil "<"
 
 # ISBN
