@@ -10,7 +10,7 @@
 # 04.12.2021 - Added series name and number, more Genres, album sort.
 # 04.12.2021 - Fix several tags errors if data was not present.
 # 07.05.2022 - Fix publisher/year tags errors after html changes
-# 11.06.2022 - Starting to make new Overall script structure as all html as change.
+# 11.06.2022 - Made new Overall script structure as all html as change (Todo: more authors/narrators)
 # 
 # ####################################################################
 
@@ -77,13 +77,30 @@ while "\"" 25
 #					A  L  B  U  M
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag_storytel_html.html"
-#Debug "ON" "C:\Users\xxx\Desktop\mp3tag_storytel_debug.txt"
+# Debug "ON" "C:\Users\xxxx\Desktop\mp3tag_storytel_debug.txt"
 
 # Cover
 outputto "Coverurl"
 findline "og:image"
 findinline "content=\""
 sayuntil "\""
+
+## Series
+outputto "SERIES"
+findline "Series"
+if "</dd><dt"
+	moveline 1
+	findinline "href=\""
+	findinline "-"
+	sayuntil "\""
+	outputto "series-part"
+	moveline 1
+	sayrest
+	gotoline 1
+else
+	say ""
+	gotoline 1
+endif
 
 # Album
 outputto "Album"
@@ -128,11 +145,12 @@ sayrest
 outputto "lenght"
 findline "Length"
 moveline 2
+replace "T" "h"
 sayuntil "<"
 
 # Book Description
 outputto "Comment"
-findline ">Audiobook<"
+findline ">Audiobook"
 moveline 1
 findinline "<p><p>"
 regexpreplace "</?[^><]+>" ""
@@ -157,30 +175,6 @@ unspace
 saynextnumber
 
 
-
-
-
-
-
-## Series
-outputto "SERIES"
-findline "Series:" 1 1
-if "<dd class=\"book-meta-def svelte-g64wvk"
-	moveline 1
-	findinline "href=\""
-	findinline "\">"
-	sayuntil ":"
-	outputto "series-part"
-	moveline 1
-	sayuntil "</a>"
-else
-	say ""
-	gotoline 1
-endif
-
-
-
-
 # Set year = RELEASETIME
 outputto "RELEASETIME"
 sayoutput "year"
@@ -196,8 +190,6 @@ sayoutput "Artist"
 # Set Disknumber
 outputto "DISCNUMBER"
 sayoutput "series-part"
-
-
 
 
 # Set "Albumsort"
@@ -220,17 +212,13 @@ endif
 
 
 
-
-
 # More Genres
 
-findline "tag-list svelte-1qizh7d"
-if "<ul class=\"tag-list svelte-1qizh7d\"></ul>"
+findline "Explore more of"
 
-else
 
-if "<ul class=\"tag-list svelte-1qizh7d"
-	joinuntil "</a></li></ul>"
+if "<section class=\"book-tags"
+	joinuntil "</li></ul></div>"
 	
 	outputto "GenreTMP1"
 	findinline "href=\"" 1 1
@@ -270,7 +258,6 @@ if "<ul class=\"tag-list svelte-1qizh7d"
 else
 
 endif
-endif
 
 
 outputto "Genre"
@@ -299,6 +286,7 @@ IfOutput "GenreTMP4"
 else
 endif
 
+# remove tags
 set "GenreTMP1"
 set "GenreTMP2"
 set "GenreTMP3"
