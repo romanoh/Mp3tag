@@ -10,10 +10,11 @@
 # 04.12.2021 - Added series name and number, more Genres, album sort.
 # 04.12.2021 - Fix several tags errors if data was not present.
 # 07.05.2022 - Fix publisher/year tags errors after html changes
+# 11.06.2022 - Starting to make new Overall script structure as all html as change.
 # 
 # ####################################################################
 
-[Name]=Storytel [v.1.2-07.05.2022]
+[Name]=Storytel [v.1.3-11.06.2022]
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/in/en/search-
 [AlbumUrl]=https://www.storytel.com
@@ -76,7 +77,7 @@ while "\"" 25
 #					A  L  B  U  M
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag_storytel_html.html"
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tag_storytel_debug.txt"
+#Debug "ON" "C:\Users\xxx\Desktop\mp3tag_storytel_debug.txt"
 
 # Cover
 outputto "Coverurl"
@@ -86,8 +87,8 @@ sayuntil "\""
 
 # Album
 outputto "Album"
-findline "marginBottomDesktop: 0;\">"
-findinline "marginBottomDesktop: 0;\">"
+findline "title svelte-h3fdj7\">"
+findinline "title svelte-h3fdj7\">"
 sayuntil "<"
 
 # Author/Artist
@@ -104,18 +105,62 @@ findinline "href="
 findinline ">"
 sayuntil "<"
 
-# Description
-outputto "Comment"
-findline "book-description"
-findinline "><p>"
+# year
+outputto "year"
+findline "Audiobook:"
+findinline ":"
+sayuntil "<"
+
+# Language
+outputto "language"
+findline "Language"
+findinline "info-def"
+findinline ">"
 sayuntil "<"
 
 # Genre
 outputto "Genre"
 findline "categories"
-findinline "href="
-findinline ">"
+findinline "book-info-category\">"
+sayrest
+
+# Lenght
+outputto "lenght"
+findline "Length"
+moveline 2
 sayuntil "<"
+
+# Book Description
+outputto "Comment"
+findline ">Audiobook<"
+moveline 1
+findinline "<p><p>"
+regexpreplace "</?[^><]+>" ""
+#unspace
+sayuntil "</p></p>"
+
+# year
+outputto "copyright"
+findline "&copy;"
+findinline "&copy;"
+saynextnumber
+
+# publisher
+outputto "publisher"
+findinline "-publisher\">"
+sayuntil "<"
+
+#Isbn
+outputto "ISBN"
+findinline "ISBN:"
+unspace
+saynextnumber
+
+
+
+
+
+
 
 ## Series
 outputto "SERIES"
@@ -133,31 +178,12 @@ else
 	gotoline 1
 endif
 
-#Publisher
-outputto "Publisher"
-findline "Publisher:</dt>"
-moveline 1
-findinline "href="
-findinline ">"
-sayuntil "<"
 
-# Year
-outputto "year"
-moveline 1
-findinline "\">"
-sayuntil "<"
 
-# Lenght
-outputto "lenght"
-moveline 1
-findinline "\">"
-sayuntil "<"
 
-# ISBN
-outputto "ISBN"
-moveline 1
-findinline "\">"
-saynextnumber
+# Set year = RELEASETIME
+outputto "RELEASETIME"
+sayoutput "year"
 
 # Set Album URL
 outputto "WWWAUDIOFILE"
@@ -170,6 +196,9 @@ sayoutput "Artist"
 # Set Disknumber
 outputto "DISCNUMBER"
 sayoutput "series-part"
+
+
+
 
 # Set "Albumsort"
 IfOutput "series"
@@ -188,6 +217,10 @@ else
 	say ". "
 	sayoutput "album"
 endif
+
+
+
+
 
 # More Genres
 
