@@ -1,4 +1,4 @@
-[Name]=Mofibo JSON
+[Name]=Mofibo JSON [v.12.11.2022]
 [BasedOn]=www.mofibo.com
 [IndexUrl]=https://www.mofibo.com/api/search.action?q=%s
 [AlbumUrl]=https://www.mofibo.com/api/getBookInfoForContent.action?bookId=
@@ -8,12 +8,15 @@
 [UserAgent]=Mofibo
 [Encoding]=url-utf-8
 
-# Used the Src Made by Scuttle https://community.mp3tag.de/t/ws-storytel-json-based/58263
+# Used the Src Made by @Scuttle https://community.mp3tag.de/t/ws-storytel-json-based/58263
 #
-# Changed by Romano:
+# Changed by Romano: changes in https://github.com/romanoh/Mp3tag
 # 11.11.2022 - Added Isbn; fix no series error.
-# 12.11.2022 - Changed to mofibo
+# 12.11.2022 - Changed to mofibo.com
 # 12.11.2022 - Added Genre
+# 18.11.2022 - Fix metadata when there is not "abook" data.
+
+#######################################################################################
 
 [ParserScriptIndex]=...
 #DebugWriteInput "C:\mp3debug\mp3tag.txt"
@@ -22,6 +25,7 @@
 json "ON" "current"
 
 json_foreach "books"
+
 	json_select "book"
 		json_select "id"
 			SayRest
@@ -32,50 +36,96 @@ json_foreach "books"
 		json_select "authorsAsString"
 			SayRest
 			SayNewLine
+			
 json_foreach_end
 
+#######################################################################################
 [ParserScriptAlbum]=...
 
 #This should work, for some reason the 640x640 URLs to the covers are not in the API...
 Replace "320x320" "640x640"
 
 #DebugWriteInput "C:\mp3debug\mp3tag_album.txt"
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
 
 json "ON" "current"
 
 json_select_object "slb"
+
 	json_select "abook"
+	
+	ifnot "0"
+	
 		json_select "narratorAsString"
 			OutputTo "COMPOSER"
 			SayRest
+			
 		json_select "releaseDateFormat"
 			OutputTo "YEAR"
 			SayNChars 4
+			
 		json_select "releaseDateFormat"
 			OutputTo "RELEASETIME"
 			SayRest
+			
 		json_select "description"
 			OutputTo "DESCRIPTION"
 			SayRest
+			
 		json_select_object "publisher"
 			json_select "name"
 				OutputTo "PUBLISHER"
 				SayRest
 		json_unselect_object
+		
 		json_select "isbn"
 			OutputTo "ISBN"
 			SayRest
+	endif
+json_unselect_object
+	
+	json_select_object "slb"
+	json_select "ebook"
+	
+	ifnot "0"
+		
+		json_select "releaseDateFormat"
+			OutputTo "YEAR"
+			SayNChars 4
+			
+		json_select "releaseDateFormat"
+			OutputTo "RELEASETIME"
+			SayRest
+			
+		json_select "description"
+			OutputTo "DESCRIPTION"
+			SayRest
+			
+		json_select_object "publisher"
+			json_select "name"
+				OutputTo "PUBLISHER"
+				SayRest
+		json_unselect_object
+		
+		json_select "isbn"
+			OutputTo "ISBN"
+			SayRest
+	
+	
+	endif
+			
 json_unselect_object
 
 json_select_object "slb"
 
 	json_select "book"
 		
+		# Albumartist
 		json_select "authorsAsString"
 			OutputTo "ALBUMARTIST"
 			SayRest
-			
+		
+		# Artist
 		json_select "authorsAsString"
 			OutputTo "ARTIST"
 			SayRest
@@ -90,6 +140,7 @@ json_select_object "slb"
 			OutputTo "COVERURL"
 			Say "https://storytel.com"
 			SayRest
+			
 		json_select "seriesOrder"
 			ifnot "0"
 				OutputTo "SERIES-PART"
@@ -99,4 +150,5 @@ json_select_object "slb"
 						OutputTo "SERIES"
 						SayRest
 			endif
+			
 json_unselect_object
