@@ -1,4 +1,4 @@
-[Name]=Storytel JSON
+[Name]=Storytel JSON [v.12.11.2022]
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/api/search.action?q=%s
 [AlbumUrl]=https://www.storytel.com/api/getBookInfoForContent.action?bookId=
@@ -10,7 +10,7 @@
 
 # Used the Src Made by @Scuttle https://community.mp3tag.de/t/ws-storytel-json-based/58263
 #
-# Changed by Romano:
+# Changed by Romano: changes in https://github.com/romanoh/Mp3tag
 # 11.11.2022 - Added Isbn; fix no series error.
 # 12.11.2022 - Changed to mofibo
 # 12.11.2022 - Added Genre
@@ -22,7 +22,9 @@
 json "ON" "current"
 
 json_foreach "books"
+
 	json_select "book"
+	
 		json_select "id"
 			SayRest
 			Say "|"
@@ -47,27 +49,35 @@ Replace "320x320" "640x640"
 json "ON" "current"
 
 json_select_object "slb"
+
 	json_select "abook"
+	
 		json_select "narratorAsString"
 			OutputTo "COMPOSER"
 			SayRest
+			
 		json_select "releaseDateFormat"
 			OutputTo "YEAR"
 			SayNChars 4
+			
 		json_select "releaseDateFormat"
 			OutputTo "RELEASETIME"
 			SayRest
+			
 		json_select "description"
 			OutputTo "DESCRIPTION"
 			SayRest
+			
 		json_select_object "publisher"
 			json_select "name"
 				OutputTo "PUBLISHER"
-				SayRest
+				SayRest		
 		json_unselect_object
+		
 		json_select "isbn"
 			OutputTo "ISBN"
 			SayRest
+			
 json_unselect_object
 
 json_select_object "slb"
@@ -92,6 +102,7 @@ json_select_object "slb"
 			OutputTo "COVERURL"
 			Say "https://storytel.com"
 			SayRest
+			
 		json_select "seriesOrder"
 			ifnot "0"
 				OutputTo "SERIES-PART"
@@ -101,4 +112,5 @@ json_select_object "slb"
 						OutputTo "SERIES"
 						SayRest
 			endif
+			
 json_unselect_object
