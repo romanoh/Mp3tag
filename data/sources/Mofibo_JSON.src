@@ -46,7 +46,7 @@ json_foreach_end
 Replace "320x320" "640x640"
 
 #DebugWriteInput "C:\mp3debug\mp3tag_album.txt"
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
 
 json "ON" "current"
 
