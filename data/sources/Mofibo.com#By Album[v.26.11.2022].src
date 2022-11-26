@@ -1,0 +1,239 @@
+# ###################################################################
+#
+# Mp3tag parsing for mofibo.com, created by @romano
+#
+# 25.11.2022 - Started 
+# 26.11.2022 - Improved Author and composer
+#
+# ####################################################################
+
+[Name]=Mofibo [v.25.11.2022]
+[BasedOn]=mofibo.com
+[IndexUrl]=https://mofibo.com/dk/da/soeg-
+[AlbumUrl]=https://mofibo.com
+[WordSeperator]=+
+[IndexFormat]=% ↓ Sprog%|% ↓ Bogtitel%|% ↓ Forfatter%|% ↓ Format%|%_url%
+[SearchBy]=Indtast bogtitel eller forfatter||$regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
+[Encoding]=url-utf-8
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"	
+
+#Only select the area we need instead of everyting.
+findline "gridItem"
+joinuntil "hiddenSearchPhrase"
+
+replace "asAudio" "Audiobook"
+replace "asEbook" "Ebook"
+
+##This is the list of the seach results
+do	
+	# Sprog
+	findinline "language=\"" 
+	sayuntil "\""
+	say "|" 
+	
+	# Bogtitel
+	findinline "name=\"" 
+	sayuntil "\""
+	say "|" 
+	
+	# Forfatter
+	findinline "authors=\"" 
+	sayuntil "\""
+	say "|" 
+
+	# Format
+	findinline "<span class=\"" 
+	sayuntil "\""
+	say "|" 
+
+	#  Url		
+	findinline "gridBookTitle" 
+	findinline "href=\"" 
+	sayuntil "\""
+	#the last on remove the #	
+	#say "|"
+	
+	saynewline
+	 
+   findinline "gridItem" 1 1
+
+##Set max results == 99    
+while "\"" 99  
+
+# ###################################################################
+[ParserScriptAlbum]=...
+
+#DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+
+# Cover 
+outputto "Coverurl"
+findline "og:image"
+findinline "content=\""
+sayuntil "\""
+
+# Album 
+outputto "Album"
+findline "<h1 class=\"title svelte-1rjicxl\">"
+findinline "<h1 class=\"title svelte-1rjicxl\">"
+sayuntil "</h1>"
+
+# Author/Artist
+outputto "Artist"
+findline "book-hero-author>"
+findinline "book-hero-author>"
+sayuntil "</a>"
+
+outputto "Artist1"
+findinline "book-hero-author>" 1 1
+sayuntil "</a>"
+
+IfOutput "Artist1"
+	outputto "Artist"	
+	say " / "
+	sayoutput "Artist1"	
+else
+  
+  
+endif
+
+# Narrator
+outputto "Composer"
+findline "book-hero-narrator"
+findinline "book-hero-narrator>"
+sayuntil "</a>"
+
+outputto "Composer1"
+findinline "book-hero-narrator>" 1 1
+sayuntil "</a>"
+
+IfOutput "Composer1"
+	outputto "Composor"
+	say "/"
+	sayoutput "Composer1"
+	
+else
+ 
+  
+endif
+
+# Year
+outputto "year"
+findline "Lydbog:"
+findinline "Lydbog:"
+sayuntil "</span>"
+
+# Releasetime
+outputto "RELEASETIME"
+sayoutput "year"
+
+#Language 
+outputto "Language"
+findline "Sprog"
+findinline "t5p087\">" 2
+sayuntil "<"
+
+# Genre 
+outputto "Genre"
+findinline "book-info-category\">"
+sayuntil " "
+
+# Lenght 
+outputto "lenght"
+findline "Længde"
+moveline 2
+replace "T " ":"
+replace "M" ""
+sayuntil "<"
+
+# Description
+outputto "Description"
+findline "<div class=\"expander svelte-j7dprn"
+findinline "<p><p>"
+replace "</p><p>" " "
+findinline "<p><p>"
+sayuntil "   "
+
+# Comment and description same content
+outputto "Comment"
+sayoutput "Description"
+
+# Copyright
+outputto "COPYRIGHT"
+moveline 1
+saynextnumber
+
+#Publisher
+outputto "Publisher"
+findline "book-description-publisher\">"
+findinline "book-description-publisher\">"
+sayuntil "</a>"
+
+#ISBN 
+outputto "ISBN"
+findinline "ISBN: "
+saynextnumber
+
+# Series
+outputto "SERIES"
+findline "Serie:" 1 1
+if "<b class=\"bookDetailListItem margin\">"
+	findinline "/series/" 1 1
+	findinline "\">" 1 1
+	sayuntil ":"
+	outputto "series-part"
+	findinline ":" 1 1
+	sayuntil "</a>"
+else
+	say ""
+	gotoline 1
+endif
+
+# Set "Albumsort"
+IfOutput "series"
+	outputto "Albumsort"
+	sayoutput "series"
+	say " "
+	sayoutput "series-part"
+	say " "
+	say "- "
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+else
+	outputto "Albumsort"
+	sayoutput "Year"
+	say ". "
+	sayoutput "album"
+endif
+
+# Set Disknumber
+outputto "DISCNUMBER"
+sayoutput "series-part"
+
+# Set Audible Album URL
+outputto "WWWAUDIOFILE"
+sayoutput "CurrentUrl"
+
+# Set Artist = Albumartist
+outputto "albumartist"
+sayoutput "Artist"
+
+# Set iTunes Media Type to Audiobook
+outputto "ITUNESMEDIATYPE"
+say "Audiobook"
+
+# Set iTunes Gapless Playback
+outputto "ITUNESGAPLESS"
+say "1"
+
+
+# clen tags
+Set "Artist1"
+Set "Composer1"
