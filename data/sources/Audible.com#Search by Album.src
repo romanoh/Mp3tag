@@ -2,8 +2,8 @@
 # Mp3tag parsing for Audible.com.
 # Initially created by dano on 2013-03-11
 # After 11.04.2020, improved by romano, changes in the commits: https://github.com/romanoh/Mp3tag-Repository
-# Last update: 22.12.2021: Fix a rare error in series name appearing as "Audible Original Stories"
-#
+# 22.12.2021: Fix a rare error in series name appearing as "Audible Original Stories"
+# 03.12.2022: Fix a small html error.
 #
 #
 # This file should be in your sources dir. 
@@ -28,7 +28,7 @@
 #Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
 
 #Only select the area we need instead of everyting.
-findline "<ul  class=\"bc-list"
+findline "center-3"
 joinuntil "center-4"
 
 #Matches any whitespace character (spaces, tabs, line breaks).
