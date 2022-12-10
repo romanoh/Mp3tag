@@ -10,7 +10,7 @@
 # On Windows XP it's C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
 # ####################################################################
 
-[Name]=Audible.com [v.22.12.2021]
+[Name]=Audible.com [v.03.12.2022]
 [BasedOn]=www.audible.com
 [IndexUrl]=https://www.audible.com/search?keywords=
 [AlbumUrl]=https://www.audible.com
