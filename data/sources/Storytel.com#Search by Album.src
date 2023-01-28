@@ -11,10 +11,11 @@
 # 04.12.2021 - Fix several tags errors if data was not present.
 # 07.05.2022 - Fix publisher/year tags errors after html changes
 # 11.06.2022 - Made new Overall script structure as all html as change (Todo: more authors/narrators)
+# 28.01.2023 - Fix for a html error in album 
 # 
 # ####################################################################
 
-[Name]=Storytel [v.1.3-11.06.2022]
+[Name]=Storytel [v.28.01.2023]
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/in/en/search-
 [AlbumUrl]=https://www.storytel.com
@@ -77,7 +78,7 @@ while "\"" 25
 #					A  L  B  U  M
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag_storytel_html.html"
-# Debug "ON" "C:\Users\xxxx\Desktop\mp3tag_storytel_debug.txt"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tag_storytel_debug.txt"
 
 # Cover
 outputto "Coverurl"
@@ -104,8 +105,8 @@ endif
 
 # Album
 outputto "Album"
-findline "title svelte-h3fdj7\">"
-findinline "title svelte-h3fdj7\">"
+findline "title svelte-1rjicxl\">"
+findinline "title svelte-1rjicxl\">"
 sayuntil "<"
 
 # Author/Artist
