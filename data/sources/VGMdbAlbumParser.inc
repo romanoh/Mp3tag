@@ -200,6 +200,7 @@ replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Written
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>All Music Composed by</b></td><td width="100%">" ""
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Music Composed by</b></td><td width="100%">" ""
 replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Sound Director</b></td><td width="100%">" ""
+replace "<tr class="maincred"><td nowrap="nowrap"><span class="label"><b>Vocals</b></td><td width="100%">" ""
 replace "<span style="color:yellow" title="Uncredited">*" ""
 
 sayuntil "</td></tr>"
