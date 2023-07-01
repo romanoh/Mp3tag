@@ -4,10 +4,11 @@
 #
 # 25.11.2022 - Started 
 # 26.11.2022 - Improved Author and composer
+# 01.07.2023 - New script as html as changed (wip)
 #
 # ####################################################################
 
-[Name]=Mofibo [v.25.11.2022]
+[Name]=Mofibo [v.07.07.2023]
 [BasedOn]=mofibo.com
 [IndexUrl]=https://mofibo.com/dk/da/soeg-
 [AlbumUrl]=https://mofibo.com
@@ -69,116 +70,106 @@ while "\"" 99
 # ###################################################################
 [ParserScriptAlbum]=...
 
-#DebugWriteInput "C:\Users\egual\Desktop\mp3tag.html"
-#Debug "ON" "C:\Users\egual\Desktop\mp3tagdebug.txt"
+#DebugWriteInput "C:\Users\xxx\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tagdebug.txt"
 
-# Cover 
+# Cover------------
 outputto "Coverurl"
 findline "og:image"
-findinline "content=\""
-sayuntil "\""
-
-# Album 
-outputto "Album"
-findline "<h1 class=\"title svelte-1rjicxl\">"
-findinline "<h1 class=\"title svelte-1rjicxl\">"
-sayuntil "</h1>"
-
-# Author/Artist
-outputto "Artist"
-findline "book-hero-author>"
-findinline "book-hero-author>"
-sayuntil "</a>"
-
-outputto "Artist1"
-findinline "book-hero-author>" 1 1
-sayuntil "</a>"
-
-IfOutput "Artist1"
-	outputto "Artist"	
-	say " / "
-	sayoutput "Artist1"	
-else
-  
-  
-endif
-
-# Narrator
-outputto "Composer"
-findline "book-hero-narrator"
-findinline "book-hero-narrator>"
-sayuntil "</a>"
-
-outputto "Composer1"
-findinline "book-hero-narrator>" 1 1
-sayuntil "</a>"
-
-IfOutput "Composer1"
-	outputto "Composor"
-	say "/"
-	sayoutput "Composer1"
-	
-else
- 
-  
-endif
-
-# Year
-outputto "year"
-findline "Lydbog:"
-findinline "Lydbog:"
-sayuntil "</span>"
-
-# Releasetime
-outputto "RELEASETIME"
-sayoutput "year"
-
-#Language 
-outputto "Language"
-findline "Sprog"
-findinline "t5p087\">" 2
-sayuntil "<"
-
-# Genre 
-outputto "Genre"
-findinline "book-info-category\">"
+#change here for diferent covers(905w, 1920w)
+findinline "600w, "
 sayuntil " "
 
-# Lenght 
-outputto "lenght"
-findline "Længde"
-moveline 2
-replace "T " ":"
-replace "M" ""
+# Album -----------
+outputto "Album"
+gotoline 1
+findline "</style><header class=\""
+unspace
+findinline "gA-DKHb\">"
 sayuntil "<"
 
-# Description
-outputto "Description"
-findline "<div class=\"expander svelte-j7dprn"
-findinline "<p><p>"
-replace "</p><p>" " "
-findinline "<p><p>"
-sayuntil "   "
+# Author/Artist-------------
+outputto "Artist"
+findinline "<a href=\"/dk/authors"
+findinline ">"
+sayuntil "<"
 
-# Comment and description same content
+#add more authors by copying and duplicate the below code
+#outputto "Artist1"
+#indinline "<a href=\"/dk/authors" 1 1
+#findinline ">" 1 1
+#sayuntil "<"
+
+#IfOutput "Artist1"
+#	outputto "Artist"	
+#	say " / "
+#	sayoutput "Artist1"	
+#else
+#endif
+
+# Narrator -----------
+outputto "Composer"
+findinline "<a href=\"/dk/narrators" 1 1
+findinline ">" 1 1
+sayuntil "<"
+
+#Publisher-------------
+outputto "Publisher"
+findinline "/dk/publishers" 1 1
+findinline ">" 1 1
+sayuntil "<"
+
+# Lenght-------------
+outputto "lenght"
+findinline "Længde"
+findinline "</svg> <!-- -->"
+sayuntil "</dd>"
+
+
+#Language-----------------
+outputto "Language"
+findinline "Sprog"
+findinline "</svg> <!-- -->"
+sayuntil "</dd>"
+
+# Genre ----------------
+outputto "Genre"
+findinline "Kategori"
+findinline "dcCHIG\">"
+sayuntil "</p>"
+
+# Description------------
+outputto "Description"
+findinline "dqTajv\">"
+sayuntil "</p>"
+
+# Comment and description same content----------
 outputto "Comment"
 sayoutput "Description"
 
-# Copyright
-outputto "COPYRIGHT"
-moveline 1
+# Year---------------------
+outputto "year"
+findinline "© "
 saynextnumber
 
-#Publisher
-outputto "Publisher"
-findline "book-description-publisher\">"
-findinline "book-description-publisher\">"
-sayuntil "</a>"
-
-#ISBN 
+#ISBN -------------
 outputto "ISBN"
-findinline "ISBN: "
+findinline ": "
 saynextnumber
+
+# Release date --------------------
+outputto "RELEASEDATE"
+findinline "</p></div><button class"
+movechar -27
+saynextnumber
+
+# Copyright-------------------
+outputto "COPYRIGHT"
+sayoutput "year"
+
+
+# wip---------------------------
+
 
 # Series
 outputto "SERIES"
