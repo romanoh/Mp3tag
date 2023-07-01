@@ -4,14 +4,16 @@
 #
 # Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
 #
-# [28.11.2021] v.0.7
+# [28.11.2021]
 #	CHG: Results for search to 10
+# [01.07.2023]
+#	NEW: starting working in new script as html changed.
 # 
 # This file should be in your sources dir. 
 # 
 # ####################################################################
 
-[Name]=Libro [v.0.7-28.11.2021]
+[Name]=Libro [v.01.07.2023]
 [BasedOn]=www.libro.fm
 [IndexUrl]=https://libro.fm/search?utf8=0x2713&q=
 [AlbumUrl]=https://libro.fm
@@ -48,7 +50,7 @@ do
 	say "|" 
 	
 	# Narrator
-	findinline "narrators\">"
+	findinline "Narrated by:</strong>"
 	sayuntil "<"
 	say "|" 
 
@@ -67,7 +69,7 @@ do
 	say "|"
 	
 	#  Url		
-	findinline "no-margin\" href=\"" 
+	findinline "<a href=\"" 
 	sayuntil "\""
 	#the last on insert the #	
 	#say "|"
@@ -82,8 +84,8 @@ while " " 10
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.txt"
-#Debug "ON" "C:\Users\xxx\Desktop\mp3tagdebugalbum.txt"
+DebugWriteInput "C:\Users\egual\Desktop\mp3tag.txt"
+Debug "ON" "C:\Users\egual\Desktop\mp3tagdebugalbum.txt"
 
 # Cover
 outputto "Coverurl"
@@ -91,33 +93,45 @@ findline "og:image"
 findinline "content=\""
 sayuntil "\""
 
+findline ""@context\""
+
 # Album
 outputto "Album"
-findline "<h1 itemprop=\"name\">"
-findinline "name\">"
-sayuntil "<"
+findline "\"name\": \""
+findinline "\"name\": \""
+sayuntil "\""
 
-# Series
-outputto "SERIES"
-findline "searchby=series" 1 1
-findinline "\">" 1 1
-sayuntil "<"
-# Series-part
-outputto "series-part"
-replace " Book #" ""
-findinline ":" 1 1
-sayuntil "<"
+# Description
+outputto "Comment"
+findline "\"description\": \""
+joinuntil "\","
+replace ""description": " ""
+replace "\n" " "
+# Use this to remove the html tags
+regexpreplace "<[^>]+>" ""
+sayrest
 
-# Subtitle
-outputto "Subtitle"
-findline "<h2>" 1 1
-findinline "<h2>" 1 1
-Sayuntil "</h2>"
+#ISBN
+outputto "ISBN"
+findline "\"isbn\": \""
+findinline "\"isbn\": \""
+sayuntil "\""
+
+#Abridged
+outputto "abridged"
+findline "\"abridged\": \""
+findinline "\"abridged\": \""
+sayuntil "\""
+
 
 # Author
-gotoline 1
-outputto "ArtistTMP1"
-findline "By:</strong>"
+outputto "Artist"
+findline "\"author\":"
+
+
+
+
+
 findinline "authors\">"
 sayuntil "</a>"
 outputto "ArtistTMP2"
@@ -161,6 +175,31 @@ set "ArtistTMP2"
 set "ArtistTMP3"
 set "ArtistTMP4"
 set "ArtistTMP5"
+
+
+
+
+
+
+
+# Series
+outputto "SERIES"
+findline "searchby=series" 1 1
+findinline "\">" 1 1
+sayuntil "<"
+# Series-part
+outputto "series-part"
+replace " Book #" ""
+findinline ":" 1 1
+sayuntil "<"
+
+# Subtitle
+outputto "Subtitle"
+findline "<h2>" 1 1
+findinline "<h2>" 1 1
+Sayuntil "</h2>"
+
+
 
 # Composer
 outputto "ComposerTMP1"
@@ -239,21 +278,9 @@ findinline "Length:</strong> "
 findinline ">"
 sayuntil "<"
 
-# Description
-outputto "Comment"
-findline "Description</h2>"
-findline "<div itemprop=\"description\""
-joinuntil "</div>"
-# Use this to remove the html tags
-regexpreplace "<[^>]+>" ""
-sayrest
 
-#ISBN
-outputto "ISBN"
-findline "ISBN"
-joinuntil "</div>"
-findinline "\">"
-sayuntil "<"
+
+
 
 #Language
 outputto "Language"
@@ -278,12 +305,7 @@ joinuntil "<"
 findinline ", "
 sayuntil "<"
 
-#Edition
-outputto "Edition"
-findline "Edition"
-joinuntil "</div>"
-findinline "<span>"
-sayuntil "<"
+
 
 #Genres
 outputto "GenreTMP1"
