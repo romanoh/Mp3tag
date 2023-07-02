@@ -84,8 +84,8 @@ while " " 10
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-DebugWriteInput "C:\Users\egual\Desktop\mp3tag.txt"
-Debug "ON" "C:\Users\egual\Desktop\mp3tagdebugalbum.txt"
+#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.txt"
+#Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebugalbum.txt"
 
 # Cover
 outputto "Coverurl"
@@ -101,15 +101,6 @@ findline "\"name\": \""
 findinline "\"name\": \""
 sayuntil "\""
 
-# Description
-outputto "Comment"
-findline "\"description\": \""
-joinuntil "\","
-replace ""description": " ""
-replace "\n" " "
-# Use this to remove the html tags
-regexpreplace "<[^>]+>" ""
-sayrest
 
 #ISBN
 outputto "ISBN"
@@ -125,240 +116,165 @@ sayuntil "\""
 
 
 # Author
-outputto "Artist"
+
 findline "\"author\":"
 
+outputto "Artist"
+findline "\"name\": \"" 1 1
+findinline "\"name\": \"" 1 1
+sayuntil "\""
+moveline 2 1
+unspace
 
+outputto "ArtistTMP1"
+if "{"
+	findline "\"name\": \"" 1 1
+	findinline "\"name\": \"" 1 1
+	sayuntil "\""
+	moveline 2 1
+	unspace
+else
+endif
 
-
-
-findinline "authors\">"
-sayuntil "</a>"
 outputto "ArtistTMP2"
-findinline "authors\">" 1 1
-sayuntil "</a>"
-outputto "ArtistTMP3"
-findinline "authors\">" 1 1
-sayuntil "</a>"
-outputto "ArtistTMP4"
-findinline "authors\">" 1 1
-sayuntil "</a>"
-outputto "ArtistTMP5"
-findinline "authors\">" 1 1
-sayuntil "</a>"
+if "{"
+	findline "\"name\": \"" 1 1
+	findinline "\"name\": \"" 1 1
+	sayuntil "\""
+else
+endif
+
 
 outputto "Artist"
-sayoutput "ArtistTMP1"
+IfOutput "ArtistTMP1"
+	say "/"
+	sayoutput "ArtistTMP1"
+else
+endif
 IfOutput "ArtistTMP2"
-	say ", "
+	say "/"
 	sayoutput "ArtistTMP2"
 else
 endif
-IfOutput "ArtistTMP3"
-	say ", "
-	sayoutput "ArtistTMP3"
-else
-endif
-IfOutput "ArtistTMP4"
-	say ", "
-	sayoutput "ArtistTMP4"
-else
-endif
-IfOutput "ArtistTMP5"
-	say ", "
-	sayoutput "ArtistTMP5"
-else
-endif
 
+#clean tags
 set "ArtistTMP1"
 set "ArtistTMP2"
-set "ArtistTMP3"
-set "ArtistTMP4"
-set "ArtistTMP5"
 
 
 
 
+# Composer
+
+findline "\"readBy\":"
+
+outputto "composer"
+findline "\"name\": \"" 1 1
+findinline "\"name\": \"" 1 1
+sayuntil "\""
+moveline 2 1
+unspace
+
+outputto "composerTMP1"
+if "{"
+	findline "\"name\": \"" 1 1
+	findinline "\"name\": \"" 1 1
+	sayuntil "\""
+	moveline 2 1
+	unspace
+else
+endif
+
+outputto "composerTMP2"
+if "{"
+	findline "\"name\": \"" 1 1
+	findinline "\"name\": \"" 1 1
+	sayuntil "\""
+else
+endif
+
+outputto "composer"
+IfOutput "composerTMP1"
+	say "/"
+	sayoutput "composerTMP1"
+else
+endif
+IfOutput "composerTMP2"
+	say "/"
+	sayoutput "composerTMP2"
+else
+endif
+
+#clean tags
+set "composerTMP1"
+set "composerTMP2"
+
+
+#Publisher
+outputto "Publisher"
+findline "\"publisher\": \""
+findinline "\"publisher\": \""
+sayuntil "\""
+
+
+#Language
+outputto "Language"
+findline "\"inLanguage\": \""
+findinline "\"inLanguage\": \""
+sayuntil "\""
 
 
 
 # Series
 outputto "SERIES"
-findline "searchby=series" 1 1
-findinline "\">" 1 1
-sayuntil "<"
+findline "audiobook-title__series" 1 1
+findinline "title__series\">" 1 1
+findinline ">" 1 1
+sayuntil "</a>"
+
 # Series-part
 outputto "series-part"
 replace " Book #" ""
 findinline ":" 1 1
 sayuntil "<"
 
-# Subtitle
-outputto "Subtitle"
-findline "<h2>" 1 1
-findinline "<h2>" 1 1
-Sayuntil "</h2>"
+# comments
+gotoline 1
+outputto "comment"
+findline "<div class=\"audiobook-genres\">"
+moveline -1
+unspace
+joinuntil "<div class=\"audiobook-genres\">"
+# Use this to remove the html tags
+regexpreplace "<[^>]+>" ""
+sayrest
 
-
-
-# Composer
-outputto "ComposerTMP1"
-findline "Narrated by:</strong> "
-findinline "Narrated by:</strong> "
-findinline ">"
-sayuntil "</a>"
-
-outputto "ComposerTMP2"
-findinline "\">" 1 1
-sayuntil "</a>"
-
-outputto "ComposerTMP3"
-findinline "\">" 1 1
-sayuntil "</a>"
-
-outputto "ComposerTMP4"
-findinline "\">" 1 1
-sayuntil "</a>"
-
-outputto "ComposerTMP5"
-findinline "\">" 1 1
-sayuntil "</a>"
-
-outputto "ComposerTMP6"
-findinline "\">" 1 1
-sayuntil "</a>"
-
-outputto "Composer"
-sayoutput "ComposerTMP1"
-IfOutput "ComposerTMP2"
-	say ", "
-	sayoutput "ComposerTMP2"
-else
-endif
-
-IfOutput "ComposerTMP3"
-	say ", "
-	sayoutput "ComposerTMP3"
-else
-endif
-
-IfOutput "ComposerTMP4"
-	say ", "
-	sayoutput "ComposerTMP4"
-else
-endif
-
-IfOutput "ComposerTMP5"
-	say ", "
-	sayoutput "ComposerTMP5"
-else
-endif
-
-IfOutput "ComposerTMP6"
-	say ", "
-	sayoutput "ComposerTMP6"
-else
-endif
-
-set "ComposerTMP1"
-set "ComposerTMP2"
-set "ComposerTMP3"
-set "ComposerTMP4"
-set "ComposerTMP5"
-set "ComposerTMP6"
 
 # Lenght
 outputto "Lenght"
-findline "Length:</strong>"
+findline "<strong>Length</strong>"
+moveline 1
 replace " hours " ":"
 replace " minutes" ""
-replace " minute" ""
-replace ":</span>" ":00"
-findinline "Length:</strong> "
-findinline ">"
-sayuntil "<"
+# Use this to remove the html tags
+regexpreplace "<[^>]+>" ""
+sayrest
 
-
-
-
-
-#Language
-outputto "Language"
-findline "Language"
-joinuntil "</div>"
-findinline "\">"
-sayuntil "<"
-
-#Publisher
-outputto "Publisher"
-findline "Publisher"
-joinuntil "</div>"
-findinline "\">"
-sayuntil "<"
 
 #Year
 outputto "year"
-findline "Publication date"
-joinuntil "</div>"
-findinline "\">"
-joinuntil "<"
+findline "itemprop=\"datePublished\">"
+findinline "itemprop=\"datePublished\">"
 findinline ", "
-sayuntil "<"
-
-
+saynextnumber
 
 #Genres
-outputto "GenreTMP1"
-findline "Genres"
+outputto "GENRE"
+findline "<strong>Genres</strong>" 1 1
 joinuntil "</div>"
 findinline "\">" 1 1
-if "<a href=\"/genres\">Genres</a></li>    </ul>"
-say "No genre"
-else
-	sayuntil "<"
-	
-	outputto "GenreTMP2"
-	findinline "\">" 1 1
-	sayuntil "<"
+sayuntil "</a>"
 
-	outputto "GenreTMP3"
-	findinline "\">" 1 1
-	sayuntil "<"
-
-	outputto "GenreTMP4"
-	findinline "\">" 1 1
-	sayuntil "<"
-endif
-
-outputto "Genre"
-
-IfOutput "GenreTMP1"
-	sayoutput "GenreTMP1"
-else
-endif
-
-IfOutput "GenreTMP2"
-	say "/"
-	sayoutput "GenreTMP2"
-else
-endif
-
-IfOutput "GenreTMP3"
-	say "/"
-	sayoutput "GenreTMP3"
-else
-endif
-
-IfOutput "GenreTMP4"
-	say "/"
-	sayoutput "GenreTMP4"
-else
-endif
-
-set "GenreTMP1"
-set "GenreTMP2"
-set "GenreTMP3"
-set "GenreTMP4"
 
 # Set "Albumsort"
 IfOutput "series"
