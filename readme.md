@@ -12,7 +12,7 @@ C:\Users\"your username"\AppData\Roaming\Mp3tag
 ## Sources:
 
 ### Deezer.com
-Search by Artist and Album: [Deezer Api v.1.01.src](https://github.com/romanoh/Mp3tag/blob/master/data/sources/Deezer%20Api%20v.1.01.src)
+Search by Artist and Album: [Deezer Api v.1.01.src](https://github.com/romanoh/Mp3tag/blob/master/data/sources/Deezer%20Api%20v.1.2.src)
 
 ### Audiobooks.com
 Search by Title: [Audiobooks.fm#Search by Title.src](https://github.com/romanoh/Mp3tag-Repository/blob/master/data/sources/Audiobooks.com%23Search%20by%20Title.src)
