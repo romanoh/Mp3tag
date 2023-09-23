@@ -36,8 +36,8 @@
 [ParserScriptIndex]=...
 
 ## Comment/uncomment for debugging purposes:
-DebugWriteInput "C:\Users\egual\Desktop\mp3tag_audiobooks.html"
-Debug "on" "C:\Users\egual\Desktop\audiobooks.txt"
+#DebugWriteInput "C:\Users\xxx\Desktop\mp3tag_audiobooks.com.html"
+#Debug "on" "C:\Users\xxxx\Desktop\audiobooks.com.txt"
 
 FindLine "<div class=\"filters__added\">"
 joinuntil "<nav aria-label=\"Page Navigation\">"
