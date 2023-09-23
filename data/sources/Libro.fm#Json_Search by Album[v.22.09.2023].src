@@ -2,18 +2,19 @@
 #
 # Mp3tag parsing for Libro.fm, created by romano on 2020-12-21
 #
-# Changes in the commits: https://github.com/romanoh/Mp3tag-Repository
+# Current changes: https://github.com/romanoh/Mp3tag-Repository
 #
 # [28.11.2021]
 #	CHG: Results for search to 10
 # [01.07.2023]
 #	NEW: starting working in new script as html changed.
+# [23.09.2023]
+#	NEW: complete rework of the album part using json
 # 
-# This file should be in your sources dir. 
-# 
+# This file should be in your sources dir.
 # ####################################################################
 
-[Name]=Libro [v.01.07.2023]
+[Name]=Libro.fm Json version [v.22.09.2023]
 [BasedOn]=www.libro.fm
 [IndexUrl]=https://libro.fm/search?utf8=0x2713&q=
 [AlbumUrl]=https://libro.fm
@@ -84,148 +85,180 @@ while " " 10
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-#DebugWriteInput "C:\Users\xxxxx\Desktop\mp3tag.txt"
-#Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebugalbum.txt"
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.txt"
+#Debug "ON" "C:\Users\xxxx\Desktop\mp3tag_debug_album_libro.txt"
 
-# Cover
-outputto "Coverurl"
-findline "og:image"
-findinline "content=\""
-sayuntil "\""
+# Use the json inside the html
+FindLine "<script type=\"application/ld+json\">"
+JoinUntil "</script>"
+# Use this to remove the html tags
+RegexpReplace "<[^>]+>" ""
+Replace "\\/" "/"
+Unspace
 
-findline ""@context\""
+json "on" "current"
 
 # Album
-outputto "Album"
-findline "\"name\": \""
-findinline "\"name\": \""
-sayuntil "\""
+OutputTo "ALBUM"
+json_select "name"
+SayRest
 
+# Comments
+OutputTo "comment"
+json_select "description"
+SayRest
 
-#ISBN
-outputto "ISBN"
-findline "\"isbn\": \""
-findinline "\"isbn\": \""
-sayuntil "\""
+# Isbn
+OutputTo "isbn"
+json_select "isbn"
+SayRest	
 
-#Abridged
-outputto "abridged"
-findline "\"abridged\": \""
-findinline "\"abridged\": \""
-sayuntil "\""
+# Cover
+OutputTo "COVERURL"
+json_select "image"
+SayRest
 
+# Cover
+OutputTo "abridged"
+json_select "abridged"
+SayRest
 
-# Author
-
-findline "\"author\":"
-
-outputto "Artist"
-findline "\"name\": \"" 1 1
-findinline "\"name\": \"" 1 1
-sayuntil "\""
-moveline 2 1
-unspace
-
-outputto "ArtistTMP1"
-if "{"
-	findline "\"name\": \"" 1 1
-	findinline "\"name\": \"" 1 1
-	sayuntil "\""
-	moveline 2 1
-	unspace
-else
-endif
-
-outputto "ArtistTMP2"
-if "{"
-	findline "\"name\": \"" 1 1
-	findinline "\"name\": \"" 1 1
-	sayuntil "\""
-else
-endif
-
-
-outputto "Artist"
-IfOutput "ArtistTMP1"
-	say "/"
-	sayoutput "ArtistTMP1"
-else
-endif
-IfOutput "ArtistTMP2"
-	say "/"
-	sayoutput "ArtistTMP2"
-else
-endif
-
-#clean tags
-set "ArtistTMP1"
-set "ArtistTMP2"
-
-
-
-
-# Composer
-
-findline "\"readBy\":"
-
+# Artist 
+outputto "artist"
+json_foreach "author"
+	ifnot "0"
+		json_select_object "name"		
+			json_select "name"
+            ifoutput "artist"
+				say "/"
+			endif			
+			sayrest
+		json_unselect_object
+	endif
+json_foreach_end	
+	
+# narrator 
 outputto "composer"
-findline "\"name\": \"" 1 1
-findinline "\"name\": \"" 1 1
-sayuntil "\""
-moveline 2 1
-unspace
+json_foreach "readBy"
+	ifnot "0"
+		json_select_object "name"		
+			json_select "name"
+            ifoutput "composer"
+				say "/"
+			endif			
+			sayrest
+		json_unselect_object
+	endif
+json_foreach_end	
 
-outputto "composerTMP1"
-if "{"
-	findline "\"name\": \"" 1 1
-	findinline "\"name\": \"" 1 1
-	sayuntil "\""
-	moveline 2 1
-	unspace
+# Publisher
+OutputTo "publisher"
+json_select "publisher"
+SayRest
+
+# Release_date
+OutputTo "YEAR"
+json_select "datePublished"
+RegexpReplace "^.*?(?:^|\D)(\d{4})(?:\D|$).*$" "$1"
+SayRegexp "^.*$"
+
+# Language
+OutputTo "language"
+json_select "inLanguage"
+SayRest
+
+# Duration
+OutputTo "duration"
+json_select "duration"
+replace "PT" ""
+SayRest
+
+
+json "off"
+
+#----------------------------------------------------
+#Genres
+outputto "GENRE"
+findline "genres" 1 1
+Unspace
+if "<div class=\"audiobook-genres\">"
+joinuntil "</div>"
+
+	outputto "GenreTMP1"
+	findinline "href=\"" 1 1
+	if "/"
+		findinline ">"
+		sayuntil "<"
+	else
+		say ""
+	endif
+	
+	outputto "GenreTMP2"
+	findinline "href=\"" 1 1
+	if "/"
+		findinline ">"
+		sayuntil "<"
+	else
+		say ""
+	endif
+
+	outputto "GenreTMP3"
+	findinline "href=\"" 1 1
+	if "/"
+		findinline ">"
+		sayuntil "<"
+	else
+		say ""
+	endif
+
+	outputto "GenreTMP4"
+	findinline "href=\"" 1 1
+	if "/"
+		findinline ">"
+		sayuntil "<"
+	else
+		say ""
+	endif
+else
+
+endif
+
+
+outputto "Genre"
+
+IfOutput "GenreTMP1"
+	sayoutput "GenreTMP1"
 else
 endif
 
-outputto "composerTMP2"
-if "{"
-	findline "\"name\": \"" 1 1
-	findinline "\"name\": \"" 1 1
-	sayuntil "\""
+IfOutput "GenreTMP2"
+	say "//"
+	sayoutput "GenreTMP2"
 else
 endif
 
-outputto "composer"
-IfOutput "composerTMP1"
-	say "/"
-	sayoutput "composerTMP1"
-else
-endif
-IfOutput "composerTMP2"
-	say "/"
-	sayoutput "composerTMP2"
+IfOutput "GenreTMP3"
+	say "//"
+	sayoutput "GenreTMP3"
 else
 endif
 
-#clean tags
-set "composerTMP1"
-set "composerTMP2"
+IfOutput "GenreTMP4"
+	say "//"
+	sayoutput "GenreTMP4"
+else
+endif
 
+# remove tags
+set "GenreTMP1"
+set "GenreTMP2"
+set "GenreTMP3"
+set "GenreTMP4"
 
-#Publisher
-outputto "Publisher"
-findline "\"publisher\": \""
-findinline "\"publisher\": \""
-sayuntil "\""
-
-
-#Language
-outputto "Language"
-findline "\"inLanguage\": \""
-findinline "\"inLanguage\": \""
-sayuntil "\""
-
-
+#----------------------------------------------------
 
 # Series
+gotoline 1
 outputto "SERIES"
 findline "audiobook-title__series" 1 1
 findinline "title__series\">" 1 1
@@ -237,43 +270,6 @@ outputto "series-part"
 replace " Book #" ""
 findinline ":" 1 1
 sayuntil "<"
-
-# comments
-gotoline 1
-outputto "comment"
-findline "<div class=\"audiobook-genres\">"
-moveline -1
-unspace
-joinuntil "<div class=\"audiobook-genres\">"
-# Use this to remove the html tags
-regexpreplace "<[^>]+>" ""
-sayrest
-
-
-# Lenght
-outputto "Lenght"
-findline "<strong>Length</strong>"
-moveline 1
-replace " hours " ":"
-replace " minutes" ""
-# Use this to remove the html tags
-regexpreplace "<[^>]+>" ""
-sayrest
-
-
-#Year
-outputto "year"
-findline "itemprop=\"datePublished\">"
-findinline "itemprop=\"datePublished\">"
-findinline ", "
-saynextnumber
-
-#Genres
-outputto "GENRE"
-findline "<strong>Genres</strong>" 1 1
-joinuntil "</div>"
-findinline "\">" 1 1
-sayuntil "</a>"
 
 
 # Set "Albumsort"
