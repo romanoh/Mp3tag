@@ -17,8 +17,11 @@ Search by Artist and Album
 ### Audiobooks.com
 Search by Title
 
+### scribd.com
+Search by Title
+
 ### Libro.fm
-Search by Album
+Search by Title
 
 ### storytell.com
 Search by Album
