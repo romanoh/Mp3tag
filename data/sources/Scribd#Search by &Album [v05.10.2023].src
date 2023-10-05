@@ -1,0 +1,210 @@
+# ######################################################################
+# Mp3tag web source for scribd.com, Created by Romano.
+#
+# Copy this file to your sources directory at
+# %APPDATA%\Mp3tag\data\sources
+#
+# Changes: https://github.com/romanoh/Mp3tag-Repository
+#
+# [2023-09-23]
+# NEW: First version
+#
+# ######################################################################
+
+[Name]=scribd.com [v.05.10.2023]
+[BasedOn]=scribd.com
+[IndexUrl]=https://www.scribd.com/search/query?query=%s
+[AlbumUrl]=https://www.scribd.com/audiobook/
+[WordSeparator]=%20
+[IndexFormat]=%_preview%|%_url%|% ↓ Title%|% ↓ Author%
+#remove everything inside ()
+[SearchBy]=Enter Album Name||$regexp(%album%,'\([^)]*\)',,1)||%s
+[Encoding]=url-utf-8
+[UserAgent]=1
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\scribd.html"
+#Debug "ON" "C:\Users\xxxxx\Desktop\index_scrib.txt"
+
+json "ON"
+
+json_select_object "results"
+json_select_object "audiobooks"
+json_select_object "content"
+
+json_foreach "documents"
+
+		# Preview (no column, only for preview)
+		json_select "book_preview_url"
+		SayRest
+		Say "|"
+
+		json_select "id"
+		SayRest
+		Say "|"
+
+		json_select "title"
+		SayRest
+		Say "|"
+
+		json_select "author"
+		json_select "name"
+		SayRest
+		saynewline
+			
+json_foreach_end
+json_unselect_object
+
+################################################################################
+#                        ADJUST TAG INFORMATION DIALOG                         #
+################################################################################
+[ParserScriptAlbum]=...
+
+## Comment/uncomment for debugging purposes:
+#DebugWriteInput "C:\Users\xxxx\Desktop\scribd_album_debug.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\scribd_album_debug.txt"
+
+# Use the json inside the html
+FindLine "type=\"application/ld+json\">"
+FindinLine "type=\"application/ld+json\">"
+
+# Language
+OutputTo "language"
+findinline "\"inLanguage\":\""
+sayuntil "\""
+
+# Isbn
+OutputTo "isbn"
+findinline "\"isbn\":\""
+sayuntil "\""
+
+#Album Title
+outputto "Album"
+findinline "\"name\":\""
+sayuntil "\""
+
+#Comment
+outputto "Comment"
+findinline "\"description\":\""
+regexpreplace "<[^>]+>" ""
+sayuntil "\""
+
+# Cover
+outputto "Coverurl"
+findinline "\"image\":\""
+sayuntil "\""
+
+# Author
+outputto "artist_1"
+findinline "\"author\""
+findinline "\"name\":\""
+sayuntil "\""
+
+outputto "artist_2"
+findinline "},{\"@type\":\"Person\",\"name\":\"" 1 1
+sayuntil "\""
+
+outputto "artist_3"
+findinline "},{\"@type\":\"Person\",\"name\":\"" 1 1
+sayuntil "\""
+
+IfNotOutput "artist_2"
+	gotoline 1
+	FindLine "type=\"application/ld+json\">"
+	FindinLine "type=\"application/ld+json\">"
+else
+endif
+
+outputto "artist"
+sayoutput "artist_1"
+IfOutput "artist_2"
+	say "/"
+	sayoutput "artist_2"
+else
+endif
+IfOutput "artist_3"
+	say "/"
+	sayoutput "artist_3"
+else
+endif
+
+# Clean temp 
+set "artist_1"
+set "artist_2"
+Set "artist_3"
+
+# narrator
+outputto "composer_1"
+findinline "\"readBy\"" 1 1
+findinline "\"name\":\"" 1 1
+sayuntil "\""
+
+outputto "composer_2"
+findinline "},{\"@type\":\"Person\",\"name\":\"" 1 1
+sayuntil "\""
+
+outputto "composer_3"
+findinline "},{\"@type\":\"Person\",\"name\":\"" 1 1
+sayuntil "\""
+
+
+outputto "composer"
+IfNotOutput "composer_1"
+else
+	sayoutput "composer_1"
+endif
+
+IfOutput "composer_2"
+	say "/"
+	sayoutput "composer_2"
+else
+endif
+IfOutput "composer_3"
+	say "/"
+	sayoutput "composer_3"
+else
+endif
+
+# Clean temp 
+set "composer_1"
+set "composer_2"
+Set "composer_3"
+
+IfNotOutput "composer_2"
+	gotoline 1
+	FindLine "type=\"application/ld+json\">"
+	FindinLine "type=\"application/ld+json\">"
+else
+endif
+
+#Publisher
+outputto "publisher"
+findinline "\"publisher\":\""
+sayuntil "\""
+
+#Publisher
+outputto "year"
+findinline "\"datePublished\":\""
+saynextnumber
+
+#Duration
+#outputto "duration"
+#findinline "\"duration\":\""
+#replace "PT" ""
+#sayuntil "\""
+
+
+# Set Artist = Albumartist
+outputto "albumartist"
+sayoutput "Artist"
+
+# Set Audible Album URL
+outputto "WWWAUDIOFILE"
+sayoutput "CurrentUrl"
+
+# Set Comment to DESCRIPTION for better MP4 support
+outputto "DESCRIPTION"
+sayoutput "Comment"
