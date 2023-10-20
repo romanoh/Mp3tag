@@ -11,20 +11,19 @@
 #	[2020-08-29]CHG: "Description" is now "comment" and updated to "Edition"	
 #	[2021-11-26]CHG: Improved Duration.
 #	[2021-11-26]FIX: Fixed to work with new html.
-#	[2022-01-04]FIX: Handle search redirect to book (Frozer)
-#	[2022-01-04]FIX: Only ouput year (Frozer)
-#   [2022-01-04]CHG: List all search results on page (Frozer)
+#	[2022-01-04]FIX: Handle search redirect to book (Frozer); Only ouput year (Frozer); List all search results on page (Frozer)
 #	[2023-01-29]FIX: Fixed to work with new html again.
 #   [2023-09-23]FIX: Fixed to work with new html again in index.
+#	[2023-10-20]FIX: Some fixes
 #
 # Notes:	      				       
 # This web site only allows search for book or author.
 ################################################################################
 
-[Name]=Audiobooks.com [23-09-2023]
+[Name]=Audiobooks.com [20-10-2023]
 [BasedOn]=Audiobooks.com
 [IndexUrl]=https://www.audiobooks.com/search/book/
-[AlbumUrl]=https://www.audiobooks.com/audiobook
+[AlbumUrl]=
 [WordSeparator]=%20
 [IndexFormat]=%_url%|% ↓ Album%|% ↓ Artist%|% ↓ Duration%
 [SearchBy]=%Album%
@@ -43,7 +42,7 @@ FindLine "<div class=\"filters__added\">"
 joinuntil "<nav aria-label=\"Page Navigation\">"
 
 do
-	# URL
+	# Url
 	findinline "class=\"book\">"
 	FindinLine "href=\""
 	SayUntil "\""
@@ -149,6 +148,10 @@ outputto "Genre"
 sayoutput "Genre 1"
 say "/"
 sayoutput "Genre 2"
+
+#remove temps
+Set "Genre 1"
+Set "Genre 2"
 
 # Set Artist = Albumartist
 outputto "albumartist"
