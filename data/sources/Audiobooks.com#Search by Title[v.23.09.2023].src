@@ -21,7 +21,7 @@
 # This web site only allows search for book or author.
 ################################################################################
 
-[Name]=Audiobooks.com [29-01-2023]
+[Name]=Audiobooks.com [23-09-2023]
 [BasedOn]=Audiobooks.com
 [IndexUrl]=https://www.audiobooks.com/search/book/
 [AlbumUrl]=https://www.audiobooks.com/audiobook
@@ -36,7 +36,7 @@
 [ParserScriptIndex]=...
 
 ## Comment/uncomment for debugging purposes:
-#DebugWriteInput "C:\Users\xxx\Desktop\mp3tag_audiobooks.com.html"
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag_audiobooks.com.html"
 #Debug "on" "C:\Users\xxxx\Desktop\audiobooks.com.txt"
 
 FindLine "<div class=\"filters__added\">"
