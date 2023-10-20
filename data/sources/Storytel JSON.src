@@ -2,7 +2,7 @@
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/api/search.action?q=%s
 [AlbumUrl]=https://www.storytel.com/api/getBookInfoForContent.action?bookId=
-[WordSeperator]=+
+[WordSeparator]=+
 [IndexFormat]=%_url%|% ↓ Album%|% ↓ Author%|% ↓ Series%
 [SearchBy]=Enter Album||$regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
 [UserAgent]=Storytel

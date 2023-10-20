@@ -19,7 +19,7 @@
 [BasedOn]=www.storytel.com
 [IndexUrl]=https://www.storytel.com/in/en/search-
 [AlbumUrl]=https://www.storytel.com
-[WordSeperator]=+
+[WordSeparator]=+
 [IndexFormat]=% ↓ Language%|% ↓ Album%|% ↓ Author%|% ↓ Type%|%_url%
 [SearchBy]=Enter Album||$regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
 [UserAgent]=1
