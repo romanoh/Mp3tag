@@ -1,0 +1,201 @@
+# ###################################################################
+# Mp3tag parsing for Audible.com.
+# https://github.com/romanoh/Mp3tag-Repository
+# 11.02.2024: Start new web source
+# 
+#
+#
+# This file should be in your sources dir. 
+# On Windows XP it's C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+# ####################################################################
+
+[Name]=Audible.com [v.11.02.2024]
+[BasedOn]=www.audible.com
+[IndexUrl]=https://www.audible.com/search?keywords=
+[AlbumUrl]=https://www.audible.com
+[WordSeparator]=+
+[IndexFormat]=%_url%|% ↓ Album%|% ↓ Author%|% ↓ Duration%|% ↓ Date%|% ↓ Language%
+[SearchBy]=Enter Artist and/or Album||%artist% $regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
+[Encoding]=url-utf-8
+
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
+#Debug "ON" "C:\Users\xxxxx\Desktop\mp3tagdebug.txt"
+
+#Only select the area we need instead of everyting.
+findline "center-3"
+joinuntil "center-4"
+
+#Matches any whitespace character (spaces, tabs, line breaks).
+regexpreplace "\s\s+" " "
+
+#Matches a TAB character
+regexpreplace "\t+" " "
+replace "\" >" "\">"
+replace "> <" "><"
+replace "Running Time:" ""
+
+findinline "results"
+findinline "<h3 class=\"bc-heading"
+
+#this \" is iqual to "
+do	
+	#  Url		
+	findinline "href=\""
+	sayuntil "\""
+	say "|"
+	
+	# Album
+	findinline ">"
+	sayuntil "<"
+	
+	findinline "</li>"
+	if "<li class=\"bc-list-item subtitle"
+		say " - "
+		findinline "bc-color-secondary\">"
+		sayuntil "<"
+		
+	else
+		if  "<li class=\"bc-list-item bc"
+			say " - "
+			findinline ">"
+			sayuntil "<"
+		endif
+	
+	endif
+	say "|" 
+	
+	#Author
+	findinline "authorLabel\">"
+	findinline "href="
+	findinline ">"
+	sayuntil "<"
+	say "|"
+	
+	#Series
+	#findinline "Series:" 1 1
+	#findinline "href=\"/series/" 1 1
+	#findinline "\">" 1 1
+	#sayuntil "<"
+	#findinline "Book " 1 1
+	#say " "
+	#saynextnumber
+	#say "|"
+	
+    # Duration
+    findinline "runtimeLabel\">"
+    findinline "Length: "
+    sayuntil "<"
+    say "|"
+	
+    # (Date)Year
+    findinline "Release date:"
+	sayuntil "<"
+	say "|"
+   
+    # Language
+	findinline "languageLabel\">"
+	findinline "Language:"
+	sayuntil "<"
+
+	saynewline
+	 
+   	findinline "<h3 class=\"bc-heading " 1 1
+    
+while "bc-color-link" 99
+
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#DebugWriteInput "C:\Users\egual\Desktop\Audible_mp3tag.html"
+#Debug "ON" "C:\Users\egual\Desktop\Audible_mp3tagdebug.txt"
+
+
+# Use the json inside the html
+#------------------------------------------------------------------
+FindLine "<script type=\"application/ld+json\">" 2
+findline "["
+findline "{"
+JoinUntil "</script>"
+unspace
+
+#Matches any whitespace character (spaces, tabs, line breaks).
+regexpreplace "\s\s+" " "
+
+regexpreplace ",\s*{ \"@context\": \"http:\/\/schema\.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": \[.*?\]" ""
+replace "  } ]</script>" ""
+
+# Use this to remove the html tags
+RegexpReplace "<[^>]+>" ""
+Replace "\\/" "/"
+#------------------------------------------------------------------
+
+# Start using Json
+json "on" "current"
+
+# Album/Title
+outputto "Album"
+json_select "name"
+sayrest
+
+# Comments
+OutputTo "comment"
+json_select "description"
+SayRest	
+
+# Cover
+OutputTo "COVERURL"
+json_select "image"
+SayRest
+
+# abridged
+OutputTo "abridged"
+json_select "abridged"
+SayRest
+
+# Author
+OutputTo "Author"
+json_select_array "author" 1
+json_select "name"
+SayRest
+json_unselect_object
+
+# narrator/composer
+OutputTo "composer"
+json_select_array "readBy" 1
+json_select "name"
+SayRest
+json_unselect_object
+
+# publisher
+OutputTo "publisher"
+json_select "publisher"
+SayRest
+
+# datePublished
+OutputTo "Year"
+json_select "datePublished"
+RegexpReplace "^.*?(?:^|\D)(\d{4})(?:\D|$).*$" "$1"
+SayRest
+
+# language
+OutputTo "language"
+json_select "inLanguage"
+SayRest
+
+# duration
+OutputTo "duration"
+json_select "duration"
+SayRest
+
+
+# Set Artist = Albumartist
+set "albumartist"
+outputto "albumartist"
+sayoutput "Artist"
