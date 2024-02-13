@@ -24,7 +24,7 @@
 #					I  N  D  E  X
 # ###################################################################
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
-Debug "ON" "C:\Users\egual\Desktop\www.soundtrack.net_debug.txt"
+#Debug "ON" "C:\Users\xxxx\Desktop\www.soundtrack.net_debug.txt"
 
 #Only select the area we need instead of everyting.
 findline "cbox_3"
