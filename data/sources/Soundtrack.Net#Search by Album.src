@@ -1,0 +1,73 @@
+# ###################################################################
+# Mp3tag parsing for Audible.com.
+# https://github.com/romanoh/Mp3tag-Repository
+# 12.02.2024: Start
+# 
+#
+#
+# This file should be in your sources dir. 
+# On Windows XP it's C:\Documents and Settings\*username*\Application Data\Mp3tag\data\sources
+# ####################################################################
+
+[Name]=Soundtrack.Net [v.12.02.2024]
+[BasedOn]=www.soundtrack.net
+[IndexUrl]=https://www.soundtrack.net/search/?q=
+[AlbumUrl]=https://www.soundtrack.net
+[WordSeparator]=+
+[IndexFormat]=%_url%|% ↓ Album%|% ↓ Edition / Manufacturer%|% ↓ Artist%|% ↓ Format%
+[SearchBy]=Enter Artist and/or Album||%Artist% %Album%||%s
+[Encoding]=url-utf-8
+
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
+Debug "ON" "C:\Users\egual\Desktop\www.soundtrack.net_debug.txt"
+
+#Only select the area we need instead of everyting.
+findline "cbox_3"
+findline "list-group-item"
+unspace
+
+
+
+do	
+	#  Url		
+	findinline "href=\""
+	sayuntil "\""
+	say "|"
+	
+	# Album
+	findinline "\"><b>"
+	sayuntil "<"
+	say "|" 
+	
+	# Manufacturer
+	replace "<br>" " / "
+	findinline "d-block\">" 1 1
+	sayuntil "</small>"
+	say "|"
+
+	# Artist
+	# use this 1 1 to remove the errors from search
+	findinline "person" 1 1 
+	findinline "\">" 1 1
+	sayuntil "<"
+	say "|" 
+	
+	# format
+	findinline "</a></p><p>" 1 1
+	sayuntil "<"
+	
+	
+	saynewline
+	
+	moveline 1 1
+    unspace
+	  
+while "<li class" 30
+
+
+
