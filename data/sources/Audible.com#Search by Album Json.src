@@ -1,7 +1,7 @@
 # ###################################################################
 # Mp3tag parsing for Audible.com.
 # https://github.com/romanoh/Mp3tag-Repository
-# 11.02.2024: Start new web source
+# 11.02.2024: Start improving the web source
 # 
 #
 #
@@ -15,7 +15,7 @@
 [AlbumUrl]=https://www.audible.com
 [WordSeparator]=+
 [IndexFormat]=%_url%|% ↓ Album%|% ↓ Author%|% ↓ Duration%|% ↓ Date%|% ↓ Language%
-[SearchBy]=Enter Artist and/or Album||%artist% $regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
+[SearchBy]=Enter Artist and/or Album||%Artist% %Album%||%s
 [Encoding]=url-utf-8
 
 
@@ -114,27 +114,27 @@ while "bc-color-link" 99
 #					A  L  B  U  M
 # ###################################################################
 #DebugWriteInput "C:\Users\egual\Desktop\Audible_mp3tag.html"
-#Debug "ON" "C:\Users\egual\Desktop\Audible_mp3tagdebug.txt"
+Debug "ON" "C:\Users\egual\Desktop\Audible_mp3tagdebug.txt"
 
 
 # Use the json inside the html
-#------------------------------------------------------------------
+# ------------------------------------------------------------------
 FindLine "<script type=\"application/ld+json\">" 2
 findline "["
 findline "{"
 JoinUntil "</script>"
 unspace
 
-#Matches any whitespace character (spaces, tabs, line breaks).
+# Matches any whitespace character (spaces, tabs, line breaks).
 regexpreplace "\s\s+" " "
-
+# Remove the second Json
 regexpreplace ",\s*{ \"@context\": \"http:\/\/schema\.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": \[.*?\]" ""
 replace "  } ]</script>" ""
 
 # Use this to remove the html tags
 RegexpReplace "<[^>]+>" ""
 Replace "\\/" "/"
-#------------------------------------------------------------------
+# ------------------------------------------------------------------
 
 # Start using Json
 json "on" "current"
@@ -194,8 +194,41 @@ OutputTo "duration"
 json_select "duration"
 SayRest
 
-
 # Set Artist = Albumartist
 set "albumartist"
 outputto "albumartist"
 sayoutput "Artist"
+
+# Second Json for genres
+json "off"
+
+
+findline "\"@context\":"
+moveline -1
+JoinUntil "        }"
+
+json "on" "current"
+
+## Iterate over all tracks
+json_select_array "itemListElement"
+json_foreach "item"
+	ifnot "0"
+				
+		# tracks title
+		outputto "genre"
+		json_select "name"	
+		sayrest	
+		say "|"
+		
+		
+	endif
+
+json_foreach_end
+json_unselect_object
+
+
+
+
+
+
+

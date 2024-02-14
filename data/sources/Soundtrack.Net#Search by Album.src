@@ -14,7 +14,7 @@
 [IndexUrl]=https://www.soundtrack.net/search/?q=
 [AlbumUrl]=https://www.soundtrack.net
 [WordSeparator]=+
-[IndexFormat]=%_url%|% ↓ Album%|% ↓ Edition / Manufacturer%|% ↓ Artist%|% ↓ Format%
+[IndexFormat]=%_preview%|%_url%|% ↓ Album%|% ↓ Edition / Manufacturer%|% ↓ Artist%|% ↓ Format%
 [SearchBy]=Enter Artist and/or Album||%Artist% %Album%||%s
 [Encoding]=url-utf-8
 
@@ -31,16 +31,22 @@ findline "cbox_3"
 findline "list-group-item"
 unspace
 
-
-
 do	
-	#  Url		
-	findinline "href=\""
+	# %_preview%
+	say "https://www.soundtrack.net"
+	findinline "href=\"" 1 1
+	sayuntil "\""
+	say "|"
+
+	#  Url	
+	say "https://www.soundtrack.net"
+	findinline "media-body" 1 1
+	findinline "href=\"" 1 1
 	sayuntil "\""
 	say "|"
 	
 	# Album
-	findinline "\"><b>"
+	findinline "\"><b>" 1 1
 	sayuntil "<"
 	say "|" 
 	
@@ -58,6 +64,8 @@ do
 	say "|" 
 	
 	# format
+	replace "Formats:" ""
+	replace "Format:" ""
 	findinline "</a></p><p>" 1 1
 	sayuntil "<"
 	
@@ -68,6 +76,75 @@ do
     unspace
 	  
 while "<li class" 30
+
+
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#DebugWriteInput "C:\Users\egual\Desktop\Audible_mp3tag.html"
+Debug "ON" "C:\Users\egual\Desktop\Soundtrack.Net_mp3tagdebug.txt"
+
+# Cover
+outputto "Coverurl"
+findline "id=\"titlebox\""
+findinline "src=\""
+say "https://www.soundtrack.net"
+sayuntil "\""
+
+# Album
+outputto "Album"
+findinline "alt=\""
+sayuntil "\""
+
+#comment
+outputto "comment"
+findinline "</h1><p>"
+sayuntil "<"
+
+#Publisher
+outputto "Publisher"
+findinline "href"
+findinline "\">"
+sayuntil "</a>"
+
+#Catagognumber
+replace "(" ""
+replace ")" ""
+outputto "catalognumber"
+findinline ">"
+sayuntil "<"
+
+#year
+outputto "year"
+findinline ", "
+saynextnumber
+
+#mediatype
+outputto "mediatype"
+findinline "</b> "
+sayuntil "<"
+
+
+
+
+
+# Set Album URL
+outputto "WWWAUDIOFILE"
+sayoutput "CurrentUrl"
+
+# Set Comment to DESCRIPTION for better MP4 support
+outputto "DESCRIPTION"
+sayoutput "Comment"
+
+
+
+
+
+
+
+
+
 
 
 
