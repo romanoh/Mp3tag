@@ -15,12 +15,13 @@
 #	[2023-01-29]FIX: Fixed to work with new html again.
 #   [2023-09-23]FIX: Fixed to work with new html again in index.
 #	[2023-10-20]FIX: Some fixes
-#
+#	[2024-02-17]FIX: Fixed to work with new html again.
+#	
 # Notes:	      				       
 # This web site only allows search for book or author.
 ################################################################################
 
-[Name]=Audiobooks.com [20-10-2023]
+[Name]=Audiobooks.com [17-02-2024]
 [BasedOn]=Audiobooks.com
 [IndexUrl]=https://www.audiobooks.com/search/book/
 [AlbumUrl]=
@@ -36,7 +37,7 @@
 
 ## Comment/uncomment for debugging purposes:
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag_audiobooks.com.html"
-#Debug "on" "C:\Users\xxxx\Desktop\audiobooks.com.txt"
+Debug "on" "C:\Users\egual\Desktop\audiobooks.com.txt"
 
 FindLine "<div class=\"filters__added\">"
 joinuntil "<nav aria-label=\"Page Navigation\">"
@@ -54,12 +55,13 @@ do
 	Say "|"
 
 	# ARTIST
-	findinline "book__info__author d-block\">By "	
+	findinline "book__info__author d-block\""
+	findinline "By</span>"	
 	SayUntil "<"
 	Say "|"
 	
 	# DURATION
-	findinline "book__info__meta--duration d-block\">Duration: "
+	findinline "book__info__meta--duration d-block\">"
 	SayUntil "<"
 	#sayrest
 		
