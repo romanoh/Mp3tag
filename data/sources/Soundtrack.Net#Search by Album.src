@@ -11,10 +11,10 @@
 
 [Name]=Soundtrack.Net [v.12.02.2024]
 [BasedOn]=www.soundtrack.net
-[IndexUrl]=https://www.soundtrack.net/search/?q=
+[IndexUrl]=https://www.soundtrack.net/search/?q=%s
 [AlbumUrl]=https://www.soundtrack.net
 [WordSeparator]=+
-[IndexFormat]=%_preview%|%_url%|% ↓ Album%|% ↓ Edition / Manufacturer%|% ↓ Artist%|% ↓ Format%
+[IndexFormat]=%_url%|% ↓ Album%|% ↓ Edition / Manufacturer%|% ↓ Artist%|% ↓ Format%
 [SearchBy]=Enter Artist and/or Album||%Artist% %Album%||%s
 [Encoding]=url-utf-8
 
@@ -23,73 +23,74 @@
 # ###################################################################
 #					I  N  D  E  X
 # ###################################################################
-#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag.html"
-#Debug "ON" "C:\Users\xxxx\Desktop\www.soundtrack.net_debug.txt"
+#DebugWriteInput "C:\Users\xxxx\Desktop\INDEX.HTMLmp3tag.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\www.soundtrack.net_INDEX_debug.txt"
 
-#Only select the area we need instead of everyting.
-findline "cbox_3"
-findline "list-group-item"
+# go to the area we need instead of everyting.
+findline "Album" 1 1
+findline "<li class=\"list-group-item\"" 1 1
 unspace
 
-do	
-	# %_preview%
-	say "https://www.soundtrack.net"
-	findinline "href=\"" 1 1
-	sayuntil "\""
-	say "|"
+	do	
+		# url
+		findinline "href=\""
+		sayuntil "\""
+		say "|" 
+		
+		# Album
+		findinline "\"><b>" 1 1
+		sayuntil "<"
+		say "|" 
+		
+		# Manufacturer
+		# sometimes no publisher was found
+		replace "<br>" " / "
+		findinline "d-block\">" 1 1
+		movechar -2
+		if "\">"
+		movechar 2
+			sayuntil "</small>"
+			say "|"
+		else
+			say "|"
+			gotochar 1
+		endif
 
-	#  Url	
-	say "https://www.soundtrack.net"
-	findinline "media-body" 1 1
-	findinline "href=\"" 1 1
-	sayuntil "\""
-	say "|"
-	
-	# Album
-	findinline "\"><b>" 1 1
-	sayuntil "<"
-	say "|" 
-	
-	# Manufacturer
-	replace "<br>" " / "
-	findinline "d-block\">" 1 1
-	sayuntil "</small>"
-	say "|"
+		# Artist
+		# use this 1 1 to remove the errors from search
+		findinline "person" 1 1 
+		findinline "\">" 1 1
+		sayuntil "<"
+		say "|" 
+		
+		# format
+		replace "s: " ""
+		replace ": " ""
+		findinline "Format" 1 1
+		sayuntil "<"
+		
+		
+		saynewline		
+		moveline 1 1
+		unspace
+		  
+	while "<li class" 30
 
-	# Artist
-	# use this 1 1 to remove the errors from search
-	findinline "person" 1 1 
-	findinline "\">" 1 1
-	sayuntil "<"
-	say "|" 
-	
-	# format
-	replace "Formats:" ""
-	replace "Format:" ""
-	findinline "</a></p><p>" 1 1
-	sayuntil "<"
-	
-	
-	saynewline
-	
-	moveline 1 1
-    unspace
-	  
-while "<li class" 30
 
 
 [ParserScriptAlbum]=...
 # ###################################################################
 #					A  L  B  U  M
 # ###################################################################
-#DebugWriteInput "C:\Users\egual\Desktop\Audible_mp3tag.html"
+DebugWriteInput "C:\Users\egual\Desktop\1111111_mp3tag.html"
 Debug "ON" "C:\Users\egual\Desktop\Soundtrack.Net_mp3tagdebug.txt"
+
 
 # Cover
 outputto "Coverurl"
+say "https://www.soundtrack.net"
 findline "id=\"titlebox\""
 findinline "src=\""
-say "https://www.soundtrack.net"
 sayuntil "\""
 
 # Album
