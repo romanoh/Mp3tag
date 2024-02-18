@@ -1,7 +1,7 @@
 ################################################################################
 # Mp3tag Tag Source for Audiobooks.com                                         
 #                                                                              
-# Created by romano in 29.08.2021				              				   
+# Created by romano in 29.08.2020				              				   
 #                                                                              
 # This file needs to be stored in Mp3tag's tag sources directory:              
 # %APPDATA%\Mp3tag\data\sources                                                
@@ -16,12 +16,13 @@
 #   [2023-09-23]FIX: Fixed to work with new html again in index.
 #	[2023-10-20]FIX: Some fixes
 #	[2024-02-17]FIX: Fixed to work with new html again.
+#   [2024-02-18]FIX: Some fixes, now it works to book directly.
 #	
 # Notes:	      				       
 # This web site only allows search for book or author.
 ################################################################################
 
-[Name]=Audiobooks.com [17-02-2024]
+[Name]=Audiobooks.com [18-02-2024]
 [BasedOn]=Audiobooks.com
 [IndexUrl]=https://www.audiobooks.com/search/book/
 [AlbumUrl]=
@@ -37,41 +38,55 @@
 
 ## Comment/uncomment for debugging purposes:
 #DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag_audiobooks.com.html"
-Debug "on" "C:\Users\egual\Desktop\audiobooks.com.txt"
+#Debug "on" "C:\Users\xxx\Desktop\audiobooks.com.txt"
 
-FindLine "<div class=\"filters__added\">"
-joinuntil "<nav aria-label=\"Page Navigation\">"
+FindLine "<div class=\"row books\">" 1 1
+findline "data-bookid" 1 1
+unspace
 
-do
-	# Url
-	findinline "class=\"book\">"
-	FindinLine "href=\""
-	SayUntil "\""
-	Say "|"
+if "<a data-bookid"
+	do
+		# URL
+		FindLine "href=\"" 
+		findinline "href=\""
+		SayUntil "\""
+		Say "|"
 
-	# ALBUM
-	FindinLine "h6--blue book__info__title\" title=\""
-	SayUntil "\">"
-	Say "|"
+		# ALBUM
+		FindLine "book__info__creators" 1 1
+		findline "title=\"" 1 1
+		findinline "title=\"" 1 1
+		SayUntil "\">"
+		Say "|"
 
-	# ARTIST
-	findinline "book__info__author d-block\""
-	findinline "By</span>"	
-	SayUntil "<"
-	Say "|"
-	
-	# DURATION
-	findinline "book__info__meta--duration d-block\">"
-	SayUntil "<"
-	#sayrest
+		# ARTIST
+		findline "</span> "	 1 1
+		findinline "</span> " 1 1
+		SayUntil "<"
+		Say "|"
 		
-	SayNewline
+		# DURATION
+		findline "duration d-block\">" 1 1
+		findinline "duration d-block\">" 1 1
+		SayUntil "<"
+		#sayrest
+			
+		SayNewline
 
-	findinline "Or 1 credi"
-	
-# improve to not give error when there are not audiobooks in search
-	 
-while "t" 6
+		findline "credit</span" 1 1
+		findinline "credit</span" 1 1
+
+	while ">" 
+else
+	gotoline 1
+	FindLine "<meta property=\"og:url\""
+	FindInLine "<meta property="og:url" content=\""
+	# redirected straight to the page instead of a search page, just pass it to the Album Parser
+	sayuntil "\""
+	say "|||"
+	saynewline
+	gotoline 1
+endif
 
 ################################################################################
 #                        ADJUST TAG INFORMATION DIALOG                         #
@@ -79,8 +94,8 @@ while "t" 6
 [ParserScriptAlbum]=...
 
 ## Comment/uncomment for debugging purposes:
-DebugWriteInput "C:\Users\egual\Desktop\mp3tag_audiobooks_album.html"
-Debug "on" "C:\Users\egual\Desktop\mp3tag_audiobooks_album.txt"
+#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tag_audiobooks_album.html"
+#Debug "on" "C:\Users\xxxx\Desktop\mp3tag_audiobooks_album.txt"
 
 # Get only the html we need to make it more simple
 findline "<!-- Book Card -->"
