@@ -136,7 +136,11 @@ RegexpReplace "<[^>]+>" ""
 Replace "\\/" "/"
 # ------------------------------------------------------------------
 
-# Start using Json
+
+# replace problematic characters for Mp3tag
+replace "|" "$verticalBar()"
+
+# use "current" json (applies replacements above)
 json "on" "current"
 
 # Album/Title
@@ -160,7 +164,7 @@ json_select "abridged"
 SayRest
 
 # Author
-OutputTo "Author"
+OutputTo "artist"
 json_select_array "author" 1
 json_select "name"
 SayRest
@@ -195,38 +199,31 @@ json_select "duration"
 SayRest
 
 # Set Artist = Albumartist
-set "albumartist"
-outputto "albumartist"
-sayoutput "Artist"
+OutputTo "albumartist"
+sayoutput "artist"
+sayrest
 
-# Second Json for genres
+
 json "off"
+# Second Json for genres
 
+# Genres
+#outputto "genre"
+gotoline 1
+findline "<span class=\"bc-chip-wrapper\">"
+joinuntil "</span>"
 
-findline "\"@context\":"
-moveline -1
-JoinUntil "        }"
+do
+	OutputTo "genre"
+	findinline "data-text=\""
+	sayuntil "\""
+	say " "
+	saynewline
+	findinline "    </span"
+	unspace
+	
 
-json "on" "current"
-
-## Iterate over all tracks
-json_select_array "itemListElement"
-json_foreach "item"
-	ifnot "0"
-				
-		# tracks title
-		outputto "genre"
-		json_select "name"	
-		sayrest	
-		say "|"
-		
-		
-	endif
-
-json_foreach_end
-json_unselect_object
-
-
+while ">"
 
 
 
