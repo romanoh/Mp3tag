@@ -8,13 +8,15 @@
 #
 # [2023-09-23]
 # NEW: First version
+# [2024-02-25]
+# NEW: Changed links (thank you @cerinawithasea)
 #
 # ######################################################################
 
-[Name]=scribd.com [v.05.10.2023]
-[BasedOn]=scribd.com
-[IndexUrl]=https://www.scribd.com/search/query?query=%s
-[AlbumUrl]=https://www.scribd.com/audiobook/
+[Name]=everand.com [v.25.02.2024]
+[BasedOn]=everand.com
+[IndexUrl]=https://www.everand.com/search/query?query=%s
+[AlbumUrl]=https://www.everand.com/audiobook/
 [WordSeparator]=%20
 [IndexFormat]=%_preview%|%_url%|% ↓ Title%|% ↓ Author%
 #remove everything inside ()
