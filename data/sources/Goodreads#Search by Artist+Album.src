@@ -1,0 +1,120 @@
+####################################
+# Mp3tag parsing for goodreads.com, created by FidoFuz
+#
+# 2021-02-27 Initial Release
+# 2021-02-28 Miscellaneous Fixes
+# 2023-02-27 Updated by SeaNap
+# 2023-06-06 Updated by CerinawithaSea
+#
+# This file should be saved in your mp3tag sources folder: %AppData%\Roaming\Mp3tag\data\sources
+#
+###################################
+ 
+[Name]=Goodreads
+[BasedOn]=www.goodreads.com
+[IndexUrl]=https://www.goodreads.com/search?utf8=%E2%9C%93&search_type=books&q=
+[AlbumUrl]=https://www.goodreads.com
+[WordSeperator]=+
+[IndexFormat]=%Title%|%_url%|%Author%
+[SearchBy]=%artist% $regexp(%album%,'[- ]+cd ?\d+$',,1)
+[Encoding]=url-utf-8
+ 
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\%user%\Desktop\goodreads\search.html"
+#Debug "ON" "C:\Users\%user%\Desktop\goodreads\search_debug.txt"
+ 
+findline "<meta content='Search results" 1 1
+unspace
+if "<meta"
+	findline "<tr itemscope itemtype=\"http://schema.org/Book\">" 1 1
+	unspace
+	do
+		#  Title
+		findline "<a title=\""
+		findinline "<a title=\""
+		sayuntil "\""
+		say "|"
+ 
+		# Url
+		findinline "href=\""	
+		sayuntil "\">"
+		say "|"
+ 
+		# Author
+		findline "class=\"authorName\""
+		joinuntil "</a>"
+		findinline "\"name\">"
+		sayuntil "<"
+ 
+		saynewline
+		findline "<tr itemscope itemtype=\"http://schema.org/Book\">" 1 1
+		unspace
+	while "<tr" 20
+else
+	gotoline 1
+	# redirected straight to the page instead of a search page, just pass it to the Album Parser
+	# usually when an ISDB or ASIN is provided as the search
+	say "|"
+	sayoutput "currenturl"
+	say "|"
+	saynewline
+endif
+ 
+[ParserScriptAlbum]=...
+# ###################################################################
+#					A  L  B  U  M
+# ###################################################################
+#DebugWriteInput "C:\Users\%user%\Desktop\goodreads\detail.html"
+#Debug "ON" "C:\Users\%user%\Desktop\goodreads\detail_debug.txt"
+ 
+# Album
+findline "type\":\"Book\",\"name\":\""
+joinuntil "\",\"image\""
+Replace "&apos;" "'"
+findinline "type\":\"Book\",\"name\":\""
+outputto "album"
+sayuntil "\",\""
+ 
+# Cover
+findline "\",\"image\":\""
+findinline "\",\"image\":\""
+outputto "coverurl"
+sayuntil "\",\""
+ 
+# Author
+findline "type\":\"Person\",\"name\":\""
+findinline "type\":\"Person\",\"name\":\""
+outputto "albumartist"
+sayuntil "\",\""
+ 
+# Summary
+gotoline 1
+findline "<span class=\"Formatted\">"
+findinline "<span class=\"Formatted\">"
+#regexpreplace "</?[^><]+>" ""
+#replace "<br />" " "
+outputto "comment"
+sayuntil "</span>"
+ 
+# Series
+#findline "Series\",\"title\":\""
+#findinline "Series\",\"title\":\""
+#outputto "Series"
+#sayuntil "\",\""
+ 
+# Series-part
+#findline "<!-- --> #"
+#findinline "<!-- --> #"
+#outputto "Series-part"
+#sayuntil "<"
+ 
+# Year
+findline "publicationInfo\">"
+findinline "publicationInfo\">"
+findinline "<"
+movechar -5
+outputto "year"
+sayuntil "<"
