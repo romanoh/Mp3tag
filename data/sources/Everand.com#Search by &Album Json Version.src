@@ -1,0 +1,201 @@
+# ######################################################################
+# Mp3tag web source for Everand.com, Created by Romano.
+# Former scribd.com
+#
+# Copy this file to your sources directory at
+# %APPDATA%\Mp3tag\data\sources
+#
+# Changes: https://github.com/romanoh/Mp3tag-Repository
+#
+# [2024.02.24] NEW: First updated version using Json
+#
+# ######################################################################
+
+[Name]=everand.com [v.24.02.2024]
+[BasedOn]=everand.com
+[IndexUrl]=https://www.everand.com/search/query?query=%s
+[AlbumUrl]=https://www.everand.com/audiobook/
+[WordSeparator]=%20
+[IndexFormat]=%_preview%|%_url%|% ↓ Release Date%|% ↓ Title%|% ↓ Author%
+#remove everything inside ()
+[SearchBy]=Enter Album Name||$regexp(%album%,'\([^)]*\)',,1)||%s
+[Encoding]=url-utf-8
+[UserAgent]=1
+
+[ParserScriptIndex]=...
+# ###################################################################
+#					I  N  D  E  X
+# ###################################################################
+#DebugWriteInput "C:\Users\xxxx\Desktop\scribd.html"
+#Debug "ON" "C:\Users\xxxx\Desktop\index_scrib.txt"
+
+json "ON"
+
+json_select_object "results"
+json_select_object "audiobooks"
+json_select_object "content"
+
+json_foreach "documents"
+
+		# Preview (no column, only for preview)
+		json_select "book_preview_url"
+		SayRest
+		Say "|"
+
+		json_select "id"
+		SayRest
+		Say "|"
+		
+		json_select "releasedAt"
+		SayRest
+		Say "|"
+		
+		json_select "title"
+		SayRest
+		Say "|"
+				
+		json_select "author"
+		json_select "name"
+		SayRest
+
+		saynewline
+			
+json_foreach_end
+json_unselect_object
+
+################################################################################
+#                        ADJUST TAG INFORMATION DIALOG                         #
+################################################################################
+[ParserScriptAlbum]=...
+
+## Comment/uncomment for debugging purposes:
+#DebugWriteInput "C:\Users\xxxx\Desktop\scribd_album_debug.html"
+#Debug "ON" "C:\Users\xxx\Desktop\scribd_album_debug.txt"
+
+# Use the json inside the html
+findline "\"><!--"
+replace "--></script></div><script defer type=\"text/javascript\">" ""
+replace "<script type=\"application/json\" data-hypernova-key=\"contentpreview\" data-hypernova-id=" ""
+replace "".*?"" ""
+#only the content between double quotes that has exactly 36 characters is replaced
+RegexpReplace "(?<=\")[^\"]{36}(?=\")" ""
+replace "\"\"><!--" ""
+
+json "on" "current"
+
+# Author
+OutputTo "artist"
+json_select_object "contentItem"
+json_foreach "contributors"
+	json_select "name"
+	ifnot ""
+		sayrest
+		say "/"
+	else
+		say ""
+		sayrest
+	endif
+json_foreach_end
+json_unselect_object
+json_select "name"
+SayRest
+
+# Author description
+OutputTo "description"
+json_select "description"
+SayRest
+json_unselect_object
+
+# Www
+outputto "WWW"
+json_select_object "contentItem"
+json_select "contentItemUrl"
+sayrest
+json_unselect_object
+
+# Genre
+outputto "genre"
+json_select_object "contentItem"
+json_select_object "crosslinks"
+json_foreach "categories"
+	json_select "label"
+	ifnot ""
+		sayrest
+		say "/"
+	else
+		say ""
+		sayrest
+	endif
+json_foreach_end
+json_unselect_object
+
+#description
+outputto "comment"
+
+json_select_object "contentItem"
+json_select "description"
+#replace "<b>" ""
+#RegexpReplace "<[^>]+>" ""
+sayrest
+json_unselect_object
+
+# Cover------------
+outputto "Coverurl"
+json_select_object "contentItem"
+json_select "imageUrl"
+sayrest
+json_unselect_object
+
+# Isbn------------
+outputto "isbn"
+json_select_object "contentItem"
+json_select "isbn"
+sayrest
+json_unselect_object
+
+# language------------
+outputto "language"
+json_select_object "contentItem"
+json_select "language"
+sayrest
+json_unselect_object
+
+# Publisher------------
+outputto "publisher"
+json_select_object "contentItem"
+json_select "publisher"
+json_select "name"
+sayrest
+json_unselect_object
+
+# Date------------
+outputto "year"
+json_select_object "contentItem"
+json_select "releaseDate"
+sayrest
+json_unselect_object
+
+# Album------------
+outputto "album"
+json_select_object "contentItem"
+json_select "title"
+sayrest
+json_unselect_object
+
+# Narrator
+outputto "composer"
+json_select_object "contentItem"
+
+json_foreach "narrators"
+	json_select "name"
+	ifnot ""
+		sayrest
+		say "/"
+	else
+		say ""
+		sayrest
+	endif
+json_foreach_end
+json_unselect_object
+
+
