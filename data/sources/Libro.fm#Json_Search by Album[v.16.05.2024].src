@@ -10,19 +10,22 @@
 #	NEW: starting working in new script as html changed.
 # [23.09.2023]
 #	NEW: complete rework of the album part using json
+# [16.05.2024]
+#	FIX: quick fix in index, so its works again.
+#   NEW: cover thumbnails in index
 # 
 # This file should be in your sources dir.
 # ####################################################################
 
-[Name]=Libro.fm Json version [v.22.09.2023]
+[Name]=Libro.fm Json version [v.16.05.2024]
 [BasedOn]=www.libro.fm
 [IndexUrl]=https://libro.fm/search?utf8=0x2713&q=
 [AlbumUrl]=https://libro.fm
 [WordSeperator]=+
-[IndexFormat]=% ↓ Album%|% ↓ Author%|% ↓ Narrator%|% ↓ Lenght%|% ↓ Abridged%|%_url%
+[IndexFormat]=%_coverurl%|% ↓ Album%|% ↓ Author%|% ↓ Narrator%|% ↓ Lenght%|% ↓ Abridged%|%_url%
 [SearchBy]=Enter Album||$regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
 [Encoding]=url-utf-8
-
+[MinAppVersionWin]=3.25c
 
 [ParserScriptIndex]=...
 # ###################################################################
@@ -32,14 +35,21 @@
 #Debug "ON" "C:\Users\xxxx\Desktop\mp3tag_debug_libro_index.txt"	
 
 #Only select the area we need instead of everyting.
-findline "<div class=\"book-grid-item-info\">"
-joinuntil "<!--close #search-content -->"
+findline "<div class=\"book-grid-item\">"
+joinuntil "<footer id=\"footer\">"
 
 #remove some ads titles
 replace "<div class="title">Give audiobook gift memberships and support local bookstores.</div>" "" 
 replace "<div class="title">The perfect last-minute gift.</div>" ""
 
 do	
+#  Cover
+	
+	findinline "class=\"book-cover\" src=\"/"
+	say "https:/"	
+	sayuntil "\""
+	say "|" 
+	
 	# Album
 	findinline "<div class=\"title\">"
 	sayuntil "<"
@@ -74,7 +84,7 @@ do
 	sayuntil "\""
 	#the last on insert the #	
 	#say "|"
-	
+		
 	saynewline
 	 
    findinline "<div class=\"book-grid-item-info\">" 1 1
