@@ -13,17 +13,19 @@
 # [16.05.2024]
 #	FIX: quick fix in index, so its works again.
 #   NEW: cover thumbnails in index
+# [02.06.2024]
+#	FIX: quick fix in index, so its works again.
 # 
 # This file should be in your sources dir.
 # ####################################################################
 
-[Name]=Libro.fm Json version [v.16.05.2024]
+[Name]=Libro.fm Json version [v.02.06.2024]
 [BasedOn]=www.libro.fm
 [IndexUrl]=https://libro.fm/search?utf8=0x2713&q=
 [AlbumUrl]=https://libro.fm
 [WordSeperator]=+
 [IndexFormat]=%_coverurl%|% ↓ Album%|% ↓ Author%|% ↓ Narrator%|% ↓ Lenght%|% ↓ Abridged%|%_url%
-[SearchBy]=Enter Album||$regexp(%album%,'[- ]+cd ?\d+$',,1)||%s
+[SearchBy]=%artist% $regexp(%album%,'[- ]+cd ?\d+$',,1)
 [Encoding]=url-utf-8
 [MinAppVersionWin]=3.25c
 
@@ -31,8 +33,8 @@
 # ###################################################################
 #					I  N  D  E  X
 # ###################################################################
-#DebugWriteInput "C:\Users\xxxx\Desktop\mp3tagindex.txt"
-#Debug "ON" "C:\Users\xxxx\Desktop\mp3tag_debug_libro_index.txt"	
+#DebugWriteInput "C:\Users\xxx\Desktop\mp3tagindex.txt"
+#Debug "ON" "C:\Users\xxx\Desktop\mp3tag_debug_libro_index.txt"	
 
 #Only select the area we need instead of everyting.
 findline "<div class=\"book-grid-item\">"
@@ -70,13 +72,13 @@ do
 	if "<"
 		say "Not yet released"
 	else
-		sayuntil "<br>"
+		sayuntil "<"
 	endif
 	say "|"
 	
 	#  Abridged		
 	findinline "Abridged:</strong> "
-	sayuntil "</h6>"
+	sayuntil "<"
 	say "|"
 	
 	#  Url		
@@ -89,7 +91,7 @@ do
 	 
    findinline "<div class=\"book-grid-item-info\">" 1 1
    
-while " " 10
+while " " 3
 
 [ParserScriptAlbum]=...
 # ###################################################################
