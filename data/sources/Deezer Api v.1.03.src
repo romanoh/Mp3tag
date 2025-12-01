@@ -1,7 +1,6 @@
 ﻿################################################################################
 # Mp3tag Tag Source for Deezer.com 		                                           
-# I used vikaesar web source(v1.00) to make my own(this version uses the json 
-# in https://api.deezer.com, instead of the json inside the html).                                                                                                                                    
+# https://api.deezer.com                                                                                                                                   
 #                                                                              
 # INSTRUCTIONS: This file needs to be stored in Mp3tag's tag sources           
 #               directory:                                                     
@@ -9,15 +8,17 @@
 #                                                                              
 # CHANGELOG                                                                                                                                        
 # [2022-02-27]  v1.01  Initial release
-# [2022-03-01]  v1.02  Some cleanup and added date to date tag.                    
+# [2022-03-01]  v1.02  Some cleanup and added date to date tag.
+# [2025-12-01]  v1.03  Added cover image. 
+#                  
 ################################################################################
 
-[Name]=Deezer [2022-03-01 v1.02]
+[Name]=Deezer [2025-12-01 v1.03]
 [BasedOn]=www.deezer.com
 [IndexUrl]=https://www.deezer.com/search/%s
 [AlbumUrl]=https://api.deezer.com/album/
 [WordSeparator]=%20
-[IndexFormat]=%_preview%|%_url%|%Album%|%Artist%|%Year%
+[IndexFormat]=%_preview%|%_coverurl%|%_url%|%Album%|%Artist%|%Nº tracks%|%Year%
 [SearchBy]=%Artist% %Album%
 [Encoding]=url-utf-8
 [UserAgent]=1
@@ -44,11 +45,18 @@ json_select "count"
 ## Then iterate over all releases
 ifnot "0"
 	json_foreach "data"
-		
+	
 		# Preview (no column, only for preview)
         say "https://www.deezer.com/pt/album/"
 		json_select "ALB_ID"
 		SayRest
+		Say "|"
+		
+		# Cover Preview
+		say "https://cdn-images.dzcdn.net/images/cover/"
+		json_select "ALB_PICTURE"
+		SayRest
+		say "/500x500-000000-80-0-0.jpg"
 		Say "|"
 		
 		# URL
@@ -60,12 +68,18 @@ ifnot "0"
 		json_select "ALB_TITLE"
 		SayRest
 		Say "|"
-
+				
 		# Artist
 		json_select "ART_NAME"
 		SayRest
 		Say "|"
-
+		
+		# N.Track
+		json_select "NUMBER_TRACK"
+		SayRest
+		Say "|"
+		
+		
 		# Year
 		json_select "PHYSICAL_RELEASE_DATE"
 		SayRest
